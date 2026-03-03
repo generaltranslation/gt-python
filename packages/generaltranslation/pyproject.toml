@@ -1,13 +1,14 @@
 [project]
 name = "generaltranslation"
-version = "0.1.0"
+version = "0.0.0"
 description = "Core Python language toolkit for General Translation"
 readme = "README.md"
 authors = [
     { name = "Ernest McCarter", email = "ernest@generaltranslation.com" }
 ]
 requires-python = ">=3.10"
-license = "MIT"
+license = "FSL-1.1-ALv2"
+license-files = ["LICENSE.md"]
 dependencies = [
     "httpx>=0.27.0",
     "langcodes>=3.4.0",
