@@ -1,0 +1,20 @@
+[project]
+name = "generaltranslation-supported-locales"
+version = "0.1.0"
+description = "Supported locale data for General Translation"
+readme = "README.md"
+authors = [
+    { name = "Ernest McCarter", email = "ernest@generaltranslation.com" }
+]
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "generaltranslation",
+]
+
+[tool.uv.sources]
+generaltranslation = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.10.8,<0.11.0"]
+build-backend = "uv_build"

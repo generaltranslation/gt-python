@@ -1,0 +1,22 @@
+[project]
+name = "gt-i18n"
+version = "0.1.0"
+description = "Python i18n library for General Translation"
+readme = "README.md"
+authors = [
+    { name = "Ernest McCarter", email = "ernest@generaltranslation.com" }
+]
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "generaltranslation",
+    "generaltranslation-supported-locales",
+]
+
+[tool.uv.sources]
+generaltranslation = { workspace = true }
+generaltranslation-supported-locales = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.10.8,<0.11.0"]
+build-backend = "uv_build"
