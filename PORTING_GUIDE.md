@@ -230,6 +230,70 @@ PLURAL_FORMS = ["singular", "plural", "dual", "zero", "one", "two", "few", "many
 5. **Naming**: Use `snake_case` for Python (JS uses `camelCase`). e.g. `getLocaleName` → `get_locale_name`.
 6. **Logging**: Use Python's stdlib `logging` module. Create child loggers per module. Default level from `_GT_LOG_LEVEL` env var.
 
+## Testing Strategy
+
+Generate test fixtures by executing the **JS source functions** and writing results to JSON. Python tests consume these fixtures via `pytest.mark.parametrize`.
+
+### Fixture Generation
+
+Write a Node.js script for each module (e.g., `tests/formatting/fixtures/generate_fixtures.mjs`) that:
+1. Imports the JS formatting functions from the core package
+2. Calls each function with a matrix of inputs (various locales, options, edge cases)
+3. Writes the results to a JSON fixture file (e.g., `formatting_fixtures.json`)
+
+This ensures the Python implementation produces **identical output** to the JS implementation.
+
+### Fixture File Structure
+
+```json
+{
+  "format_num": [
+    {"value": 1234.5, "locales": "de", "options": {"minimum_fraction_digits": 2}, "expected": "1.234,50"},
+    ...
+  ],
+  "format_currency": [...],
+  "format_date_time": [...],
+  "format_list": [...],
+  "format_relative_time": [...],
+  "format_message": [...],
+  "format_cutoff": [...]
+}
+```
+
+### Python Test Pattern
+
+Each function gets its own test file. All follow the same pattern used by the locale tests:
+
+```python
+import json
+from pathlib import Path
+import pytest
+
+FIXTURES = json.loads(
+    (Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text()
+)
+
+@pytest.mark.parametrize("case", FIXTURES["format_num"])
+def test_format_num(case):
+    result = format_num(case["value"], case.get("locales"), case.get("options"))
+    assert result == case["expected"]
+```
+
+### Test Directory Layout
+
+```
+tests/
+├── locales/
+│   ├── fixtures/
+│   │   └── locale_fixtures.json        # Already exists
+│   └── test_*.py
+└── formatting/
+    ├── fixtures/
+    │   ├── generate_fixtures.mjs       # JS script to generate fixture JSON
+    │   └── formatting_fixtures.json    # Generated output (committed to repo)
+    └── test_*.py                       # One per formatting function
+```
+
 ## What NOT to Port
 
 - JSX-specific types and processing (JsxElement, JsxChildren, etc.) — not relevant for Python
