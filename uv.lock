@@ -153,12 +153,16 @@ version = "0.0.0"
 source = { editable = "packages/generaltranslation" }
 dependencies = [
     { name = "babel" },
+    { name = "generaltranslation-icu-messageformat-parser" },
+    { name = "generaltranslation-intl-messageformat" },
     { name = "httpx" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "babel", specifier = ">=2.18.0" },
+    { name = "generaltranslation-icu-messageformat-parser", editable = "packages/generaltranslation-icu-messageformat-parser" },
+    { name = "generaltranslation-intl-messageformat", editable = "packages/generaltranslation-intl-messageformat" },
     { name = "httpx", specifier = ">=0.27.0" },
 ]
 
