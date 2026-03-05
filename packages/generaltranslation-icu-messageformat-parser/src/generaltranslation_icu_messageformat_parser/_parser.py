@@ -273,7 +273,8 @@ class Parser:
                     elif (
                         char in constants.VAR_CHARS
                         or (is_hash_special and char == constants.CHAR_HASH)
-                        or (is_tag_special and char == constants.CHAR_TAG_OPEN)
+                        or char == constants.CHAR_TAG_OPEN
+                        or char == constants.CHAR_TAG_END
                         or is_arg_style
                     ):
                         text += char
