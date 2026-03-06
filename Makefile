@@ -1,4 +1,4 @@
-.PHONY: setup lint lint-fix format typecheck test check build clean
+.PHONY: setup lint lint-fix format typecheck test check build clean changeset
 
 setup:
 	./scripts/setup.sh
@@ -31,6 +31,9 @@ build:
 			uv build --package "$$pkg_name" --out-dir dist/; \
 		fi; \
 	done
+
+changeset:
+	sampo add
 
 clean:
 	rm -rf dist/
