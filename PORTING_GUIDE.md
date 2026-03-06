@@ -4,120 +4,91 @@
 
 Port the JS `generaltranslation` core package (`/Users/ernestmccarter/Documents/dev/gt/packages/core/`) to Python at `/Users/ernestmccarter/Documents/dev/gt-python/packages/generaltranslation/`.
 
-The Python package is already scaffolded with `pyproject.toml`, empty submodules, and a stub `GT` class. Dependencies: `httpx` (async HTTP), `langcodes` (locale utilities).
+The Python package is already scaffolded with `pyproject.toml`, submodules, and a stub `GT` class. Dependencies: `httpx` (async HTTP), `babel` (locale/formatting), `generaltranslation-icu-messageformat-parser`, `generaltranslation-intl-messageformat`.
+
+## Progress
+
+| Module | Status | Tests | Notes |
+|--------|--------|-------|-------|
+| `locales/` | **Done** | 827 tests | 18 files, all functions ported |
+| `formatting/` | **Done** | 160 tests | 9 files including `format_list_to_parts`, `CutoffFormat` |
+| `static/` | **Done** | 164 tests | 10 files, all functions match JS output exactly |
+| `_gt.py` | **Stub only** | — | Constructor with 4 params, no methods |
+| `translate/` | **Not started** | — | Empty `__init__.py` |
+| `errors/` | **Not started** | — | Empty `__init__.py` |
+| `_id/` | **Not started** | — | Empty `__init__.py` |
+
+**Total tests passing: 991**
 
 ## Python Package Structure
 
 ```
 src/generaltranslation/
-├── __init__.py          # Public API exports
-├── _gt.py               # GT class (main driver)
+├── __init__.py          # Public API exports (currently only GT)
+├── _gt.py               # GT class (main driver — stub)
 ├── py.typed             # PEP 561 marker
-├── locales/             # Locale utilities
-├── formatting/          # Number, currency, datetime, list formatting
-├── translate/           # API communication layer
-├── errors/              # Error types
-└── _id/                 # Hashing / ID generation
+├── locales/             # ✅ Locale utilities (done)
+├── formatting/          # ✅ Number, currency, datetime, list formatting (done)
+├── static/              # ✅ GT variable encoding/decoding (done)
+├── translate/           # ❌ API communication layer (not started)
+├── errors/              # ❌ Error types (not started)
+└── _id/                 # ❌ Hashing / ID generation (not started)
 ```
 
 ## JS → Python Dependency Mapping
 
 | JS Dependency | Python Equivalent | Notes |
 |---|---|---|
-| `Intl.NumberFormat` | `langcodes` + stdlib `locale` | Or manual formatting |
-| `Intl.DateTimeFormat` | stdlib `datetime.strftime` | |
-| `Intl.PluralRules` | `langcodes` or manual CLDR rules | |
-| `Intl.Locale` | `langcodes.Language` | BCP 47 parsing, validation |
-| `Intl.DisplayNames` | `langcodes.Language.display_name()` | |
-| `Intl.ListFormat` | Manual implementation | No stdlib equivalent |
-| `Intl.RelativeTimeFormat` | Manual implementation | No stdlib equivalent |
-| `intl-messageformat` | Port minimal ICU parser | ~300-500 lines, handle `{var}`, `{n, plural, ...}`, `{v, select, ...}` |
+| `Intl.NumberFormat` | `babel.numbers` | `format_decimal`, `format_percent`, `format_currency` |
+| `Intl.DateTimeFormat` | `babel.dates` | `format_date`, `format_time`, `format_datetime` |
+| `Intl.PluralRules` | `babel.plural` | CLDR plural rules |
+| `Intl.Locale` | `babel.Locale` | BCP 47 parsing, validation |
+| `Intl.DisplayNames` | `babel.Locale.get_display_name()` | Language/region display names |
+| `Intl.ListFormat` | `babel.lists.format_list()` | Available in Babel |
+| `Intl.RelativeTimeFormat` | `babel.dates.format_timedelta()` | Relative time formatting |
+| `@formatjs/icu-messageformat-parser` | `generaltranslation-icu-messageformat-parser` | **Separate workspace package, already complete** |
+| `intl-messageformat` | `generaltranslation-intl-messageformat` | **Separate workspace package, already complete** |
 | `crypto-js` (SHA256) | stdlib `hashlib.sha256` | Built-in, no dep needed |
 | `fast-json-stable-stringify` | `json.dumps(obj, sort_keys=True)` | Built-in |
 | `fetch` / HTTP | `httpx` | Already a dependency |
 
-## GT Class (main driver)
+## What's Left to Port
 
-**JS constructor params:**
-```python
-class GT:
-    def __init__(
-        self,
-        *,
-        api_key: str = "",
-        dev_api_key: str = "",
-        project_id: str = "",
-        base_url: str = "https://api.gtx.dev",
-        source_locale: str = "en",
-        target_locale: str = "",
-        locales: list[str] | None = None,
-        custom_mapping: dict[str, str] | None = None,
-    ): ...
-```
+### Tier 1: Core functionality
 
-**Methods to implement on GT class:**
-- Locale utilities: `get_locale_name()`, `get_locale_emoji()`, `get_locale_properties()`, `get_locale_direction()`, `is_valid_locale()`, `determine_locale()`, `requires_translation()`, `is_same_language()`, `is_same_dialect()`, `is_superset_locale()`, `standardize_locale()`, `get_plural_form()`
-- Formatting: `format_num()`, `format_currency()`, `format_list()`, `format_date_time()`, `format_relative_time()`, `format_message()`, `format_cutoff()`
-- Translation API: `translate_many()`, `setup_project()`, `enqueue_files()`, `download_file_batch()`, `upload_source_files()`, `upload_translations()`, `check_job_status()`
-
-## Module Details
-
-### `locales/`
-
-**Key functions (all use `langcodes` internally):**
+#### `errors/` module
+Port from JS `src/errors.ts` + `src/logging/errors.ts`.
 
 ```python
-def is_valid_locale(locale: str, custom_mapping: dict | None = None) -> bool:
-    """BCP 47 validation. Supports private-use codes (qaa-qtz)."""
+class GTError(Exception):
+    """Base error for GT operations."""
 
-def get_locale_properties(locale: str, default_locale: str = "en", custom_mapping: dict | None = None) -> LocaleProperties:
-    """Returns comprehensive locale metadata."""
-    # LocaleProperties is a TypedDict or dataclass with:
-    # code, name, native_name, language_code, language_name, native_language_name,
-    # region_code, region_name, script_code, script_name, emoji, etc.
-
-def get_locale_name(locale: str, display_locale: str = "en") -> str:
-    """Get translated name for a locale. e.g. 'de' → 'German'"""
-
-def get_locale_direction(locale: str) -> str:
-    """Returns 'ltr' or 'rtl'."""
-
-def get_locale_emoji(locale: str, custom_mapping: dict | None = None) -> str:
-    """Flag emoji for locale's region."""
-
-def determine_locale(locales: str | list[str], approved_locales: list[str], custom_mapping: dict | None = None) -> str | None:
-    """Find best matching locale. Exact match → language match → fallback."""
-
-def requires_translation(source_locale: str, target_locale: str, approved_locales: list[str] | None = None, custom_mapping: dict | None = None) -> bool:
-    """Returns False if same dialect or no approved match."""
-
-def is_same_language(*locales: str) -> bool:
-def is_same_dialect(*locales: str) -> bool:
-def is_superset_locale(super_locale: str, sub_locale: str) -> bool:
-def standardize_locale(locale: str) -> str:
-
-def get_plural_form(n: int | float, forms: list[str] | None = None, locales: list[str] | None = None) -> str:
-    """Determine plural form. Forms: 'singular', 'plural', 'dual', 'zero', 'one', 'two', 'few', 'many', 'other'"""
+class ApiError(GTError):
+    def __init__(self, error: str, code: int, message: str):
+        self.code = code
+        self.message = message
+        super().__init__(f"{error}: {message}")
 ```
 
-### `formatting/`
-
-**Functions wrapping locale-aware formatting:**
+#### `_id/` module
+Port from JS `src/id.ts`. Hashing utilities for content identification.
 
 ```python
-def format_num(value: float, locales: str | list[str] | None = None, options: dict | None = None) -> str:
-def format_currency(value: float, currency: str = "USD", locales: str | list[str] | None = None, options: dict | None = None) -> str:
-def format_date_time(value: datetime, locales: str | list[str] | None = None, options: dict | None = None) -> str:
-def format_list(value: list, locales: str | list[str] | None = None, options: dict | None = None) -> str:
-def format_relative_time(value: int | float, unit: str, locales: str | list[str] | None = None, options: dict | None = None) -> str:
-def format_message(message: str, locales: str | list[str] | None = None, variables: dict | None = None) -> str:
-    """ICU MessageFormat. Handles {name}, {count, plural, one {# item} other {# items}}, {gender, select, ...}"""
-def format_cutoff(value: str, locales: str | list[str] | None = None, options: dict | None = None) -> str:
+import hashlib, json
+
+def hash_string(s: str) -> str:
+    """SHA256, first 16 hex chars."""
+    return hashlib.sha256(s.encode()).hexdigest()[:16]
+
+def hash_source(source: dict, hash_function: Callable | None = None) -> str:
+    """Hash source content with metadata. Uses json.dumps(sort_keys=True) for stable serialization."""
+
+def hash_template(template: dict[str, str], hash_function: Callable | None = None) -> str:
+    """Hash sorted JSON of template object."""
 ```
 
-### `translate/`
-
-**API communication using httpx:**
+#### `translate/` module
+Port from JS `src/translate/`. API communication using httpx.
 
 ```python
 API_VERSION = "2026-02-18.v1"
@@ -143,60 +114,44 @@ async def setup_project(project_id: str, config: TranslationRequestConfig, optio
 async def check_job_status(job_ids: list[str], config: TranslationRequestConfig, timeout_ms: int | None = None) -> dict:
 ```
 
-### `errors/`
+#### GT class methods
+Port from JS `src/index.ts`. The GT class should wrap all the standalone functions, binding its own config:
 
+**Constructor** — needs additional params:
 ```python
-class ApiError(Exception):
-    def __init__(self, error: str, code: int, message: str):
-        self.code = code
-        self.message = message
-        super().__init__(f"{error}: {message}")
+class GT:
+    def __init__(
+        self,
+        *,
+        api_key: str = "",
+        dev_api_key: str = "",
+        project_id: str = "",
+        base_url: str = "https://api.gtx.dev",
+        source_locale: str = "en",
+        target_locale: str = "",
+        locales: list[str] | None = None,
+        custom_mapping: dict[str, str] | None = None,
+    ): ...
 ```
 
-### `_id/`
+**Methods to implement:**
+- Locale: `get_locale_name()`, `get_locale_emoji()`, `get_locale_properties()`, `get_locale_direction()`, `is_valid_locale()`, `determine_locale()`, `requires_translation()`, `is_same_language()`, `is_same_dialect()`, `is_superset_locale()`, `standardize_locale()`, `get_plural_form()`, `resolve_canonical_locale()`, `resolve_alias_locale()`, `get_region_properties()`
+- Formatting: `format_num()`, `format_currency()`, `format_list()`, `format_list_to_parts()`, `format_date_time()`, `format_relative_time()`, `format_message()`, `format_cutoff()`
+- Translation API: `translate_many()`, `setup_project()`, `enqueue_files()`, `download_file_batch()`, `upload_source_files()`, `upload_translations()`, `check_job_status()`, `query_branch_data()`, `create_branch()`, `get_project_data()`
 
-**Hashing utilities:**
+### Tier 2: Nice to have
 
-```python
-import hashlib, json
-
-def hash_string(s: str) -> str:
-    """SHA256, first 16 hex chars."""
-    return hashlib.sha256(s.encode()).hexdigest()[:16]
-
-def hash_source(source: dict, hash_function: Callable | None = None) -> str:
-    """Hash source content with metadata. Uses json.dumps(sort_keys=True) for stable serialization."""
-
-def hash_template(template: dict[str, str], hash_function: Callable | None = None) -> str:
-    """Hash sorted JSON of template object."""
-```
+- `logging/` — Warning/error message helpers (could use stdlib `logging` directly)
+- `settings/` — Constants like `LIBRARY_DEFAULT_LOCALE`, API URLs (can be inlined)
 
 ## Key Type Definitions
 
 ```python
-from dataclasses import dataclass
 from typing import TypedDict, Literal
 
 DataFormat = Literal["JSX", "ICU", "I18NEXT", "STRING"]
 LogLevel = Literal["debug", "info", "warn", "error", "off"]
 PluralType = Literal["singular", "plural", "dual", "zero", "one", "two", "few", "many", "other"]
-
-@dataclass
-class LocaleProperties:
-    code: str
-    name: str
-    native_name: str
-    language_code: str
-    language_name: str
-    native_language_name: str
-    region_code: str
-    region_name: str
-    native_region_name: str
-    script_code: str
-    script_name: str
-    native_script_name: str
-    emoji: str
-    # ... etc
 
 class TranslationRequestConfig(TypedDict):
     project_id: str
@@ -228,7 +183,7 @@ PLURAL_FORMS = ["singular", "plural", "dual", "zero", "one", "two", "few", "many
 3. **Hashing**: SHA256, first 16 hex chars. Use `json.dumps(sort_keys=True)` for stable serialization.
 4. **Async**: Translation/API functions should be `async` using `httpx.AsyncClient`.
 5. **Naming**: Use `snake_case` for Python (JS uses `camelCase`). e.g. `getLocaleName` → `get_locale_name`.
-6. **Logging**: Use Python's stdlib `logging` module. Create child loggers per module. Default level from `_GT_LOG_LEVEL` env var.
+6. **Logging**: Use Python's stdlib `logging` module. Create child loggers per module.
 
 ## Testing Strategy
 
@@ -237,47 +192,13 @@ Generate test fixtures by executing the **JS source functions** and writing resu
 ### Fixture Generation
 
 Write a Node.js script for each module (e.g., `tests/formatting/fixtures/generate_fixtures.mjs`) that:
-1. Imports the JS formatting functions from the core package
+1. Imports the JS functions using `npx tsx` with dynamic `await import()` from the TS source files
 2. Calls each function with a matrix of inputs (various locales, options, edge cases)
 3. Writes the results to a JSON fixture file (e.g., `formatting_fixtures.json`)
 
 This ensures the Python implementation produces **identical output** to the JS implementation.
 
-### Fixture File Structure
-
-```json
-{
-  "format_num": [
-    {"value": 1234.5, "locales": "de", "options": {"minimum_fraction_digits": 2}, "expected": "1.234,50"},
-    ...
-  ],
-  "format_currency": [...],
-  "format_date_time": [...],
-  "format_list": [...],
-  "format_relative_time": [...],
-  "format_message": [...],
-  "format_cutoff": [...]
-}
-```
-
-### Python Test Pattern
-
-Each function gets its own test file. All follow the same pattern used by the locale tests:
-
-```python
-import json
-from pathlib import Path
-import pytest
-
-FIXTURES = json.loads(
-    (Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text()
-)
-
-@pytest.mark.parametrize("case", FIXTURES["format_num"])
-def test_format_num(case):
-    result = format_num(case["value"], case.get("locales"), case.get("options"))
-    assert result == case["expected"]
-```
+**Important**: Use `await import(path)` for dynamic imports from the JS core TS source, NOT static `import ... from ...` which can fail with ESM/CJS issues. Run with `npx tsx`.
 
 ### Test Directory Layout
 
@@ -285,13 +206,19 @@ def test_format_num(case):
 tests/
 ├── locales/
 │   ├── fixtures/
-│   │   └── locale_fixtures.json        # Already exists
-│   └── test_*.py
-└── formatting/
+│   │   └── locale_fixtures.json
+│   └── test_*.py                       # 14 test files
+├── formatting/
+│   ├── fixtures/
+│   │   ├── generate_fixtures.mjs
+│   │   └── formatting_fixtures.json
+│   └── test_*.py                       # 8 test files
+└── static/
     ├── fixtures/
-    │   ├── generate_fixtures.mjs       # JS script to generate fixture JSON
-    │   └── formatting_fixtures.json    # Generated output (committed to repo)
-    └── test_*.py                       # One per formatting function
+    │   ├── generate_fixtures.mjs
+    │   └── static_fixtures.json
+    ├── test_*.py                        # 6 test files
+    └── test_known_discrepancies.py      # Edge case regression tests
 ```
 
 ## What NOT to Port
@@ -300,4 +227,24 @@ tests/
 - Browser-specific code (btoa/atob — use stdlib `base64` instead)
 - React/Next.js integration code
 - SWC plugin
-- IntlCache class (Python doesn't need this — no Intl constructors to cache)
+- `cache/` module — Python doesn't need Intl constructor caching
+- `backwards-compatability/` module — legacy format conversion not needed for new Python package
+- `utils/minify.ts` — code minification not relevant
+
+## Lessons Learned
+
+1. **Use Babel, not langcodes**: The actual implementation uses `babel` for all locale/formatting work. `langcodes` was the original plan but `babel` has better CLDR data coverage.
+
+2. **ICU parser is a separate package**: The `generaltranslation-icu-messageformat-parser` and `generaltranslation-intl-messageformat` packages are workspace siblings, NOT inlined in the main package. They provide `Parser`, `print_ast`, and `IntlMessageFormat`.
+
+3. **Parser/printer parity matters**: The Python ICU parser and printer must match `@formatjs/icu-messageformat-parser` behavior exactly, including:
+   - `'<` and `'>` always trigger escape sequences (not just when `allow_tags=True`)
+   - `print_ast` must re-escape `{}` via `printEscapedMessage` regex, `#` in plural context, and `'` at literal boundaries
+   - Select/plural nodes use compact comma formatting (no spaces): `{name,select,...}`
+   - Simple format nodes use spaced commas: `{name, type, style}`
+
+4. **Boolean stringification**: Python `str(True)` → `"True"` but JS `String(true)` → `"true"`. `declare_var` handles this with `.lower()` for booleans.
+
+5. **JS `undefined` in fixtures**: JS `undefined` is omitted from JSON. Test harnesses must use `.get("variable")` (defaulting to `None`) not `["variable"]`.
+
+6. **`_find_other_span` in `index_vars`**: The Python parser doesn't store indices on individual option values (only on top-level nodes). `index_vars` uses manual brace-counting to find the `other` option's `{content}` span within a select node. This works correctly for all valid ICU input.

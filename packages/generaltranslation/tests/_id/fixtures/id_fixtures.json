@@ -1,0 +1,140 @@
+{
+  "hash_string": [
+    {
+      "input": "",
+      "expected": "e3b0c44298fc1c14"
+    },
+    {
+      "input": "hello",
+      "expected": "2cf24dba5fb0a30e"
+    },
+    {
+      "input": "Hello, world!",
+      "expected": "315f5bdb76d078c4"
+    },
+    {
+      "input": "test 123",
+      "expected": "f7ef53d21502321e"
+    },
+    {
+      "input": "unicode: 你好世界",
+      "expected": "a10a1b28d445a836"
+    },
+    {
+      "input": "special chars: !@#$%^&*()",
+      "expected": "9ea60ea2a112efc8"
+    }
+  ],
+  "hash_source": [
+    {
+      "input": {
+        "source": "Hello",
+        "dataFormat": "ICU"
+      },
+      "expected": "3cdffbf6452b553c"
+    },
+    {
+      "input": {
+        "source": "Hello",
+        "dataFormat": "STRING"
+      },
+      "expected": "c6e2133cd6d89e5d"
+    },
+    {
+      "input": {
+        "source": "Hello",
+        "context": "greeting",
+        "dataFormat": "ICU"
+      },
+      "expected": "99215c995cc38428"
+    },
+    {
+      "input": {
+        "source": "Hello",
+        "id": "greeting-id",
+        "dataFormat": "ICU"
+      },
+      "expected": "077893a8f72a076f"
+    },
+    {
+      "input": {
+        "source": "Hello",
+        "maxChars": 100,
+        "dataFormat": "ICU"
+      },
+      "expected": "8300a22ea55d3c8d"
+    },
+    {
+      "input": {
+        "source": "Hello",
+        "maxChars": -50,
+        "dataFormat": "ICU"
+      },
+      "expected": "a60c9de939afa7ed"
+    },
+    {
+      "input": {
+        "source": "Hello",
+        "context": "ctx",
+        "id": "my-id",
+        "maxChars": 200,
+        "dataFormat": "ICU"
+      },
+      "expected": "d0fb5b7f9f8c7e19"
+    },
+    {
+      "input": {
+        "source": "",
+        "dataFormat": "ICU"
+      },
+      "expected": "e2b070737b68f01d"
+    },
+    {
+      "input": {
+        "source": "A longer message with {variables}",
+        "dataFormat": "ICU"
+      },
+      "expected": "ef6dfe7cfe991bf9"
+    },
+    {
+      "input": {
+        "source": "Test",
+        "dataFormat": "I18NEXT"
+      },
+      "expected": "7c45e3033dd3de4c"
+    }
+  ],
+  "hash_template": [
+    {
+      "input": {
+        "key1": "value1"
+      },
+      "expected": "9874854240b45b4b"
+    },
+    {
+      "input": {
+        "a": "1",
+        "b": "2"
+      },
+      "expected": "21f76dfbfe6dfe21"
+    },
+    {
+      "input": {
+        "z": "last",
+        "a": "first"
+      },
+      "expected": "af3bf072ea841a14"
+    },
+    {
+      "input": {},
+      "expected": "44136fa355b3678a"
+    },
+    {
+      "input": {
+        "hello": "world",
+        "foo": "bar"
+      },
+      "expected": "c9d1cb463bc493d2"
+    }
+  ]
+}
