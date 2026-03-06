@@ -24,7 +24,10 @@ async def process_file_moves(
         result = await api_request(
             config,
             "/v2/project/files/moves",
-            body={"branchId": options.get("branch_id", options.get("branchId")), "moves": batch},
+            body={
+                "branchId": options.get("branch_id", options.get("branchId")),
+                "moves": batch,
+            },
             timeout=options.get("timeout"),
         )
         return result.get("results", [])

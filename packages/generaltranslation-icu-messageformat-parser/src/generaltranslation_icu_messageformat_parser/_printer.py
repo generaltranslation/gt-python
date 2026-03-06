@@ -137,7 +137,9 @@ def _print_node(node: dict) -> str:
             result += f"offset:{offset} "
 
         options = node["options"]
-        options_ws = options.get("_ws", {}) if isinstance(options.get("_ws"), dict) else {}
+        options_ws = (
+            options.get("_ws", {}) if isinstance(options.get("_ws"), dict) else {}
+        )
 
         child_in_plural = node_type in ("plural", "selectordinal")
 

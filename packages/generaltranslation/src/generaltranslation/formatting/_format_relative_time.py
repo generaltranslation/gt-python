@@ -23,11 +23,11 @@ _UNIT_TO_TIMEDELTA: dict[str, str] = {
     "days": "days",
     "week": "weeks",
     "weeks": "weeks",
-    "month": "days",     # approximate: 30 days per month
+    "month": "days",  # approximate: 30 days per month
     "months": "days",
-    "year": "days",      # approximate: 365 days per year
+    "year": "days",  # approximate: 365 days per year
     "years": "days",
-    "quarter": "days",   # approximate: 91 days per quarter
+    "quarter": "days",  # approximate: 91 days per quarter
     "quarters": "days",
 }
 

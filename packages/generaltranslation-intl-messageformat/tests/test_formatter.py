@@ -60,27 +60,117 @@ def test_simple_variables(pattern, locale, variables, desc):
 # Plural - English
 # ---------------------------------------------------------------------------
 PLURAL_EN_CASES = [
-    ("{count, plural, one {# item} other {# items}}", "en", {"count": 0}, "en plural 0"),
-    ("{count, plural, one {# item} other {# items}}", "en", {"count": 1}, "en plural 1"),
-    ("{count, plural, one {# item} other {# items}}", "en", {"count": 2}, "en plural 2"),
-    ("{count, plural, one {# item} other {# items}}", "en", {"count": 5}, "en plural 5"),
-    ("{count, plural, one {# item} other {# items}}", "en", {"count": 10}, "en plural 10"),
-    ("{count, plural, one {# item} other {# items}}", "en", {"count": 100}, "en plural 100"),
-    ("{count, plural, one {# item} other {# items}}", "en", {"count": 1000}, "en plural 1000"),
+    (
+        "{count, plural, one {# item} other {# items}}",
+        "en",
+        {"count": 0},
+        "en plural 0",
+    ),
+    (
+        "{count, plural, one {# item} other {# items}}",
+        "en",
+        {"count": 1},
+        "en plural 1",
+    ),
+    (
+        "{count, plural, one {# item} other {# items}}",
+        "en",
+        {"count": 2},
+        "en plural 2",
+    ),
+    (
+        "{count, plural, one {# item} other {# items}}",
+        "en",
+        {"count": 5},
+        "en plural 5",
+    ),
+    (
+        "{count, plural, one {# item} other {# items}}",
+        "en",
+        {"count": 10},
+        "en plural 10",
+    ),
+    (
+        "{count, plural, one {# item} other {# items}}",
+        "en",
+        {"count": 100},
+        "en plural 100",
+    ),
+    (
+        "{count, plural, one {# item} other {# items}}",
+        "en",
+        {"count": 1000},
+        "en plural 1000",
+    ),
     # Exact matches
-    ("{n, plural, =0 {zero} =1 {one exactly} one {# one} other {# other}}", "en", {"n": 0}, "en exact 0"),
-    ("{n, plural, =0 {zero} =1 {one exactly} one {# one} other {# other}}", "en", {"n": 1}, "en exact 1"),
-    ("{n, plural, =0 {zero} =1 {one exactly} one {# one} other {# other}}", "en", {"n": 2}, "en exact 2"),
-    ("{n, plural, =0 {zero} =1 {one exactly} one {# one} other {# other}}", "en", {"n": 5}, "en exact 5"),
+    (
+        "{n, plural, =0 {zero} =1 {one exactly} one {# one} other {# other}}",
+        "en",
+        {"n": 0},
+        "en exact 0",
+    ),
+    (
+        "{n, plural, =0 {zero} =1 {one exactly} one {# one} other {# other}}",
+        "en",
+        {"n": 1},
+        "en exact 1",
+    ),
+    (
+        "{n, plural, =0 {zero} =1 {one exactly} one {# one} other {# other}}",
+        "en",
+        {"n": 2},
+        "en exact 2",
+    ),
+    (
+        "{n, plural, =0 {zero} =1 {one exactly} one {# one} other {# other}}",
+        "en",
+        {"n": 5},
+        "en exact 5",
+    ),
     # Multiple exact
-    ("{n, plural, =0 {none} =1 {single} =2 {double} =3 {triple} other {# many}}", "en", {"n": 0}, "en multi exact 0"),
-    ("{n, plural, =0 {none} =1 {single} =2 {double} =3 {triple} other {# many}}", "en", {"n": 1}, "en multi exact 1"),
-    ("{n, plural, =0 {none} =1 {single} =2 {double} =3 {triple} other {# many}}", "en", {"n": 2}, "en multi exact 2"),
-    ("{n, plural, =0 {none} =1 {single} =2 {double} =3 {triple} other {# many}}", "en", {"n": 3}, "en multi exact 3"),
-    ("{n, plural, =0 {none} =1 {single} =2 {double} =3 {triple} other {# many}}", "en", {"n": 7}, "en multi exact 7"),
+    (
+        "{n, plural, =0 {none} =1 {single} =2 {double} =3 {triple} other {# many}}",
+        "en",
+        {"n": 0},
+        "en multi exact 0",
+    ),
+    (
+        "{n, plural, =0 {none} =1 {single} =2 {double} =3 {triple} other {# many}}",
+        "en",
+        {"n": 1},
+        "en multi exact 1",
+    ),
+    (
+        "{n, plural, =0 {none} =1 {single} =2 {double} =3 {triple} other {# many}}",
+        "en",
+        {"n": 2},
+        "en multi exact 2",
+    ),
+    (
+        "{n, plural, =0 {none} =1 {single} =2 {double} =3 {triple} other {# many}}",
+        "en",
+        {"n": 3},
+        "en multi exact 3",
+    ),
+    (
+        "{n, plural, =0 {none} =1 {single} =2 {double} =3 {triple} other {# many}}",
+        "en",
+        {"n": 7},
+        "en multi exact 7",
+    ),
     # Hash in text
-    ("{count, plural, one {There is # cat} other {There are # cats}}", "en", {"count": 1}, "en hash text 1"),
-    ("{count, plural, one {There is # cat} other {There are # cats}}", "en", {"count": 5}, "en hash text 5"),
+    (
+        "{count, plural, one {There is # cat} other {There are # cats}}",
+        "en",
+        {"count": 1},
+        "en hash text 1",
+    ),
+    (
+        "{count, plural, one {There is # cat} other {There are # cats}}",
+        "en",
+        {"count": 5},
+        "en hash text 5",
+    ),
     # Only other
     ("{count, plural, other {# things}}", "en", {"count": 1}, "en other only 1"),
     ("{count, plural, other {# things}}", "en", {"count": 42}, "en other only 42"),
@@ -118,7 +208,12 @@ def test_plural_german(pattern, locale, variables, desc):
 # Plural - French (0 and 1 are "one")
 # ---------------------------------------------------------------------------
 PLURAL_FR_CASES = [
-    ("{n, plural, one {# élément} other {# éléments}}", "fr", {"n": v}, f"fr plural {v}")
+    (
+        "{n, plural, one {# élément} other {# éléments}}",
+        "fr",
+        {"n": v},
+        f"fr plural {v}",
+    )
     for v in [0, 1, 2, 5, 10, 100]
 ]
 
@@ -172,7 +267,9 @@ def test_plural_japanese(pattern, locale, variables, desc):
 # ---------------------------------------------------------------------------
 # Plural - Russian (one, few, many, other)
 # ---------------------------------------------------------------------------
-RUSSIAN_PATTERN = "{n, plural, one {# книга} few {# книги} many {# книг} other {# книг}}"
+RUSSIAN_PATTERN = (
+    "{n, plural, one {# книга} few {# книги} many {# книг} other {# книг}}"
+)
 PLURAL_RU_CASES = [
     (RUSSIAN_PATTERN, "ru", {"n": v}, f"ru plural {v}")
     for v in [0, 1, 2, 3, 4, 5, 10, 11, 12, 14, 20, 21, 22, 25, 100, 101, 102]
@@ -191,7 +288,9 @@ def test_plural_russian(pattern, locale, variables, desc):
 # ---------------------------------------------------------------------------
 # Plural - Polish (one, few, many, other)
 # ---------------------------------------------------------------------------
-POLISH_PATTERN = "{n, plural, one {# plik} few {# pliki} many {# plików} other {# plików}}"
+POLISH_PATTERN = (
+    "{n, plural, one {# plik} few {# pliki} many {# plików} other {# plików}}"
+)
 PLURAL_PL_CASES = [
     (POLISH_PATTERN, "pl", {"n": v}, f"pl plural {v}")
     for v in [0, 1, 2, 3, 4, 5, 10, 12, 14, 21, 22, 23, 25, 100, 102]
@@ -232,7 +331,33 @@ def test_plural_offset(pattern, locale, variables, desc):
 ORDINAL_PATTERN = "{n, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}"
 SELECTORDINAL_CASES = [
     (ORDINAL_PATTERN, "en", {"n": v}, f"en ordinal {v}")
-    for v in [1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 42, 100, 101, 102, 103, 111, 112, 113]
+    for v in [
+        1,
+        2,
+        3,
+        4,
+        5,
+        10,
+        11,
+        12,
+        13,
+        14,
+        21,
+        22,
+        23,
+        24,
+        31,
+        32,
+        33,
+        42,
+        100,
+        101,
+        102,
+        103,
+        111,
+        112,
+        113,
+    ]
 ]
 
 
@@ -249,18 +374,78 @@ def test_selectordinal_english(pattern, locale, variables, desc):
 # Select
 # ---------------------------------------------------------------------------
 SELECT_CASES = [
-    ("{g, select, male {He} female {She} other {They}}", "en", {"g": "male"}, "select male"),
-    ("{g, select, male {He} female {She} other {They}}", "en", {"g": "female"}, "select female"),
-    ("{g, select, male {He} female {She} other {They}}", "en", {"g": "other"}, "select other explicit"),
-    ("{g, select, male {He} female {She} other {They}}", "en", {"g": "unknown"}, "select fallback"),
-    ("{g, select, male {He} female {She} other {They}}", "en", {"g": ""}, "select empty"),
-    ("{type, select, cat {meow} dog {woof} bird {tweet} other {???}}", "en", {"type": "cat"}, "select cat"),
-    ("{type, select, cat {meow} dog {woof} bird {tweet} other {???}}", "en", {"type": "dog"}, "select dog"),
-    ("{type, select, cat {meow} dog {woof} bird {tweet} other {???}}", "en", {"type": "bird"}, "select bird"),
-    ("{type, select, cat {meow} dog {woof} bird {tweet} other {???}}", "en", {"type": "fish"}, "select fish fallback"),
-    ("{status, select, active {Active} inactive {Inactive} pending {Pending} other {Unknown}}", "en", {"status": "active"}, "status active"),
-    ("{status, select, active {Active} inactive {Inactive} pending {Pending} other {Unknown}}", "en", {"status": "pending"}, "status pending"),
-    ("{status, select, active {Active} inactive {Inactive} pending {Pending} other {Unknown}}", "en", {"status": "deleted"}, "status unknown"),
+    (
+        "{g, select, male {He} female {She} other {They}}",
+        "en",
+        {"g": "male"},
+        "select male",
+    ),
+    (
+        "{g, select, male {He} female {She} other {They}}",
+        "en",
+        {"g": "female"},
+        "select female",
+    ),
+    (
+        "{g, select, male {He} female {She} other {They}}",
+        "en",
+        {"g": "other"},
+        "select other explicit",
+    ),
+    (
+        "{g, select, male {He} female {She} other {They}}",
+        "en",
+        {"g": "unknown"},
+        "select fallback",
+    ),
+    (
+        "{g, select, male {He} female {She} other {They}}",
+        "en",
+        {"g": ""},
+        "select empty",
+    ),
+    (
+        "{type, select, cat {meow} dog {woof} bird {tweet} other {???}}",
+        "en",
+        {"type": "cat"},
+        "select cat",
+    ),
+    (
+        "{type, select, cat {meow} dog {woof} bird {tweet} other {???}}",
+        "en",
+        {"type": "dog"},
+        "select dog",
+    ),
+    (
+        "{type, select, cat {meow} dog {woof} bird {tweet} other {???}}",
+        "en",
+        {"type": "bird"},
+        "select bird",
+    ),
+    (
+        "{type, select, cat {meow} dog {woof} bird {tweet} other {???}}",
+        "en",
+        {"type": "fish"},
+        "select fish fallback",
+    ),
+    (
+        "{status, select, active {Active} inactive {Inactive} pending {Pending} other {Unknown}}",
+        "en",
+        {"status": "active"},
+        "status active",
+    ),
+    (
+        "{status, select, active {Active} inactive {Inactive} pending {Pending} other {Unknown}}",
+        "en",
+        {"status": "pending"},
+        "status pending",
+    ),
+    (
+        "{status, select, active {Active} inactive {Inactive} pending {Pending} other {Unknown}}",
+        "en",
+        {"status": "deleted"},
+        "status unknown",
+    ),
 ]
 
 
@@ -279,55 +464,81 @@ def test_select(pattern, locale, variables, desc):
 NESTED_CASES = [
     (
         "You have {count, plural, one {# new message} other {# new messages}}.",
-        "en", {"count": 1}, "nested plural 1"
+        "en",
+        {"count": 1},
+        "nested plural 1",
     ),
     (
         "You have {count, plural, one {# new message} other {# new messages}}.",
-        "en", {"count": 5}, "nested plural 5"
+        "en",
+        {"count": 5},
+        "nested plural 5",
     ),
     (
         "{name} has {count, plural, one {# cat} other {# cats}}",
-        "en", {"name": "Alice", "count": 1}, "multi var plural 1"
+        "en",
+        {"name": "Alice", "count": 1},
+        "multi var plural 1",
     ),
     (
         "{name} has {count, plural, one {# cat} other {# cats}}",
-        "en", {"name": "Bob", "count": 3}, "multi var plural 3"
+        "en",
+        {"name": "Bob", "count": 3},
+        "multi var plural 3",
     ),
     (
         "{a, select, x {{b, plural, one {deep #} other {deeper #}}} other {fallback}}",
-        "en", {"a": "x", "b": 1}, "nested select-plural 1"
+        "en",
+        {"a": "x", "b": 1},
+        "nested select-plural 1",
     ),
     (
         "{a, select, x {{b, plural, one {deep #} other {deeper #}}} other {fallback}}",
-        "en", {"a": "x", "b": 5}, "nested select-plural 5"
+        "en",
+        {"a": "x", "b": 5},
+        "nested select-plural 5",
     ),
     (
         "{a, select, x {{b, plural, one {deep #} other {deeper #}}} other {fallback}}",
-        "en", {"a": "y", "b": 5}, "nested select fallback"
+        "en",
+        {"a": "y", "b": 5},
+        "nested select fallback",
     ),
     (
         "Hello {name}, you have {count, plural, =0 {no messages} one {# message} other {# messages}} from {sender}.",
-        "en", {"name": "Alice", "count": 0, "sender": "Bob"}, "complex nested 0"
+        "en",
+        {"name": "Alice", "count": 0, "sender": "Bob"},
+        "complex nested 0",
     ),
     (
         "Hello {name}, you have {count, plural, =0 {no messages} one {# message} other {# messages}} from {sender}.",
-        "en", {"name": "Alice", "count": 1, "sender": "Bob"}, "complex nested 1"
+        "en",
+        {"name": "Alice", "count": 1, "sender": "Bob"},
+        "complex nested 1",
     ),
     (
         "Hello {name}, you have {count, plural, =0 {no messages} one {# message} other {# messages}} from {sender}.",
-        "en", {"name": "Alice", "count": 42, "sender": "Bob"}, "complex nested 42"
+        "en",
+        {"name": "Alice", "count": 42, "sender": "Bob"},
+        "complex nested 42",
     ),
     (
         "{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}",
-        "en", {"gender": "male", "count": 1}, "gender+plural male 1"
+        "en",
+        {"gender": "male", "count": 1},
+        "gender+plural male 1",
     ),
     (
         "{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}",
-        "en", {"gender": "female", "count": 5}, "gender+plural female 5"
+        "en",
+        {"gender": "female", "count": 5},
+        "gender+plural female 5",
     ),
     (
         "{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}",
-        "en", {"gender": "unknown", "count": 0}, "gender+plural other 0"
+        "en",
+        {"gender": "unknown", "count": 0},
+        "gender+plural other 0",
     ),
 ]
 
@@ -366,7 +577,12 @@ def test_escaped(pattern, locale, variables, desc):
 GT_CASES = [
     ("{_gt_, select, other {Hello World}}", "en", {"_gt_": "x"}, "gt simple"),
     ("{_gt_1, select, other {value1}}", "en", {"_gt_1": "x"}, "gt indexed"),
-    ("Je joue avec mon ami {_gt_1} au {_gt_2}", "en", {"_gt_1": "Brian", "_gt_2": "park"}, "gt condensed"),
+    (
+        "Je joue avec mon ami {_gt_1} au {_gt_2}",
+        "en",
+        {"_gt_1": "Brian", "_gt_2": "park"},
+        "gt condensed",
+    ),
 ]
 
 
@@ -398,9 +614,9 @@ class TestFormatterBehavior:
         assert result == "1 item"
 
     def test_select_missing_value_uses_other(self):
-        result = IntlMessageFormat(
-            "{x, select, a {A} other {default}}", "en"
-        ).format({"x": "missing"})
+        result = IntlMessageFormat("{x, select, a {A} other {default}}", "en").format(
+            {"x": "missing"}
+        )
         assert result == "default"
 
     def test_format_none_values(self):

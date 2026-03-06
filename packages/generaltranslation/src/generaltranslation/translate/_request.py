@@ -96,9 +96,7 @@ async def api_request(
                 if attempt < max_retries:
                     await asyncio.sleep(_get_retry_delay(retry_policy, attempt))
                     continue
-                raise Exception(
-                    translation_request_failed_error(str(exc))
-                ) from exc
+                raise Exception(translation_request_failed_error(str(exc))) from exc
 
             # Retry on 5XX server errors
             if response.status_code >= 500 and attempt < max_retries:

@@ -1,4 +1,5 @@
 """Tests for _determine_locale.py."""
+
 import json
 from pathlib import Path
 

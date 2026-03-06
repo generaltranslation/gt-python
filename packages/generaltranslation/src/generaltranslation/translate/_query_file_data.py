@@ -25,7 +25,9 @@ async def query_file_data(
             for item in source_files
         ]
     if data.get("translated_files") or data.get("translatedFiles"):
-        translated_files = data.get("translated_files") or data.get("translatedFiles") or []
+        translated_files = (
+            data.get("translated_files") or data.get("translatedFiles") or []
+        )
         body["translatedFiles"] = [
             {
                 "fileId": item.get("file_id", item.get("fileId", "")),

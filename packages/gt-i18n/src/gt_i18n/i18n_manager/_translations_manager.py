@@ -72,6 +72,4 @@ class TranslationsManager:
 
     async def load_all(self, locales: list[str]) -> None:
         """Eagerly fetch translations for all *locales*."""
-        await asyncio.gather(
-            *(self.get_translations(loc) for loc in locales)
-        )
+        await asyncio.gather(*(self.get_translations(loc) for loc in locales))

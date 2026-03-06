@@ -1,4 +1,5 @@
 """Tests for _get_plural_form.py."""
+
 import json
 from pathlib import Path
 

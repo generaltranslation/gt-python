@@ -233,9 +233,7 @@ class Parser:
         msg = context["msg"]
         length = context["length"]
         start = context["i"]
-        is_hash_special = (
-            parent and parent["type"] in self.options["subnumeric_types"]
-        )
+        is_hash_special = parent and parent["type"] in self.options["subnumeric_types"]
         is_tag_special = self.options["allow_tags"]
         allow_arg_spaces = self.options["allow_format_spaces"]
 
@@ -323,9 +321,7 @@ class Parser:
         msg = context["msg"]
         length = context["length"]
         preserve_ws = self.options["preserve_whitespace"]
-        is_hash_special = (
-            parent and parent["type"] in self.options["subnumeric_types"]
-        )
+        is_hash_special = parent and parent["type"] in self.options["subnumeric_types"]
 
         start_idx = context["i"]
         char = msg[start_idx] if start_idx < length else None
@@ -575,7 +571,10 @@ class Parser:
         length = context["length"]
         start = context["i"]
 
-        if start >= length or msg[start : start + len(constants.OFFSET)] != constants.OFFSET:
+        if (
+            start >= length
+            or msg[start : start + len(constants.OFFSET)] != constants.OFFSET
+        ):
             return 0
 
         _append_token(context, "offset", constants.OFFSET)
@@ -607,7 +606,11 @@ class Parser:
         while context["i"] < length and msg[context["i"]] != constants.CHAR_CLOSE:
             # Save position before consuming space so we can rewind if we hit }
             pre_space_pos = context["i"]
-            ws_before_selector = _skip_space(context, ret=preserve_ws) if preserve_ws else _skip_space(context)
+            ws_before_selector = (
+                _skip_space(context, ret=preserve_ws)
+                if preserve_ws
+                else _skip_space(context)
+            )
 
             if context["i"] >= length or msg[context["i"]] == constants.CHAR_CLOSE:
                 # Rewind: this trailing space belongs to the outer placeholder's before_close
@@ -620,7 +623,11 @@ class Parser:
                 raise _expected("sub-message selector", context)
             _append_token(context, "selector", selector)
 
-            ws_after_selector = _skip_space(context, ret=preserve_ws) if preserve_ws else _skip_space(context)
+            ws_after_selector = (
+                _skip_space(context, ret=preserve_ws)
+                if preserve_ws
+                else _skip_space(context)
+            )
 
             submessage = self._parse_submessage(context, parent)
 

@@ -71,9 +71,7 @@ def interpolate_message(
 
         # Apply cutoff formatting
         if max_chars is not None:
-            result = format_cutoff(
-                result, locale, {"max_chars": int(max_chars)}
-            )
+            result = format_cutoff(result, locale, {"max_chars": int(max_chars)})
 
         return result
 
@@ -89,8 +87,6 @@ def interpolate_message(
 
         # No fallback — return the raw message with cutoff applied
         if max_chars is not None:
-            return format_cutoff(
-                message, locale, {"max_chars": int(max_chars)}
-            )
+            return format_cutoff(message, locale, {"max_chars": int(max_chars)})
 
         return message

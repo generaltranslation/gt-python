@@ -15,8 +15,8 @@ DEFAULT_CUTOFF_FORMAT_STYLE = "ellipsis"
 TERMINATOR_MAP: dict[str, dict[str, dict[str, str | None]]] = {
     "ellipsis": {
         "fr": {
-            "terminator": "\u2026",       # …
-            "separator": "\u202F",        # narrow no-break space
+            "terminator": "\u2026",  # …
+            "separator": "\u202f",  # narrow no-break space
         },
         "zh": {
             "terminator": "\u2026\u2026",  # ……
@@ -27,7 +27,7 @@ TERMINATOR_MAP: dict[str, dict[str, dict[str, str | None]]] = {
             "separator": None,
         },
         "_default": {
-            "terminator": "\u2026",       # …
+            "terminator": "\u2026",  # …
             "separator": None,
         },
     },
@@ -83,10 +83,14 @@ class CutoffFormat:
             style_map = TERMINATOR_MAP[style]
             preset = style_map.get(lang, style_map["_default"])
 
-        terminator = options.get("terminator", preset.get("terminator") if preset else None)
+        terminator = options.get(
+            "terminator", preset.get("terminator") if preset else None
+        )
         separator: str | None = None
         if terminator is not None:
-            separator = options.get("separator", preset.get("separator") if preset else None)
+            separator = options.get(
+                "separator", preset.get("separator") if preset else None
+            )
 
         # Calculate addition length
         self._addition_length = (len(terminator) if terminator else 0) + (

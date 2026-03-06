@@ -62,9 +62,7 @@ def get_locale_name(
             entry = custom_mapping[locale]
             if isinstance(entry, dict):
                 canonical = entry["code"]
-                custom_name = get_custom_property(
-                    custom_mapping, canonical, "name"
-                )
+                custom_name = get_custom_property(custom_mapping, canonical, "name")
                 if custom_name:
                     return custom_name
                 locale = canonical

@@ -314,7 +314,11 @@ class GT:
             result["translatedFiles"] = [
                 {
                     **item,
-                    **({"locale": self.resolve_alias_locale(item["locale"])} if item.get("locale") else {}),
+                    **(
+                        {"locale": self.resolve_alias_locale(item["locale"])}
+                        if item.get("locale")
+                        else {}
+                    ),
                 }
                 for item in result["translatedFiles"]
             ]
@@ -322,8 +326,19 @@ class GT:
             result["sourceFiles"] = [
                 {
                     **item,
-                    **({"sourceLocale": self.resolve_alias_locale(item["sourceLocale"])} if item.get("sourceLocale") else {}),
-                    "locales": [self.resolve_alias_locale(loc) for loc in item.get("locales", [])],
+                    **(
+                        {
+                            "sourceLocale": self.resolve_alias_locale(
+                                item["sourceLocale"]
+                            )
+                        }
+                        if item.get("sourceLocale")
+                        else {}
+                    ),
+                    "locales": [
+                        self.resolve_alias_locale(loc)
+                        for loc in item.get("locales", [])
+                    ],
                 }
                 for item in result["sourceFiles"]
             ]
@@ -343,7 +358,11 @@ class GT:
             result["translations"] = [
                 {
                     **item,
-                    **({"locale": self.resolve_alias_locale(item["locale"])} if item.get("locale") else {}),
+                    **(
+                        {"locale": self.resolve_alias_locale(item["locale"])}
+                        if item.get("locale")
+                        else {}
+                    ),
                 }
                 for item in result["translations"]
             ]
@@ -407,7 +426,11 @@ class GT:
         files = [
             {
                 **f,
-                **({"locale": self.resolve_alias_locale(f["locale"])} if f.get("locale") else {}),
+                **(
+                    {"locale": self.resolve_alias_locale(f["locale"])}
+                    if f.get("locale")
+                    else {}
+                ),
             }
             for f in result["data"]
         ]
@@ -559,7 +582,9 @@ class GT:
         """Format a string with cutoff behaviour."""
         opts = dict(options or {})
         opts.update(kwargs)
-        return format_cutoff(value, locales=locales or self._rendering_locales, options=opts)
+        return format_cutoff(
+            value, locales=locales or self._rendering_locales, options=opts
+        )
 
     def format_message(
         self,

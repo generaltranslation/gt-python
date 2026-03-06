@@ -36,9 +36,7 @@ def test_condense_escaped_hash_in_non_condensed_plural():
         "{_gt_1, select, other {x}} "
         "{n, plural, offset:1 one {# item, not '#'} other {# items}}"
     )
-    js_expected = (
-        "{_gt_1} {n,plural,offset:1 one{# item, not '#'} other{# items}}"
-    )
+    js_expected = "{_gt_1} {n,plural,offset:1 one{# item, not '#'} other{# items}}"
     assert condense_vars(icu) == js_expected
 
 
@@ -66,7 +64,7 @@ def test_parser_escape_angle_brackets():
     icu = (
         "{_gt_1, select, other {val}} "
         "{mode, select, "
-        "json {'{\"key\": \"val\"}'} "
+        'json {\'{"key": "val"}\'} '
         "xml {'<tag />'} "
         "other {plain}}"
     )

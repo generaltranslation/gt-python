@@ -26,11 +26,19 @@ async def enqueue_files(
                 }
                 for f in batch
             ],
-            "targetLocales": options.get("target_locales", options.get("targetLocales", [])),
-            "sourceLocale": options.get("source_locale", options.get("sourceLocale", "")),
+            "targetLocales": options.get(
+                "target_locales", options.get("targetLocales", [])
+            ),
+            "sourceLocale": options.get(
+                "source_locale", options.get("sourceLocale", "")
+            ),
             "publish": options.get("publish"),
-            "requireApproval": options.get("require_approval", options.get("requireApproval")),
-            "modelProvider": options.get("model_provider", options.get("modelProvider")),
+            "requireApproval": options.get(
+                "require_approval", options.get("requireApproval")
+            ),
+            "modelProvider": options.get(
+                "model_provider", options.get("modelProvider")
+            ),
             "force": options.get("force"),
         }
         body = {k: v for k, v in body.items() if v is not None}

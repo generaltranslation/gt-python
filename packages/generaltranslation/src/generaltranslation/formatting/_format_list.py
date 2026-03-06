@@ -109,7 +109,7 @@ def format_list_to_parts(
             # There's a separator before this element
             parts.append(remaining[:idx])
         parts.append(val)
-        remaining = remaining[idx + len(ph):]
+        remaining = remaining[idx + len(ph) :]
 
     # Any trailing text after the last placeholder
     if remaining:

@@ -65,7 +65,7 @@ A good bug report shouldn't leave others needing to chase you up for more inform
 
 #### How Do I Submit a Good Bug Report?
 
-> You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to <security@generaltranslation.com>.
+> You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to <support@generaltranslation.com>.
 
 We use GitHub issues to track bugs and errors. If you run into an issue with the project:
 
@@ -86,7 +86,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/genera
 ### Your First Code Contribution
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
+2. Create a feature/fix/refactor/etc. branch (`git checkout -b feature/my-feature`)
 3. Follow the [Development Setup](#development-setup) instructions below
 4. Make your changes
 5. Run tests and linting to make sure everything passes
@@ -97,13 +97,6 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/genera
 ### Prerequisites
 
 - **Python 3.10+**
-- **[uv](https://docs.astral.sh/uv/)** — package manager and workspace tool
-
-Install uv:
-
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
 
 ### Installation
 
@@ -115,7 +108,14 @@ cd gt-python
 ./scripts/setup.sh
 ```
 
-This installs uv (if needed), all workspace packages, Rust/Cargo (if needed), and [Sampo](https://github.com/bruits/sampo) (the release tool). A virtual environment is created at `.venv/` with all workspace packages as editable installs — changes to source code are immediately reflected.
+The setup script installs everything you need:
+
+- [uv](https://docs.astral.sh/uv/) — package manager and workspace tool
+- All workspace packages (as editable installs in `.venv/`)
+- [Rust/Cargo](https://rustup.rs/) — needed to install Sampo
+- [Sampo](https://github.com/bruits/sampo) — release automation tool
+
+Changes to source code are immediately reflected — no rebuild needed.
 
 ### Recommended Editor Extensions
 
@@ -130,26 +130,21 @@ If you're using VS Code, install the following extensions:
 ### Common Commands
 
 ```bash
-# Install all workspace packages
-uv sync --all-packages
+make setup          # Install uv, workspace packages, and sampo
+make lint           # Run ruff linter
+make format         # Auto-format with ruff
+make format-check   # Check formatting without changes
+make typecheck      # Run mypy type checking
+make test           # Run all tests
+make check          # Run all checks (lint + format + typecheck + test)
+make build          # Build all packages to dist/
+make clean          # Remove build artifacts and caches
+```
 
-# Run all tests
-uv run pytest
+To run tests for a specific package:
 
-# Run tests for a specific package
+```bash
 uv run pytest packages/generaltranslation/
-
-# Lint
-uv run ruff check .
-
-# Format
-uv run ruff format .
-
-# Type check
-uv run mypy .
-
-# Build a specific package
-uv build --package generaltranslation
 ```
 
 ### Releasing
@@ -179,6 +174,7 @@ This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formattin
 
 ### Commit Messages
 
+Please use [Semantic Commit Messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716).
 Use clear, descriptive commit messages that explain the "why" behind the change.
 
 ## Join The Project Team

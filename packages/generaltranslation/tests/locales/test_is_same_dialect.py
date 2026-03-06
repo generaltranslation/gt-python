@@ -1,4 +1,5 @@
 """Tests for _is_same_dialect.py."""
+
 import json
 from pathlib import Path
 

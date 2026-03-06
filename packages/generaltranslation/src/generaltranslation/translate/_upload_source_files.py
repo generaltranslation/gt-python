@@ -24,21 +24,42 @@ async def upload_source_files(
                         "content": base64.b64encode(
                             item["source"]["content"].encode()
                         ).decode(),
-                        "fileName": item["source"].get("file_name", item["source"].get("fileName", "")),
-                        "fileFormat": item["source"].get("file_format", item["source"].get("fileFormat", "")),
+                        "fileName": item["source"].get(
+                            "file_name", item["source"].get("fileName", "")
+                        ),
+                        "fileFormat": item["source"].get(
+                            "file_format", item["source"].get("fileFormat", "")
+                        ),
                         "locale": item["source"].get("locale", ""),
-                        "dataFormat": item["source"].get("data_format", item["source"].get("dataFormat")),
-                        "formatMetadata": item["source"].get("format_metadata", item["source"].get("formatMetadata")),
-                        "fileId": item["source"].get("file_id", item["source"].get("fileId")),
-                        "versionId": item["source"].get("version_id", item["source"].get("versionId")),
-                        "branchId": item["source"].get("branch_id", item["source"].get("branchId")),
-                        "incomingBranchId": item["source"].get("incoming_branch_id", item["source"].get("incomingBranchId")),
-                        "checkedOutBranchId": item["source"].get("checked_out_branch_id", item["source"].get("checkedOutBranchId")),
+                        "dataFormat": item["source"].get(
+                            "data_format", item["source"].get("dataFormat")
+                        ),
+                        "formatMetadata": item["source"].get(
+                            "format_metadata", item["source"].get("formatMetadata")
+                        ),
+                        "fileId": item["source"].get(
+                            "file_id", item["source"].get("fileId")
+                        ),
+                        "versionId": item["source"].get(
+                            "version_id", item["source"].get("versionId")
+                        ),
+                        "branchId": item["source"].get(
+                            "branch_id", item["source"].get("branchId")
+                        ),
+                        "incomingBranchId": item["source"].get(
+                            "incoming_branch_id", item["source"].get("incomingBranchId")
+                        ),
+                        "checkedOutBranchId": item["source"].get(
+                            "checked_out_branch_id",
+                            item["source"].get("checkedOutBranchId"),
+                        ),
                     }
                 }
                 for item in batch
             ],
-            "sourceLocale": options.get("source_locale", options.get("sourceLocale", "")),
+            "sourceLocale": options.get(
+                "source_locale", options.get("sourceLocale", "")
+            ),
         }
         result = await api_request(
             config,

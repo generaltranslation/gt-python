@@ -9,9 +9,7 @@ import httpx
 BASE_URL = "http://localhost:5051"
 
 
-def test_endpoint(
-    path: str, locale: str, expected_substr: str, name: str
-) -> None:
+def test_endpoint(path: str, locale: str, expected_substr: str, name: str) -> None:
     headers = {"Accept-Language": locale}
     resp = httpx.get(f"{BASE_URL}{path}", headers=headers)
     body = resp.json()

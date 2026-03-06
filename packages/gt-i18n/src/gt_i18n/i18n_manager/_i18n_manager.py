@@ -56,9 +56,7 @@ class I18nManager:
                 create_remote_translation_loader,
             )
 
-            loader = create_remote_translation_loader(
-                project_id, cache_url or ""
-            )
+            loader = create_remote_translation_loader(project_id, cache_url or "")
         else:
             loader = lambda locale: {}  # noqa: E731
 
@@ -91,16 +89,12 @@ class I18nManager:
             approved_locales=self._locales or None,
         )
 
-    async def get_translations(
-        self, locale: str | None = None
-    ) -> dict[str, str]:
+    async def get_translations(self, locale: str | None = None) -> dict[str, str]:
         """Get translations for a locale (async, loads if needed)."""
         target = locale or self.get_locale()
         return await self._translations.get_translations(target)
 
-    def get_translations_sync(
-        self, locale: str | None = None
-    ) -> dict[str, str]:
+    def get_translations_sync(self, locale: str | None = None) -> dict[str, str]:
         """Get cached translations (sync, returns empty if not loaded)."""
         target = locale or self.get_locale()
         return self._translations.get_translations_sync(target)

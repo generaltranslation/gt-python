@@ -1,4 +1,5 @@
 """Tests for _requires_translation.py."""
+
 import json
 from pathlib import Path
 

@@ -27,11 +27,13 @@ def traverse_icu(
     Returns:
         The (possibly mutated) AST.
     """
-    parser = Parser({
-        "include_indices": include_indices,
-        "require_other": False,
-        "preserve_whitespace": preserve_whitespace,
-    })
+    parser = Parser(
+        {
+            "include_indices": include_indices,
+            "require_other": False,
+            "preserve_whitespace": preserve_whitespace,
+        }
+    )
     ast = parser.parse(icu_string)
 
     def handle_children(children: list) -> None:

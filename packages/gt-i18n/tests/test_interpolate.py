@@ -176,9 +176,7 @@ def test_no_fallback_returns_raw_message():
 
 def test_cutoff_applied_after_interpolation():
     """$max_chars truncates after interpolation."""
-    result = interpolate_message(
-        "Hello, {name}!", {"name": "Alice", "$max_chars": 8}
-    )
+    result = interpolate_message("Hello, {name}!", {"name": "Alice", "$max_chars": 8})
     assert len(result) <= 8
 
 

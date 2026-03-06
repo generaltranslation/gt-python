@@ -46,7 +46,11 @@ def format_date_time(
     time_style = options.get("time_style")
 
     if date_style and time_style:
-        return format_datetime(value, format=date_style, locale=locale) + " " + format_time(value, format=time_style, locale=locale)
+        return (
+            format_datetime(value, format=date_style, locale=locale)
+            + " "
+            + format_time(value, format=time_style, locale=locale)
+        )
 
     if date_style:
         return format_date(value, format=date_style, locale=locale)

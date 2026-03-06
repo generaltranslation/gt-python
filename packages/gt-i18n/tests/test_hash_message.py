@@ -87,67 +87,112 @@ class TestHashMessageParity:
 
     def test_plain(self):
         c = self.cases["plain"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_with_variable(self):
         c = self.cases["with_variable"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_with_context_button(self):
         c = self.cases["with_context_button"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_with_context_menu(self):
         c = self.cases["with_context_menu"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_no_context(self):
         c = self.cases["no_context"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_with_id(self):
         c = self.cases["with_id"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_with_max_chars(self):
         c = self.cases["with_max_chars"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_negative_max_chars_same_as_positive(self):
         """maxChars(-10) should produce the same hash as maxChars(10)."""
         c = self.cases["with_negative_max_chars"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
         # Also verify it equals the positive case
         pos = self.cases["with_max_chars"]
         assert c["hash"] == pos["hash"]
 
     def test_empty(self):
         c = self.cases["empty"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_plural(self):
         c = self.cases["plural"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_plural_sentence(self):
         c = self.cases["plural_sentence"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_with_gt_var(self):
         c = self.cases["with_gt_var"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_with_gt_var_name(self):
         c = self.cases["with_gt_var_name"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_context_and_id(self):
         c = self.cases["context_and_id"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
     def test_context_and_max_chars(self):
         c = self.cases["context_and_max_chars"]
-        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
+        assert (
+            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
+            == c["hash"]
+        )
 
 
 # ---- Behavioral tests ----

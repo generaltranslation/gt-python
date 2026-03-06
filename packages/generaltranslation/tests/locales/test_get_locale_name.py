@@ -1,4 +1,5 @@
 """Tests for _get_locale_name.py."""
+
 import json
 from pathlib import Path
 
