@@ -2,17 +2,16 @@
 
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 from generaltranslation.formatting import CutoffFormat, format_cutoff
 
-FIXTURES = json.loads(
-    (Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text()
-)
+FIXTURES = json.loads((Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text())
 
 
 @pytest.mark.parametrize("case", FIXTURES["format_cutoff"])
-def test_format_cutoff(case):
+def test_format_cutoff(case: dict[str, Any]) -> None:
     result = format_cutoff(
         case["value"],
         locales=case.get("locales"),
@@ -24,7 +23,7 @@ def test_format_cutoff(case):
     )
 
 
-def test_cutoff_format_class():
+def test_cutoff_format_class() -> None:
     """Test CutoffFormat class directly."""
     fmt = CutoffFormat("en", {"max_chars": 5})
     assert fmt.format("Hello, world!") == "Hell\u2026"
@@ -38,7 +37,7 @@ def test_cutoff_format_class():
     assert opts["terminator"] == "\u2026"
 
 
-def test_cutoff_format_invalid_style():
+def test_cutoff_format_invalid_style() -> None:
     """Test that invalid style raises ValueError."""
     with pytest.raises(ValueError):
         CutoffFormat("en", {"max_chars": 5, "style": "invalid"})

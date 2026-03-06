@@ -4,6 +4,8 @@ Validates shot-for-shot against icu4py (reference ICU implementation).
 Tests cover all ICU MessageFormat features across multiple locales.
 """
 
+from typing import Any
+
 import pytest
 from generaltranslation_intl_messageformat import IntlMessageFormat
 from icu4py.messageformat import MessageFormat as RefMessageFormat
@@ -12,7 +14,7 @@ from icu4py.messageformat import MessageFormat as RefMessageFormat
 # ---------------------------------------------------------------------------
 # Helper: compare our output against icu4py reference
 # ---------------------------------------------------------------------------
-def _assert_matches_ref(pattern, locale, variables, desc):
+def _assert_matches_ref(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     our_result = IntlMessageFormat(pattern, locale).format(variables)
     ref_result = RefMessageFormat(pattern, locale).format(variables)
     assert our_result == ref_result, (
@@ -52,7 +54,7 @@ SIMPLE_VAR_CASES = [
     SIMPLE_VAR_CASES,
     ids=[c[3] for c in SIMPLE_VAR_CASES],
 )
-def test_simple_variables(pattern, locale, variables, desc):
+def test_simple_variables(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
@@ -182,7 +184,7 @@ PLURAL_EN_CASES = [
     PLURAL_EN_CASES,
     ids=[c[3] for c in PLURAL_EN_CASES],
 )
-def test_plural_english(pattern, locale, variables, desc):
+def test_plural_english(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
@@ -190,8 +192,7 @@ def test_plural_english(pattern, locale, variables, desc):
 # Plural - German
 # ---------------------------------------------------------------------------
 PLURAL_DE_CASES = [
-    ("{n, plural, one {# Artikel} other {# Artikel}}", "de", {"n": v}, f"de plural {v}")
-    for v in [0, 1, 2, 5, 10, 100]
+    ("{n, plural, one {# Artikel} other {# Artikel}}", "de", {"n": v}, f"de plural {v}") for v in [0, 1, 2, 5, 10, 100]
 ]
 
 
@@ -200,7 +201,7 @@ PLURAL_DE_CASES = [
     PLURAL_DE_CASES,
     ids=[c[3] for c in PLURAL_DE_CASES],
 )
-def test_plural_german(pattern, locale, variables, desc):
+def test_plural_german(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
@@ -223,7 +224,7 @@ PLURAL_FR_CASES = [
     PLURAL_FR_CASES,
     ids=[c[3] for c in PLURAL_FR_CASES],
 )
-def test_plural_french(pattern, locale, variables, desc):
+def test_plural_french(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
@@ -242,17 +243,14 @@ PLURAL_AR_CASES = [
     PLURAL_AR_CASES,
     ids=[c[3] for c in PLURAL_AR_CASES],
 )
-def test_plural_arabic(pattern, locale, variables, desc):
+def test_plural_arabic(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
 # ---------------------------------------------------------------------------
 # Plural - Japanese (no plural distinction, always "other")
 # ---------------------------------------------------------------------------
-PLURAL_JA_CASES = [
-    ("{n, plural, other {#個}}", "ja", {"n": v}, f"ja plural {v}")
-    for v in [0, 1, 2, 5, 100]
-]
+PLURAL_JA_CASES = [("{n, plural, other {#個}}", "ja", {"n": v}, f"ja plural {v}") for v in [0, 1, 2, 5, 100]]
 
 
 @pytest.mark.parametrize(
@@ -260,16 +258,14 @@ PLURAL_JA_CASES = [
     PLURAL_JA_CASES,
     ids=[c[3] for c in PLURAL_JA_CASES],
 )
-def test_plural_japanese(pattern, locale, variables, desc):
+def test_plural_japanese(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
 # ---------------------------------------------------------------------------
 # Plural - Russian (one, few, many, other)
 # ---------------------------------------------------------------------------
-RUSSIAN_PATTERN = (
-    "{n, plural, one {# книга} few {# книги} many {# книг} other {# книг}}"
-)
+RUSSIAN_PATTERN = "{n, plural, one {# книга} few {# книги} many {# книг} other {# книг}}"
 PLURAL_RU_CASES = [
     (RUSSIAN_PATTERN, "ru", {"n": v}, f"ru plural {v}")
     for v in [0, 1, 2, 3, 4, 5, 10, 11, 12, 14, 20, 21, 22, 25, 100, 101, 102]
@@ -281,19 +277,16 @@ PLURAL_RU_CASES = [
     PLURAL_RU_CASES,
     ids=[c[3] for c in PLURAL_RU_CASES],
 )
-def test_plural_russian(pattern, locale, variables, desc):
+def test_plural_russian(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
 # ---------------------------------------------------------------------------
 # Plural - Polish (one, few, many, other)
 # ---------------------------------------------------------------------------
-POLISH_PATTERN = (
-    "{n, plural, one {# plik} few {# pliki} many {# plików} other {# plików}}"
-)
+POLISH_PATTERN = "{n, plural, one {# plik} few {# pliki} many {# plików} other {# plików}}"
 PLURAL_PL_CASES = [
-    (POLISH_PATTERN, "pl", {"n": v}, f"pl plural {v}")
-    for v in [0, 1, 2, 3, 4, 5, 10, 12, 14, 21, 22, 23, 25, 100, 102]
+    (POLISH_PATTERN, "pl", {"n": v}, f"pl plural {v}") for v in [0, 1, 2, 3, 4, 5, 10, 12, 14, 21, 22, 23, 25, 100, 102]
 ]
 
 
@@ -302,17 +295,18 @@ PLURAL_PL_CASES = [
     PLURAL_PL_CASES,
     ids=[c[3] for c in PLURAL_PL_CASES],
 )
-def test_plural_polish(pattern, locale, variables, desc):
+def test_plural_polish(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
 # ---------------------------------------------------------------------------
 # Plural with offset
 # ---------------------------------------------------------------------------
-OFFSET_PATTERN = "{guests, plural, offset:1 =0 {nobody} =1 {{host}} one {{host} and # other} other {{host} and # others}}"
+OFFSET_PATTERN = (
+    "{guests, plural, offset:1 =0 {nobody} =1 {{host}} one {{host} and # other} other {{host} and # others}}"  # noqa: E501
+)
 PLURAL_OFFSET_CASES = [
-    (OFFSET_PATTERN, "en", {"guests": v, "host": "Alice"}, f"offset guests={v}")
-    for v in [0, 1, 2, 3, 5, 10]
+    (OFFSET_PATTERN, "en", {"guests": v, "host": "Alice"}, f"offset guests={v}") for v in [0, 1, 2, 3, 5, 10]
 ]
 
 
@@ -321,7 +315,7 @@ PLURAL_OFFSET_CASES = [
     PLURAL_OFFSET_CASES,
     ids=[c[3] for c in PLURAL_OFFSET_CASES],
 )
-def test_plural_offset(pattern, locale, variables, desc):
+def test_plural_offset(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
@@ -366,7 +360,7 @@ SELECTORDINAL_CASES = [
     SELECTORDINAL_CASES,
     ids=[c[3] for c in SELECTORDINAL_CASES],
 )
-def test_selectordinal_english(pattern, locale, variables, desc):
+def test_selectordinal_english(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
@@ -454,7 +448,7 @@ SELECT_CASES = [
     SELECT_CASES,
     ids=[c[3] for c in SELECT_CASES],
 )
-def test_select(pattern, locale, variables, desc):
+def test_select(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
@@ -523,19 +517,19 @@ NESTED_CASES = [
         "complex nested 42",
     ),
     (
-        "{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}",
+        "{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}",  # noqa: E501
         "en",
         {"gender": "male", "count": 1},
         "gender+plural male 1",
     ),
     (
-        "{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}",
+        "{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}",  # noqa: E501
         "en",
         {"gender": "female", "count": 5},
         "gender+plural female 5",
     ),
     (
-        "{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}",
+        "{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}",  # noqa: E501
         "en",
         {"gender": "unknown", "count": 0},
         "gender+plural other 0",
@@ -548,7 +542,7 @@ NESTED_CASES = [
     NESTED_CASES,
     ids=[c[3] for c in NESTED_CASES],
 )
-def test_nested(pattern, locale, variables, desc):
+def test_nested(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
@@ -567,7 +561,7 @@ ESCAPED_CASES = [
     ESCAPED_CASES,
     ids=[c[3] for c in ESCAPED_CASES],
 )
-def test_escaped(pattern, locale, variables, desc):
+def test_escaped(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
@@ -591,7 +585,7 @@ GT_CASES = [
     GT_CASES,
     ids=[c[3] for c in GT_CASES],
 )
-def test_gt_patterns(pattern, locale, variables, desc):
+def test_gt_patterns(pattern: str, locale: str, variables: dict[str, Any], desc: str) -> None:
     _assert_matches_ref(pattern, locale, variables, desc)
 
 
@@ -599,52 +593,48 @@ def test_gt_patterns(pattern, locale, variables, desc):
 # Formatter-specific behavior tests (not compared against icu4py)
 # ---------------------------------------------------------------------------
 class TestFormatterBehavior:
-    def test_missing_variable_returns_empty(self):
+    def test_missing_variable_returns_empty(self) -> None:
         result = IntlMessageFormat("Hello, {name}!", "en").format({})
         assert result == "Hello, !"
 
-    def test_missing_variable_in_text(self):
+    def test_missing_variable_in_text(self) -> None:
         result = IntlMessageFormat("{a} and {b}", "en").format({"a": "yes"})
         assert result == "yes and "
 
-    def test_invalid_locale_falls_back_to_english(self):
-        result = IntlMessageFormat(
-            "{n, plural, one {# item} other {# items}}", "invalid-locale"
-        ).format({"n": 1})
+    def test_invalid_locale_falls_back_to_english(self) -> None:
+        result = IntlMessageFormat("{n, plural, one {# item} other {# items}}", "invalid-locale").format({"n": 1})
         assert result == "1 item"
 
-    def test_select_missing_value_uses_other(self):
-        result = IntlMessageFormat("{x, select, a {A} other {default}}", "en").format(
-            {"x": "missing"}
-        )
+    def test_select_missing_value_uses_other(self) -> None:
+        result = IntlMessageFormat("{x, select, a {A} other {default}}", "en").format({"x": "missing"})
         assert result == "default"
 
-    def test_format_none_values(self):
+    def test_format_none_values(self) -> None:
         result = IntlMessageFormat("Hello, {name}!", "en").format(None)
         assert result == "Hello, !"
 
-    def test_pattern_property(self):
+    def test_pattern_property(self) -> None:
         pattern = "{count, plural, one {# item} other {# items}}"
         mf = IntlMessageFormat(pattern, "en")
         assert mf.pattern == pattern
 
-    def test_locale_property(self):
+    def test_locale_property(self) -> None:
         mf = IntlMessageFormat("hello", "de")
         assert str(mf.locale) == "de"
 
-    def test_locale_property_with_region(self):
+    def test_locale_property_with_region(self) -> None:
         mf = IntlMessageFormat("hello", "en-US")
         assert mf.locale.language == "en"
 
-    def test_plain_text_no_formatting(self):
+    def test_plain_text_no_formatting(self) -> None:
         result = IntlMessageFormat("Hello world", "en").format({})
         assert result == "Hello world"
 
-    def test_empty_pattern(self):
+    def test_empty_pattern(self) -> None:
         result = IntlMessageFormat("", "en").format({})
         assert result == ""
 
-    def test_hash_outside_plural_not_special(self):
+    def test_hash_outside_plural_not_special(self) -> None:
         # Outside plural, # is literal text
         result = IntlMessageFormat("Price is #5", "en").format({})
         assert result == "Price is #5"

@@ -4,7 +4,7 @@ import pytest
 
 
 @pytest.mark.asyncio
-async def test_check_job_status():
+async def test_check_job_status() -> None:
     with patch(
         "generaltranslation.translate._check_job_status.api_request",
         new_callable=AsyncMock,
@@ -20,7 +20,7 @@ async def test_check_job_status():
 
 
 @pytest.mark.asyncio
-async def test_setup_project():
+async def test_setup_project() -> None:
     with patch(
         "generaltranslation.translate._setup_project.api_request",
         new_callable=AsyncMock,
@@ -36,7 +36,7 @@ async def test_setup_project():
 
 
 @pytest.mark.asyncio
-async def test_query_branch_data():
+async def test_query_branch_data() -> None:
     with patch(
         "generaltranslation.translate._query_branch_data.api_request",
         new_callable=AsyncMock,
@@ -49,7 +49,7 @@ async def test_query_branch_data():
 
 
 @pytest.mark.asyncio
-async def test_create_branch():
+async def test_create_branch() -> None:
     with patch(
         "generaltranslation.translate._create_branch.api_request",
         new_callable=AsyncMock,
@@ -57,14 +57,12 @@ async def test_create_branch():
         mock.return_value = {"branch": {"id": "b1", "name": "feature"}}
         from generaltranslation.translate._create_branch import create_branch
 
-        result = await create_branch(
-            {"branchName": "feature", "defaultBranch": False}, {"project_id": "p"}
-        )
+        result = await create_branch({"branchName": "feature", "defaultBranch": False}, {"project_id": "p"})
         assert result["branch"]["name"] == "feature"
 
 
 @pytest.mark.asyncio
-async def test_query_source_file():
+async def test_query_source_file() -> None:
     with patch(
         "generaltranslation.translate._query_source_file.api_request",
         new_callable=AsyncMock,
@@ -83,7 +81,7 @@ async def test_query_source_file():
 
 
 @pytest.mark.asyncio
-async def test_get_project_data():
+async def test_get_project_data() -> None:
     with patch(
         "generaltranslation.translate._get_project_data.api_request",
         new_callable=AsyncMock,
@@ -98,7 +96,7 @@ async def test_get_project_data():
 
 
 @pytest.mark.asyncio
-async def test_submit_user_edit_diffs():
+async def test_submit_user_edit_diffs() -> None:
     with patch(
         "generaltranslation.translate._submit_user_edit_diffs.api_request",
         new_callable=AsyncMock,
@@ -108,14 +106,12 @@ async def test_submit_user_edit_diffs():
             submit_user_edit_diffs,
         )
 
-        result = await submit_user_edit_diffs(
-            {"diffs": [{"locale": "es"}]}, {"project_id": "p"}
-        )
+        result = await submit_user_edit_diffs({"diffs": [{"locale": "es"}]}, {"project_id": "p"})
         assert result["success"] is True
 
 
 @pytest.mark.asyncio
-async def test_process_file_moves_empty():
+async def test_process_file_moves_empty() -> None:
     from generaltranslation.translate._process_file_moves import process_file_moves
 
     result = await process_file_moves([], {}, {"project_id": "p"})
@@ -124,7 +120,7 @@ async def test_process_file_moves_empty():
 
 
 @pytest.mark.asyncio
-async def test_get_orphaned_files_empty():
+async def test_get_orphaned_files_empty() -> None:
     with patch(
         "generaltranslation.translate._get_orphaned_files.api_request",
         new_callable=AsyncMock,
@@ -140,7 +136,7 @@ async def test_get_orphaned_files_empty():
 
 
 @pytest.mark.asyncio
-async def test_enqueue_files_omits_none_values():
+async def test_enqueue_files_omits_none_values() -> None:
     """Body dict passed to api_request must not contain keys whose value is None."""
     with patch(
         "generaltranslation.translate._enqueue_files.api_request",
@@ -166,16 +162,14 @@ async def test_enqueue_files_omits_none_values():
         body = mock.call_args[1]["body"]
         # None-valued keys must be absent
         for key in ("publish", "requireApproval", "modelProvider", "force"):
-            assert key not in body, (
-                f"key '{key}' should not be in body when value is None"
-            )
+            assert key not in body, f"key '{key}' should not be in body when value is None"
 
 
 # --- Fix 4: URL encoding should match JS encodeURIComponent ---
 
 
 @pytest.mark.asyncio
-async def test_query_source_file_preserves_special_chars():
+async def test_query_source_file_preserves_special_chars() -> None:
     """Characters !  ' ( ) * should NOT be percent-encoded (matching encodeURIComponent)."""
     with patch(
         "generaltranslation.translate._query_source_file.api_request",
@@ -190,13 +184,11 @@ async def test_query_source_file_preserves_special_chars():
             {"project_id": "p"},
         )
         endpoint = mock.call_args[0][1]
-        assert "file!'()*" in endpoint, (
-            f"Special chars were percent-encoded in: {endpoint}"
-        )
+        assert "file!'()*" in endpoint, f"Special chars were percent-encoded in: {endpoint}"
 
 
 @pytest.mark.asyncio
-async def test_get_project_data_preserves_special_chars():
+async def test_get_project_data_preserves_special_chars() -> None:
     """Characters ! ' ( ) * should NOT be percent-encoded (matching encodeURIComponent)."""
     with patch(
         "generaltranslation.translate._get_project_data.api_request",
@@ -207,6 +199,4 @@ async def test_get_project_data_preserves_special_chars():
 
         await get_project_data("p!'()*", {}, {"project_id": "p"})
         endpoint = mock.call_args[0][1]
-        assert "p!'()*" in endpoint, (
-            f"Special chars were percent-encoded in: {endpoint}"
-        )
+        assert "p!'()*" in endpoint, f"Special chars were percent-encoded in: {endpoint}"

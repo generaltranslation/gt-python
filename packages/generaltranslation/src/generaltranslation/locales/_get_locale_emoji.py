@@ -7,6 +7,8 @@ exceptions for languages that do not map cleanly to a single country.
 
 from __future__ import annotations
 
+from typing import cast
+
 from babel import Locale
 from babel.core import get_global
 
@@ -295,7 +297,7 @@ EMOJIS: dict[str, str] = {
 }
 
 # CLDR likely subtags for territory inference
-_likely_subtags: dict[str, str] = get_global("likely_subtags")
+_likely_subtags: dict[str, str] = cast(dict[str, str], get_global("likely_subtags"))
 
 
 def get_locale_emoji(

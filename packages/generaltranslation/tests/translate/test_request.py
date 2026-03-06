@@ -8,7 +8,7 @@ from generaltranslation.translate._request import api_request
 
 
 @pytest.fixture
-def config():
+def config() -> dict[str, str]:
     return {
         "project_id": "proj-123",
         "api_key": "test-key",
@@ -17,14 +17,12 @@ def config():
 
 
 @pytest.mark.asyncio
-async def test_successful_post(config):
+async def test_successful_post(config: dict[str, str]) -> None:
     mock_response = MagicMock()
     mock_response.status_code = 200
     mock_response.json.return_value = {"result": "ok"}
 
-    with patch(
-        "generaltranslation.translate._request.httpx.AsyncClient"
-    ) as mock_client_cls:
+    with patch("generaltranslation.translate._request.httpx.AsyncClient") as mock_client_cls:
         mock_client = AsyncMock()
         mock_client.post.return_value = mock_response
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
@@ -36,14 +34,12 @@ async def test_successful_post(config):
 
 
 @pytest.mark.asyncio
-async def test_successful_get(config):
+async def test_successful_get(config: dict[str, str]) -> None:
     mock_response = MagicMock()
     mock_response.status_code = 200
     mock_response.json.return_value = {"data": [1, 2, 3]}
 
-    with patch(
-        "generaltranslation.translate._request.httpx.AsyncClient"
-    ) as mock_client_cls:
+    with patch("generaltranslation.translate._request.httpx.AsyncClient") as mock_client_cls:
         mock_client = AsyncMock()
         mock_client.get.return_value = mock_response
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
@@ -55,15 +51,13 @@ async def test_successful_get(config):
 
 
 @pytest.mark.asyncio
-async def test_4xx_raises_api_error(config):
+async def test_4xx_raises_api_error(config: dict[str, str]) -> None:
     mock_response = MagicMock()
     mock_response.status_code = 401
     mock_response.reason_phrase = "Unauthorized"
     mock_response.text = json.dumps({"error": "Invalid API key"})
 
-    with patch(
-        "generaltranslation.translate._request.httpx.AsyncClient"
-    ) as mock_client_cls:
+    with patch("generaltranslation.translate._request.httpx.AsyncClient") as mock_client_cls:
         mock_client = AsyncMock()
         mock_client.post.return_value = mock_response
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
@@ -76,10 +70,8 @@ async def test_4xx_raises_api_error(config):
 
 
 @pytest.mark.asyncio
-async def test_timeout_raises_error(config):
-    with patch(
-        "generaltranslation.translate._request.httpx.AsyncClient"
-    ) as mock_client_cls:
+async def test_timeout_raises_error(config: dict[str, str]) -> None:
+    with patch("generaltranslation.translate._request.httpx.AsyncClient") as mock_client_cls:
         mock_client = AsyncMock()
         mock_client.post.side_effect = httpx.TimeoutException("timed out")
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
@@ -91,19 +83,17 @@ async def test_timeout_raises_error(config):
 
 
 @pytest.mark.asyncio
-async def test_no_retry_on_none_policy(config):
+async def test_no_retry_on_none_policy(config: dict[str, str]) -> None:
     call_count = 0
     mock_response = MagicMock()
     mock_response.status_code = 500
     mock_response.reason_phrase = "Internal Server Error"
     mock_response.text = "Server error"
 
-    with patch(
-        "generaltranslation.translate._request.httpx.AsyncClient"
-    ) as mock_client_cls:
+    with patch("generaltranslation.translate._request.httpx.AsyncClient") as mock_client_cls:
         mock_client = AsyncMock()
 
-        async def counting_post(*args, **kwargs):
+        async def counting_post(*args: object, **kwargs: object) -> object:
             nonlocal call_count
             call_count += 1
             return mock_response
@@ -119,7 +109,7 @@ async def test_no_retry_on_none_policy(config):
 
 
 @pytest.mark.asyncio
-async def test_client_reused_across_retries(config):
+async def test_client_reused_across_retries(config: dict[str, str]) -> None:
     """AsyncClient should be instantiated once even when retries occur."""
     # First call returns 500 (triggers retry), second returns 200
     mock_response_500 = MagicMock()
@@ -131,9 +121,7 @@ async def test_client_reused_across_retries(config):
     mock_response_200.status_code = 200
     mock_response_200.json.return_value = {"ok": True}
 
-    with patch(
-        "generaltranslation.translate._request.httpx.AsyncClient"
-    ) as mock_client_cls:
+    with patch("generaltranslation.translate._request.httpx.AsyncClient") as mock_client_cls:
         mock_client = AsyncMock()
         mock_client.post = AsyncMock(side_effect=[mock_response_500, mock_response_200])
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)

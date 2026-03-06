@@ -6,6 +6,7 @@ saved in fixtures/js_parity.json.
 
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 from generaltranslation.static._index_vars import index_vars
@@ -15,7 +16,7 @@ FIXTURES_PATH = Path(__file__).parent / "fixtures" / "js_parity.json"
 
 
 @pytest.fixture(scope="module")
-def fixtures():
+def fixtures() -> dict[str, Any]:
     return json.loads(FIXTURES_PATH.read_text())
 
 
@@ -26,38 +27,38 @@ class TestIndexVarsParity:
     """Verify index_vars produces identical output to JS indexVars."""
 
     @pytest.fixture(autouse=True)
-    def _load(self, fixtures):
+    def _load(self, fixtures: dict[str, Any]) -> None:
         self.cases = fixtures["indexVars"]
 
-    def test_plain_no_vars(self):
+    def test_plain_no_vars(self) -> None:
         c = self.cases["plain_no_vars"]
         assert index_vars(c["input"]) == c["output"]
 
-    def test_simple_variable(self):
+    def test_simple_variable(self) -> None:
         c = self.cases["simple_variable"]
         assert index_vars(c["input"]) == c["output"]
 
-    def test_single_gt(self):
+    def test_single_gt(self) -> None:
         c = self.cases["single_gt"]
         assert index_vars(c["input"]) == c["output"]
 
-    def test_two_gt(self):
+    def test_two_gt(self) -> None:
         c = self.cases["two_gt"]
         assert index_vars(c["input"]) == c["output"]
 
-    def test_gt_with_var_name(self):
+    def test_gt_with_var_name(self) -> None:
         c = self.cases["gt_with_var_name"]
         assert index_vars(c["input"]) == c["output"]
 
-    def test_nested_in_plural(self):
+    def test_nested_in_plural(self) -> None:
         c = self.cases["nested_in_plural"]
         assert index_vars(c["input"]) == c["output"]
 
-    def test_empty_string(self):
+    def test_empty_string(self) -> None:
         c = self.cases["empty_string"]
         assert index_vars(c["input"]) == c["output"]
 
-    def test_no_placeholders(self):
+    def test_no_placeholders(self) -> None:
         c = self.cases["no_placeholders"]
         assert index_vars(c["input"]) == c["output"]
 
@@ -81,135 +82,90 @@ class TestHashMessageParity:
     """Verify hash_message produces identical hashes to JS hashMessage."""
 
     @pytest.fixture(autouse=True)
-    def _load(self, fixtures):
+    def _load(self, fixtures: dict[str, Any]) -> None:
         self.cases = fixtures["hashMessage"]
 
-    def test_plain(self):
+    def test_plain(self) -> None:
         c = self.cases["plain"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_with_variable(self):
+    def test_with_variable(self) -> None:
         c = self.cases["with_variable"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_with_context_button(self):
+    def test_with_context_button(self) -> None:
         c = self.cases["with_context_button"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_with_context_menu(self):
+    def test_with_context_menu(self) -> None:
         c = self.cases["with_context_menu"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_no_context(self):
+    def test_no_context(self) -> None:
         c = self.cases["no_context"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_with_id(self):
+    def test_with_id(self) -> None:
         c = self.cases["with_id"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_with_max_chars(self):
+    def test_with_max_chars(self) -> None:
         c = self.cases["with_max_chars"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_negative_max_chars_same_as_positive(self):
+    def test_negative_max_chars_same_as_positive(self) -> None:
         """maxChars(-10) should produce the same hash as maxChars(10)."""
         c = self.cases["with_negative_max_chars"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
         # Also verify it equals the positive case
         pos = self.cases["with_max_chars"]
         assert c["hash"] == pos["hash"]
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         c = self.cases["empty"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_plural(self):
+    def test_plural(self) -> None:
         c = self.cases["plural"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_plural_sentence(self):
+    def test_plural_sentence(self) -> None:
         c = self.cases["plural_sentence"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_with_gt_var(self):
+    def test_with_gt_var(self) -> None:
         c = self.cases["with_gt_var"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_with_gt_var_name(self):
+    def test_with_gt_var_name(self) -> None:
         c = self.cases["with_gt_var_name"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_context_and_id(self):
+    def test_context_and_id(self) -> None:
         c = self.cases["context_and_id"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
-    def test_context_and_max_chars(self):
+    def test_context_and_max_chars(self) -> None:
         c = self.cases["context_and_max_chars"]
-        assert (
-            hash_message(c["message"], **_js_options_to_kwargs(c["options"]))
-            == c["hash"]
-        )
+        assert hash_message(c["message"], **_js_options_to_kwargs(c["options"])) == c["hash"]
 
 
 # ---- Behavioral tests ----
 
 
-def test_same_message_same_hash():
+def test_same_message_same_hash() -> None:
     h1 = hash_message("Hello, world!")
     h2 = hash_message("Hello, world!")
     assert h1 == h2
 
 
-def test_different_messages_different_hash():
+def test_different_messages_different_hash() -> None:
     h1 = hash_message("Hello")
     h2 = hash_message("Goodbye")
     assert h1 != h2
 
 
-def test_context_changes_hash():
+def test_context_changes_hash() -> None:
     h1 = hash_message("Save", context="button")
     h2 = hash_message("Save", context="menu")
     h3 = hash_message("Save")
@@ -217,7 +173,7 @@ def test_context_changes_hash():
     assert h1 != h3
 
 
-def test_with_declare_var():
+def test_with_declare_var() -> None:
     from generaltranslation.static._declare_var import declare_var
 
     msg = f"Hello, {declare_var('Alice', name='user')}!"

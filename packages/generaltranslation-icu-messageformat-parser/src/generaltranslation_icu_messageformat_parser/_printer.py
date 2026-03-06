@@ -35,9 +35,7 @@ def _escape_message(message: str) -> str:
     return _BRACE_RE.sub(r"'\1'", message, count=1)
 
 
-def _print_literal(
-    value: str, is_in_plural: bool, is_first: bool, is_last: bool
-) -> str:
+def _print_literal(value: str, is_in_plural: bool, is_first: bool, is_last: bool) -> str:
     """Re-escape a literal text node for safe ICU round-tripping.
 
     Port of JS ``printLiteralElement``.
@@ -66,9 +64,7 @@ def _print_nodes(nodes: list, is_in_plural: bool = False) -> str:
     parts: list[str] = []
     for i, node in enumerate(nodes):
         if isinstance(node, str):
-            parts.append(
-                _print_literal(node, is_in_plural, i == 0, i == len(nodes) - 1)
-            )
+            parts.append(_print_literal(node, is_in_plural, i == 0, i == len(nodes) - 1))
         elif isinstance(node, dict):
             parts.append(_print_node(node))
     return "".join(parts)
@@ -137,9 +133,7 @@ def _print_node(node: dict) -> str:
             result += f"offset:{offset} "
 
         options = node["options"]
-        options_ws = (
-            options.get("_ws", {}) if isinstance(options.get("_ws"), dict) else {}
-        )
+        options_ws = options.get("_ws", {}) if isinstance(options.get("_ws"), dict) else {}
 
         child_in_plural = node_type in ("plural", "selectordinal")
 

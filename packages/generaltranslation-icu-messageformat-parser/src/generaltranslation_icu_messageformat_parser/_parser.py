@@ -6,6 +6,8 @@ Enhanced with whitespace-preserving AST support.
 
 from __future__ import annotations
 
+from typing import cast
+
 from . import _constants as constants
 
 SEP_OR_CLOSE = f"{constants.CHAR_SEP} or {constants.CHAR_CLOSE}"
@@ -34,11 +36,7 @@ def _is_space(char: str) -> bool:
     if not char:
         return False
     code = ord(char)
-    return (
-        code in constants.SPACE_CHARS
-        or (0x09 <= code <= 0x0D)
-        or (0x2000 <= code <= 0x200D)
-    )
+    return code in constants.SPACE_CHARS or (0x09 <= code <= 0x0D) or (0x2000 <= code <= 0x200D)
 
 
 def _skip_space(context: dict, ret: bool = False) -> str:
@@ -63,22 +61,24 @@ def _recursion(context: dict) -> SyntaxError:
     return SyntaxError(f"Too much recursion at position {context['i']}")
 
 
-def _unexpected(char, index=None) -> SyntaxError:
+def _unexpected(char: str | dict[str, object], index: int | None = None) -> SyntaxError:
     if isinstance(char, dict):
-        index = char["i"]
-        c = char["msg"][index] if index < char["length"] else "<EOF>"
-        return _unexpected(c, index)
+        idx = cast(int, char["i"])
+        msg = cast(str, char["msg"])
+        length = cast(int, char["length"])
+        c = msg[idx] if idx < length else "<EOF>"
+        return _unexpected(c, idx)
     return SyntaxError(f'Unexpected "{char}" at position {index}')
 
 
-def _expected(char, found, index=None) -> SyntaxError:
+def _expected(char: str, found: str | dict[str, object] | None, index: int | None = None) -> SyntaxError:
     if isinstance(found, dict):
-        index = found["i"]
-        f = found["msg"][index] if index < found["length"] else "<EOF>"
-        return _expected(char, f, index)
-    return SyntaxError(
-        f'Expected {char} at position {index} but found "{found if found else "<EOF>"}"'
-    )
+        idx = cast(int, found["i"])
+        msg = cast(str, found["msg"])
+        length = cast(int, found["length"])
+        f = msg[idx] if idx < length else "<EOF>"
+        return _expected(char, f, idx)
+    return SyntaxError(f'Expected {char} at position {index} but found "{found if found else "<EOF>"}"')
 
 
 class Parser:
@@ -189,9 +189,7 @@ class Parser:
 
         return out
 
-    def _can_read_tag(
-        self, context: dict, parent: dict | None, require_closing: bool = False
-    ) -> bool:
+    def _can_read_tag(self, context: dict, parent: dict | None, require_closing: bool = False) -> bool:
         msg = context["msg"]
         length = context["length"]
         current = context["i"]
@@ -217,9 +215,9 @@ class Parser:
             return False
 
         if self.options["tag_prefix"]:
-            prefix = self.options["tag_prefix"]
+            prefix = cast(str, self.options["tag_prefix"])
             return prefix == msg[current : current + len(prefix)]
-        elif _is_alpha(char):
+        elif char is not None and _is_alpha(char):
             return True
 
         return False
@@ -233,7 +231,7 @@ class Parser:
         msg = context["msg"]
         length = context["length"]
         start = context["i"]
-        is_hash_special = parent and parent["type"] in self.options["subnumeric_types"]
+        is_hash_special = parent and parent["type"] in self.options["subnumeric_types"]  # type: ignore[operator]
         is_tag_special = self.options["allow_tags"]
         allow_arg_spaces = self.options["allow_format_spaces"]
 
@@ -247,11 +245,7 @@ class Parser:
             if (
                 char in constants.VAR_CHARS
                 or (is_hash_special and char == constants.CHAR_HASH)
-                or (
-                    is_tag_special
-                    and char == constants.CHAR_TAG_OPEN
-                    and self._can_read_tag(context, parent)
-                )
+                or (is_tag_special and char == constants.CHAR_TAG_OPEN and self._can_read_tag(context, parent))
                 or (is_arg_style and not allow_arg_spaces and is_sp)
             ):
                 break
@@ -281,10 +275,7 @@ class Parser:
                             nxt = msg[context["i"]]
                             if nxt == constants.CHAR_ESCAPE:
                                 context["i"] += 1
-                                if (
-                                    context["i"] < length
-                                    and msg[context["i"]] == constants.CHAR_ESCAPE
-                                ):
+                                if context["i"] < length and msg[context["i"]] == constants.CHAR_ESCAPE:
                                     text += nxt
                                 else:
                                     break
@@ -320,14 +311,15 @@ class Parser:
     def _parse_placeholder(self, context: dict, parent: dict | None) -> dict:
         msg = context["msg"]
         length = context["length"]
-        preserve_ws = self.options["preserve_whitespace"]
-        is_hash_special = parent and parent["type"] in self.options["subnumeric_types"]
+        preserve_ws = bool(self.options["preserve_whitespace"])
+        is_hash_special = parent and parent["type"] in self.options["subnumeric_types"]  # type: ignore[operator]
 
         start_idx = context["i"]
         char = msg[start_idx] if start_idx < length else None
         if is_hash_special and char == constants.CHAR_HASH:
             _append_token(context, "hash", char)
             context["i"] += 1
+            assert parent is not None
             return self._token_indices(
                 {"type": "number", "name": parent["name"], "hash": True},
                 start_idx,
@@ -393,7 +385,7 @@ class Parser:
         char = msg[context["i"]] if context["i"] < length else None
         if char == constants.CHAR_CLOSE:
             _append_token(context, "syntax", char)
-            if ttype in self.options["submessage_types"]:
+            if ttype in self.options["submessage_types"]:  # type: ignore[operator]
                 raise _expected(f"{ttype} sub-messages", context)
             context["i"] += 1
             if preserve_ws and ws:
@@ -410,13 +402,13 @@ class Parser:
         if preserve_ws:
             ws["after_style_sep"] = ws_after_style_sep
 
-        if ttype in self.options["subnumeric_types"]:
+        if ttype in self.options["subnumeric_types"]:  # type: ignore[operator]
             offset = self._parse_offset(context)
             token["offset"] = offset if offset else 0
             if offset:
                 _skip_space(context)
 
-        if ttype in self.options["submessage_types"]:
+        if ttype in self.options["submessage_types"]:  # type: ignore[operator]
             messages = self._parse_submessages(context, token)
             if not messages:
                 raise _expected(f"{ttype} sub-messages", context)
@@ -430,11 +422,7 @@ class Parser:
             end = context["i"]
             spaces = _skip_space(context, True)
 
-            if (
-                self.options["loose_submessages"]
-                and context["i"] < length
-                and msg[context["i"]] == constants.CHAR_OPEN
-            ):
+            if self.options["loose_submessages"] and context["i"] < length and msg[context["i"]] == constants.CHAR_OPEN:
                 context["i"] = start
                 messages = self._parse_submessages(context, token)
                 if not messages:
@@ -495,19 +483,14 @@ class Parser:
         _skip_space(context)
 
         i = context["i"]
-        if (
-            i < length
-            and msg[i : i + len(constants.TAG_CLOSING)] == constants.TAG_CLOSING
-        ):
+        if i < length and msg[i : i + len(constants.TAG_CLOSING)] == constants.TAG_CLOSING:
             _append_token(context, "syntax", constants.TAG_CLOSING)
             context["i"] += len(constants.TAG_CLOSING)
             return self._token_indices(token, start_idx, context["i"])
 
         char = msg[i] if i < length else None
         if char != constants.CHAR_TAG_END:
-            raise _expected(
-                constants.CHAR_TAG_END + " or " + constants.TAG_CLOSING, context
-            )
+            raise _expected(constants.CHAR_TAG_END + " or " + constants.TAG_CLOSING, context)
 
         _append_token(context, "syntax", char)
         context["i"] += 1
@@ -517,10 +500,7 @@ class Parser:
             token["contents"] = children
         end = context["i"]
 
-        if (
-            end < length
-            and msg[end : end + len(constants.TAG_END)] != constants.TAG_END
-        ):
+        if end < length and msg[end : end + len(constants.TAG_END)] != constants.TAG_END:
             raise _expected(constants.TAG_END, context)
 
         _append_token(context, "syntax", constants.TAG_END)
@@ -571,10 +551,7 @@ class Parser:
         length = context["length"]
         start = context["i"]
 
-        if (
-            start >= length
-            or msg[start : start + len(constants.OFFSET)] != constants.OFFSET
-        ):
+        if start >= length or msg[start : start + len(constants.OFFSET)] != constants.OFFSET:
             return 0
 
         _append_token(context, "offset", constants.OFFSET)
@@ -583,8 +560,7 @@ class Parser:
 
         start = context["i"]
         while context["i"] < length and (
-            _is_digit(msg[context["i"]])
-            or (context["i"] == start and msg[context["i"]] == "-")
+            _is_digit(msg[context["i"]]) or (context["i"] == start and msg[context["i"]] == "-")
         ):
             context["i"] += 1
 
@@ -598,7 +574,7 @@ class Parser:
     def _parse_submessages(self, context: dict, parent: dict) -> dict | None:
         msg = context["msg"]
         length = context["length"]
-        preserve_ws = self.options["preserve_whitespace"]
+        preserve_ws = bool(self.options["preserve_whitespace"])
         options: dict = {}
 
         context["depth"] += 1
@@ -606,11 +582,7 @@ class Parser:
         while context["i"] < length and msg[context["i"]] != constants.CHAR_CLOSE:
             # Save position before consuming space so we can rewind if we hit }
             pre_space_pos = context["i"]
-            ws_before_selector = (
-                _skip_space(context, ret=preserve_ws)
-                if preserve_ws
-                else _skip_space(context)
-            )
+            ws_before_selector = _skip_space(context, ret=preserve_ws) if preserve_ws else _skip_space(context)
 
             if context["i"] >= length or msg[context["i"]] == constants.CHAR_CLOSE:
                 # Rewind: this trailing space belongs to the outer placeholder's before_close
@@ -623,11 +595,7 @@ class Parser:
                 raise _expected("sub-message selector", context)
             _append_token(context, "selector", selector)
 
-            ws_after_selector = (
-                _skip_space(context, ret=preserve_ws)
-                if preserve_ws
-                else _skip_space(context)
-            )
+            ws_after_selector = _skip_space(context, ret=preserve_ws) if preserve_ws else _skip_space(context)
 
             submessage = self._parse_submessage(context, parent)
 

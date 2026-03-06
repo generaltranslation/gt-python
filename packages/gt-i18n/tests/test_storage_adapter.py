@@ -5,18 +5,17 @@ import threading
 from gt_i18n.i18n_manager._context_var_adapter import ContextVarStorageAdapter
 
 
-def test_set_get_locale():
+def test_set_get_locale() -> None:
     adapter = ContextVarStorageAdapter()
     adapter.set_item("locale", "fr")
     assert adapter.get_item("locale") == "fr"
 
 
-def test_default_none():
-    adapter = ContextVarStorageAdapter()
+def test_default_none() -> None:
     # In a fresh context, value might be from previous test — use a thread
-    result = [None]
+    result: list[str | None] = [None]
 
-    def check():
+    def check() -> None:
         a = ContextVarStorageAdapter()
         result[0] = a.get_item("locale")
 
@@ -26,19 +25,19 @@ def test_default_none():
     assert result[0] is None
 
 
-def test_non_locale_key():
+def test_non_locale_key() -> None:
     adapter = ContextVarStorageAdapter()
     adapter.set_item("other", "value")
     assert adapter.get_item("other") is None
 
 
-def test_thread_isolation():
+def test_thread_isolation() -> None:
     adapter = ContextVarStorageAdapter()
     adapter.set_item("locale", "en")
 
-    other_thread_value = [None]
+    other_thread_value: list[str | None] = [None]
 
-    def check():
+    def check() -> None:
         a = ContextVarStorageAdapter()
         other_thread_value[0] = a.get_item("locale")
 

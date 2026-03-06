@@ -42,6 +42,7 @@ async def translate_many(
     if is_array:
         entries: list[tuple[str | None, Any]] = [(None, r) for r in requests]
     else:
+        assert isinstance(requests, dict)
         entries = list(requests.items())
 
     for key, request in entries:
@@ -60,9 +61,7 @@ async def translate_many(
         else:
             entry_hash = hash_source(
                 source,
-                data_format=metadata.get(
-                    "dataFormat", metadata.get("data_format", "STRING")
-                ),
+                data_format=metadata.get("dataFormat", metadata.get("data_format", "STRING")),
                 context=metadata.get("context"),
                 id=metadata.get("id"),
                 max_chars=metadata.get("maxChars", metadata.get("max_chars")),
@@ -79,12 +78,8 @@ async def translate_many(
     # Build request body using camelCase keys to match JS API
     body = {
         "requests": requests_object,
-        "targetLocale": global_metadata.get(
-            "target_locale", global_metadata.get("targetLocale", "")
-        ),
-        "sourceLocale": global_metadata.get(
-            "source_locale", global_metadata.get("sourceLocale", "")
-        ),
+        "targetLocale": global_metadata.get("target_locale", global_metadata.get("targetLocale", "")),
+        "sourceLocale": global_metadata.get("source_locale", global_metadata.get("sourceLocale", "")),
         "metadata": global_metadata,
     }
 
@@ -104,10 +99,7 @@ async def translate_many(
 
     if hash_order is not None:
         return [
-            response.get(
-                h, {"success": False, "error": "No translation returned", "code": 500}
-            )
-            for h in hash_order
+            response.get(h, {"success": False, "error": "No translation returned", "code": 500}) for h in hash_order
         ]
 
     return response

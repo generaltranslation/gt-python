@@ -14,11 +14,8 @@ from generaltranslation.static import condense_vars
 # ---------------------------------------------------------------------------
 
 
-def test_condense_escaped_braces_in_non_condensed_select():
-    icu = (
-        "{_gt_1, select, other {x}} "
-        "{type, select, a {text with '{braces}'} other {plain}}"
-    )
+def test_condense_escaped_braces_in_non_condensed_select() -> None:
+    icu = "{_gt_1, select, other {x}} {type, select, a {text with '{braces}'} other {plain}}"
     js_expected = "{_gt_1} {type,select,a{text with '{braces}'} other{plain}}"
     assert condense_vars(icu) == js_expected
 
@@ -30,11 +27,8 @@ def test_condense_escaped_braces_in_non_condensed_select():
 # ---------------------------------------------------------------------------
 
 
-def test_condense_escaped_hash_in_non_condensed_plural():
-    icu = (
-        "{_gt_1, select, other {x}} "
-        "{n, plural, offset:1 one {# item, not '#'} other {# items}}"
-    )
+def test_condense_escaped_hash_in_non_condensed_plural() -> None:
+    icu = "{_gt_1, select, other {x}} {n, plural, offset:1 one {# item, not '#'} other {# items}}"
     js_expected = "{_gt_1} {n,plural,offset:1 one{# item, not '#'} other{# items}}"
     assert condense_vars(icu) == js_expected
 
@@ -46,7 +40,7 @@ def test_condense_escaped_hash_in_non_condensed_plural():
 # ---------------------------------------------------------------------------
 
 
-def test_condense_apostrophe_at_literal_boundary():
+def test_condense_apostrophe_at_literal_boundary() -> None:
     icu = "{_gt_1, select, other {x}} it''s {name}''s"
     js_expected = "{_gt_1} it's {name}''s"
     assert condense_vars(icu) == js_expected
@@ -59,15 +53,7 @@ def test_condense_apostrophe_at_literal_boundary():
 # ---------------------------------------------------------------------------
 
 
-def test_parser_escape_angle_brackets():
-    icu = (
-        "{_gt_1, select, other {val}} "
-        "{mode, select, "
-        'json {\'{"key": "val"}\'} '
-        "xml {'<tag />'} "
-        "other {plain}}"
-    )
-    js_expected = (
-        '{_gt_1} {mode,select,json{\'{"key": "val"}\'} xml{<tag />} other{plain}}'
-    )
+def test_parser_escape_angle_brackets() -> None:
+    icu = "{_gt_1, select, other {val}} {mode, select, json {'{\"key\": \"val\"}'} xml {'<tag />'} other {plain}}"
+    js_expected = '{_gt_1} {mode,select,json{\'{"key": "val"}\'} xml{<tag />} other{plain}}'
     assert condense_vars(icu) == js_expected

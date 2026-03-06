@@ -60,9 +60,7 @@ class I18nManager:
         else:
             loader = lambda locale: {}  # noqa: E731
 
-        self._translations = TranslationsManager(
-            loader, cache_expiry_time=cache_expiry_time
-        )
+        self._translations = TranslationsManager(loader, cache_expiry_time=cache_expiry_time)
 
     @property
     def default_locale(self) -> str:

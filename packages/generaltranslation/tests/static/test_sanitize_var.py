@@ -1,12 +1,11 @@
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 from generaltranslation.static import sanitize_var
 
-FIXTURES = json.loads(
-    (Path(__file__).parent / "fixtures" / "static_fixtures.json").read_text()
-)
+FIXTURES = json.loads((Path(__file__).parent / "fixtures" / "static_fixtures.json").read_text())
 
 
 @pytest.mark.parametrize(
@@ -14,6 +13,6 @@ FIXTURES = json.loads(
     FIXTURES["sanitize_var"],
     ids=[c["label"] for c in FIXTURES["sanitize_var"]],
 )
-def test_sanitize_var(case):
+def test_sanitize_var(case: dict[str, Any]) -> None:
     result = sanitize_var(case["input"])
     assert result == case["expected"]

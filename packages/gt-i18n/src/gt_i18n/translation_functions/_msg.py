@@ -25,9 +25,7 @@ def msg(message: str, **kwargs: object) -> str:
 
     # Interpolate the message
     try:
-        interpolated = format_message(
-            message, None, {**variables, VAR_IDENTIFIER: "other"}
-        )
+        interpolated = format_message(message, None, {**variables, VAR_IDENTIFIER: "other"})
     except Exception:
         return message
 
@@ -40,8 +38,6 @@ def msg(message: str, **kwargs: object) -> str:
     )
 
     encoded_options = {**kwargs, "$_source": message, "$_hash": h}
-    options_encoding = base64.b64encode(
-        json.dumps(encoded_options, separators=(",", ":")).encode()
-    ).decode()
+    options_encoding = base64.b64encode(json.dumps(encoded_options, separators=(",", ":")).encode()).decode()
 
     return f"{interpolated}:{options_encoding}"

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable
+from typing import Any
 
 from generaltranslation_icu_messageformat_parser import Parser
 
@@ -40,7 +41,7 @@ def traverse_icu(
         for child in children:
             handle_child(child)
 
-    def handle_child(child) -> None:
+    def handle_child(child: str | dict[str, Any]) -> None:
         if isinstance(child, str):
             return
 
@@ -72,10 +73,7 @@ def is_gt_indexed_select(node: dict) -> bool:
         node.get("type") == "select"
         and bool(_GT_INDEXED_RE.match(node.get("name", "")))
         and "other" in node.get("options", {})
-        and (
-            len(node["options"]["other"]) == 0
-            or isinstance(node["options"]["other"][0], str)
-        )
+        and (len(node["options"]["other"]) == 0 or isinstance(node["options"]["other"][0], str))
     )
 
 
@@ -85,8 +83,5 @@ def is_gt_unindexed_select(node: dict) -> bool:
         node.get("type") == "select"
         and node.get("name", "") == "_gt_"
         and "other" in node.get("options", {})
-        and (
-            len(node["options"]["other"]) == 0
-            or isinstance(node["options"]["other"][0], str)
-        )
+        and (len(node["options"]["other"]) == 0 or isinstance(node["options"]["other"][0], str))
     )

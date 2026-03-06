@@ -109,12 +109,8 @@ class GT:
     ) -> None:
         # Read environment variables first
         self.api_key: str | None = api_key or os.environ.get("GT_API_KEY") or None
-        self.dev_api_key: str | None = (
-            dev_api_key or os.environ.get("GT_DEV_API_KEY") or None
-        )
-        self.project_id: str | None = (
-            project_id or os.environ.get("GT_PROJECT_ID") or None
-        )
+        self.dev_api_key: str | None = dev_api_key or os.environ.get("GT_DEV_API_KEY") or None
+        self.project_id: str | None = project_id or os.environ.get("GT_PROJECT_ID") or None
 
         self.base_url: str | None = None
         self.source_locale: str | None = None
@@ -194,9 +190,7 @@ class GT:
         if custom_mapping:
             self.custom_mapping = custom_mapping
             self.reverse_custom_mapping = {
-                v["code"]: k
-                for k, v in custom_mapping.items()
-                if v and isinstance(v, dict) and "code" in v
+                v["code"]: k for k, v in custom_mapping.items() if v and isinstance(v, dict) and "code" in v
             }
 
     # -------------- Private Methods -------------- #
@@ -236,9 +230,7 @@ class GT:
     ) -> dict[str, Any]:
         """Process file moves by cloning source files and translations."""
         self._validate_auth("process_file_moves")
-        return await _process_file_moves(
-            moves, options or {}, self._get_translation_config()
-        )
+        return await _process_file_moves(moves, options or {}, self._get_translation_config())
 
     async def get_orphaned_files(
         self,
@@ -248,9 +240,7 @@ class GT:
     ) -> dict[str, Any]:
         """Get orphaned files for a branch."""
         self._validate_auth("get_orphaned_files")
-        return await _get_orphaned_files(
-            branch_id, file_ids, options or {}, self._get_translation_config()
-        )
+        return await _get_orphaned_files(branch_id, file_ids, options or {}, self._get_translation_config())
 
     # -------------- Translation Methods -------------- #
 
@@ -263,9 +253,7 @@ class GT:
         self._validate_auth("setup_project")
         opts = dict(options) if options else {}
         if opts.get("locales"):
-            opts["locales"] = [
-                self.resolve_canonical_locale(loc) for loc in opts["locales"]
-            ]
+            opts["locales"] = [self.resolve_canonical_locale(loc) for loc in opts["locales"]]
         return await _setup_project(files, self._get_translation_config(), opts)
 
     async def check_job_status(
@@ -275,9 +263,7 @@ class GT:
     ) -> list[dict[str, Any]]:
         """Check job statuses."""
         self._validate_auth("check_job_status")
-        return await _check_job_status(
-            job_ids, self._get_translation_config(), timeout_ms
-        )
+        return await _check_job_status(job_ids, self._get_translation_config(), timeout_ms)
 
     async def enqueue_files(
         self,
@@ -313,8 +299,7 @@ class GT:
         normalized = dict(payload)
         if normalized.get("diffs"):
             normalized["diffs"] = [
-                {**d, "locale": self.resolve_canonical_locale(d.get("locale"))}
-                for d in normalized["diffs"]
+                {**d, "locale": self.resolve_canonical_locale(d.get("locale"))} for d in normalized["diffs"]
             ]
         await _submit_user_edit_diffs(normalized, self._get_translation_config())
 
@@ -329,24 +314,17 @@ class GT:
         tf_key = "translated_files" if "translated_files" in data else "translatedFiles"
         if data.get(tf_key):
             data[tf_key] = [
-                {**item, "locale": self.resolve_canonical_locale(item.get("locale"))}
-                for item in data[tf_key]
+                {**item, "locale": self.resolve_canonical_locale(item.get("locale"))} for item in data[tf_key]
             ]
 
-        result = await _query_file_data(
-            data, options or {}, self._get_translation_config()
-        )
+        result = await _query_file_data(data, options or {}, self._get_translation_config())
 
         # Resolve alias locales in response
         if result.get("translatedFiles"):
             result["translatedFiles"] = [
                 {
                     **item,
-                    **(
-                        {"locale": self.resolve_alias_locale(item["locale"])}
-                        if item.get("locale")
-                        else {}
-                    ),
+                    **({"locale": self.resolve_alias_locale(item["locale"])} if item.get("locale") else {}),
                 }
                 for item in result["translatedFiles"]
             ]
@@ -355,18 +333,11 @@ class GT:
                 {
                     **item,
                     **(
-                        {
-                            "sourceLocale": self.resolve_alias_locale(
-                                item["sourceLocale"]
-                            )
-                        }
+                        {"sourceLocale": self.resolve_alias_locale(item["sourceLocale"])}
                         if item.get("sourceLocale")
                         else {}
                     ),
-                    "locales": [
-                        self.resolve_alias_locale(loc)
-                        for loc in item.get("locales", [])
-                    ],
+                    "locales": [self.resolve_alias_locale(loc) for loc in item.get("locales", [])],
                 }
                 for item in result["sourceFiles"]
             ]
@@ -379,18 +350,12 @@ class GT:
     ) -> dict[str, Any]:
         """Get source file and translation information."""
         self._validate_auth("query_source_file")
-        result = await _query_source_file(
-            data, options or {}, self._get_translation_config()
-        )
+        result = await _query_source_file(data, options or {}, self._get_translation_config())
         if result.get("translations"):
             result["translations"] = [
                 {
                     **item,
-                    **(
-                        {"locale": self.resolve_alias_locale(item["locale"])}
-                        if item.get("locale")
-                        else {}
-                    ),
+                    **({"locale": self.resolve_alias_locale(item["locale"])} if item.get("locale") else {}),
                 }
                 for item in result["translations"]
             ]
@@ -408,13 +373,9 @@ class GT:
     ) -> dict[str, Any]:
         """Get project data for a given project ID."""
         self._validate_auth("get_project_data")
-        result = await _get_project_data(
-            project_id, options or {}, self._get_translation_config()
-        )
+        result = await _get_project_data(project_id, options or {}, self._get_translation_config())
         if result.get("currentLocales"):
-            result["currentLocales"] = [
-                self.resolve_alias_locale(loc) for loc in result["currentLocales"]
-            ]
+            result["currentLocales"] = [self.resolve_alias_locale(loc) for loc in result["currentLocales"]]
         if result.get("defaultLocale"):
             result["defaultLocale"] = self.resolve_alias_locale(result["defaultLocale"])
         return result
@@ -432,9 +393,7 @@ class GT:
             "locale": self.resolve_canonical_locale(file.get("locale")),
             "versionId": file.get("version_id", file.get("versionId")),
         }
-        result = await _download_file_batch(
-            [request], options or {}, self._get_translation_config()
-        )
+        result = await _download_file_batch([request], options or {}, self._get_translation_config())
         return result["data"][0]["data"]
 
     async def download_file_batch(
@@ -444,21 +403,12 @@ class GT:
     ) -> dict[str, Any]:
         """Download multiple files in a batch."""
         self._validate_auth("download_file_batch")
-        mapped_requests = [
-            {**r, "locale": self.resolve_canonical_locale(r.get("locale"))}
-            for r in requests
-        ]
-        result = await _download_file_batch(
-            mapped_requests, options or {}, self._get_translation_config()
-        )
+        mapped_requests = [{**r, "locale": self.resolve_canonical_locale(r.get("locale"))} for r in requests]
+        result = await _download_file_batch(mapped_requests, options or {}, self._get_translation_config())
         files = [
             {
                 **f,
-                **(
-                    {"locale": self.resolve_alias_locale(f["locale"])}
-                    if f.get("locale")
-                    else {}
-                ),
+                **({"locale": self.resolve_alias_locale(f["locale"])} if f.get("locale") else {}),
             }
             for f in result["data"]
         ]
@@ -475,20 +425,13 @@ class GT:
             options = {"target_locale": options}
         self._validate_auth("translate")
 
-        target_locale = (
-            options.get("target_locale")
-            or options.get("targetLocale")
-            or self.target_locale
-        )
+        target_locale = options.get("target_locale") or options.get("targetLocale") or self.target_locale
         if not target_locale:
             raise ValueError(no_target_locale_error("translate"))
         target_locale = self.resolve_canonical_locale(target_locale)
 
         source_locale = self.resolve_canonical_locale(
-            options.get("source_locale")
-            or options.get("sourceLocale")
-            or self.source_locale
-            or LIBRARY_DEFAULT_LOCALE
+            options.get("source_locale") or options.get("sourceLocale") or self.source_locale or LIBRARY_DEFAULT_LOCALE
         )
 
         results = await _translate_many(
@@ -497,6 +440,7 @@ class GT:
             self._get_translation_config(),
             timeout,
         )
+        assert isinstance(results, list)
         return results[0]
 
     async def translate_many(
@@ -510,20 +454,13 @@ class GT:
             options = {"target_locale": options}
         self._validate_auth("translate_many")
 
-        target_locale = (
-            options.get("target_locale")
-            or options.get("targetLocale")
-            or self.target_locale
-        )
+        target_locale = options.get("target_locale") or options.get("targetLocale") or self.target_locale
         if not target_locale:
             raise ValueError(no_target_locale_error("translate_many"))
         target_locale = self.resolve_canonical_locale(target_locale)
 
         source_locale = self.resolve_canonical_locale(
-            options.get("source_locale")
-            or options.get("sourceLocale")
-            or self.source_locale
-            or LIBRARY_DEFAULT_LOCALE
+            options.get("source_locale") or options.get("sourceLocale") or self.source_locale or LIBRARY_DEFAULT_LOCALE
         )
 
         return await _translate_many(
@@ -542,10 +479,7 @@ class GT:
         self._validate_auth("upload_source_files")
         merged = dict(options)
         merged["source_locale"] = self.resolve_canonical_locale(
-            options.get("source_locale")
-            or options.get("sourceLocale")
-            or self.source_locale
-            or LIBRARY_DEFAULT_LOCALE
+            options.get("source_locale") or options.get("sourceLocale") or self.source_locale or LIBRARY_DEFAULT_LOCALE
         )
         mapped_files = [
             {
@@ -557,9 +491,7 @@ class GT:
             }
             for f in files
         ]
-        result = await _upload_source_files(
-            mapped_files, merged, self._get_translation_config()
-        )
+        result = await _upload_source_files(mapped_files, merged, self._get_translation_config())
         return {
             "uploadedFiles": result["data"],
             "count": result["count"],
@@ -582,15 +514,12 @@ class GT:
             {
                 **f,
                 "translations": [
-                    {**t, "locale": self.resolve_canonical_locale(t.get("locale"))}
-                    for t in f.get("translations", [])
+                    {**t, "locale": self.resolve_canonical_locale(t.get("locale"))} for t in f.get("translations", [])
                 ],
             }
             for f in files
         ]
-        result = await _upload_translations(
-            mapped_files, merged, self._get_translation_config()
-        )
+        result = await _upload_translations(mapped_files, merged, self._get_translation_config())
         return {
             "uploadedFiles": result["data"],
             "count": result["count"],
@@ -610,9 +539,7 @@ class GT:
         """Format a string with cutoff behaviour."""
         opts = dict(options or {})
         opts.update(kwargs)
-        return format_cutoff(
-            value, locales=locales or self._rendering_locales, options=opts
-        )
+        return format_cutoff(value, locales=locales or self._rendering_locales, options=opts)
 
     def format_message(
         self,
@@ -693,12 +620,7 @@ class GT:
             if self.custom_mapping and not self.custom_region_mapping:
                 crm: CustomRegionMapping = {}
                 for loc, lp in self.custom_mapping.items():
-                    if (
-                        lp
-                        and isinstance(lp, dict)
-                        and lp.get("regionCode")
-                        and lp["regionCode"] not in crm
-                    ):
+                    if lp and isinstance(lp, dict) and lp.get("regionCode") and lp["regionCode"] not in crm:
                         entry: dict[str, Any] = {"locale": loc}
                         if lp.get("regionName"):
                             entry["name"] = lp["regionName"]
@@ -727,9 +649,7 @@ class GT:
             raise ValueError(no_source_locale_error("requires_translation"))
         if not target_locale:
             raise ValueError(no_target_locale_error("requires_translation"))
-        return requires_translation(
-            source_locale, target_locale, approved_locales, custom_mapping
-        )
+        return requires_translation(source_locale, target_locale, approved_locales, custom_mapping)
 
     def determine_locale(
         self,

@@ -7,9 +7,7 @@ from typing import Any
 from generaltranslation._settings import API_VERSION
 
 
-def generate_request_headers(
-    config: dict[str, Any], *, exclude_content_type: bool = False
-) -> dict[str, str]:
+def generate_request_headers(config: dict[str, Any], *, exclude_content_type: bool = False) -> dict[str, str]:
     headers: dict[str, str] = {}
     if not exclude_content_type:
         headers["Content-Type"] = "application/json"

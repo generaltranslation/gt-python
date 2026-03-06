@@ -115,9 +115,7 @@ async def api_request(
                         error_msg = text or "Unknown error"
                 except Exception:
                     pass
-                error_message = api_error_message(
-                    response.status_code, response.reason_phrase or "", error_msg
-                )
+                error_message = api_error_message(response.status_code, response.reason_phrase or "", error_msg)
                 raise ApiError(error_message, response.status_code, error_msg)
 
             return response.json()

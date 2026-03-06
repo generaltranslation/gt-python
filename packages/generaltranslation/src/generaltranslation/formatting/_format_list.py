@@ -57,7 +57,7 @@ def format_list(
     babel_style = _STYLE_MAP.get((list_type, list_style), "standard")
 
     str_items = [str(item) for item in value]
-    return babel_format_list(str_items, style=babel_style, locale=locale)
+    return babel_format_list(str_items, style=babel_style, locale=locale)  # type: ignore[arg-type]
 
 
 def format_list_to_parts(
@@ -97,7 +97,7 @@ def format_list_to_parts(
     # Use unique placeholders to identify element positions
     placeholder = "\x00"
     placeholders = [f"{placeholder}{i}{placeholder}" for i in range(len(value))]
-    formatted = babel_format_list(placeholders, style=babel_style, locale=locale)
+    formatted = babel_format_list(placeholders, style=babel_style, locale=locale)  # type: ignore[arg-type]
 
     # Split by placeholders to extract separators
     parts: list[T | str] = []

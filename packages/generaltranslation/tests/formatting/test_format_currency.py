@@ -2,17 +2,16 @@
 
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 from generaltranslation.formatting import format_currency
 
-FIXTURES = json.loads(
-    (Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text()
-)
+FIXTURES = json.loads((Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text())
 
 
 @pytest.mark.parametrize("case", FIXTURES["format_currency"])
-def test_format_currency(case):
+def test_format_currency(case: dict[str, Any]) -> None:
     result = format_currency(
         case["value"],
         currency=case.get("currency", "USD"),

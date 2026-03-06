@@ -10,9 +10,7 @@ from generaltranslation_supported_locales import (
 )
 from generaltranslation_supported_locales._data import _SUPPORTED_LOCALES
 
-FIXTURES = json.loads(
-    (Path(__file__).parent / "fixtures" / "supported_locales_fixtures.json").read_text()
-)
+FIXTURES = json.loads((Path(__file__).parent / "fixtures" / "supported_locales_fixtures.json").read_text())
 
 
 @pytest.mark.parametrize(
@@ -20,30 +18,30 @@ FIXTURES = json.loads(
     FIXTURES["get_supported_locale"],
     ids=[c["input"] or "<empty>" for c in FIXTURES["get_supported_locale"]],
 )
-def test_get_supported_locale(case):
+def test_get_supported_locale(case: dict[str, str]) -> None:
     result = get_supported_locale(case["input"])
     assert result == case["expected"]
 
 
-def test_list_supported_locales():
+def test_list_supported_locales() -> None:
     result = list_supported_locales()
     assert result == FIXTURES["list_supported_locales"]["expected"]
 
 
-def test_list_supported_locales_is_list():
+def test_list_supported_locales_is_list() -> None:
     assert isinstance(list_supported_locales(), list)
 
 
-def test_list_supported_locales_is_sorted():
+def test_list_supported_locales_is_sorted() -> None:
     result = list_supported_locales()
     assert result == sorted(result)
 
 
-def test_list_supported_locales_no_duplicates():
+def test_list_supported_locales_no_duplicates() -> None:
     result = list_supported_locales()
     assert len(result) == len(set(result))
 
 
-def test_list_supported_locales_count_matches_data():
+def test_list_supported_locales_count_matches_data() -> None:
     expected_count = sum(len(v) for v in _SUPPORTED_LOCALES.values())
     assert len(list_supported_locales()) == expected_count

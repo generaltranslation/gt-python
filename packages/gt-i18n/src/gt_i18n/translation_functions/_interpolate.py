@@ -5,6 +5,8 @@ Port of ``interpolateMessage.ts`` from the JS gt-i18n package.
 
 from __future__ import annotations
 
+from typing import cast
+
 from generaltranslation.formatting._format_cutoff import format_cutoff
 from generaltranslation.formatting._format_message import format_message
 from generaltranslation.static._condense_vars import condense_vars
@@ -71,7 +73,7 @@ def interpolate_message(
 
         # Apply cutoff formatting
         if max_chars is not None:
-            result = format_cutoff(result, locale, {"max_chars": int(max_chars)})
+            result = format_cutoff(result, locale, {"max_chars": int(cast(int, max_chars))})
 
         return result
 
@@ -87,6 +89,6 @@ def interpolate_message(
 
         # No fallback — return the raw message with cutoff applied
         if max_chars is not None:
-            return format_cutoff(message, locale, {"max_chars": int(max_chars)})
+            return format_cutoff(message, locale, {"max_chars": int(cast(int, max_chars))})
 
         return message

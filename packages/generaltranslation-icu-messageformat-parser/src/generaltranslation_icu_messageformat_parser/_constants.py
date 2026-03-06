@@ -35,4 +35,4 @@ SPACE_CHARS = [
     0xFEFF,
 ]
 
-CLOSE_TAG = {}
+CLOSE_TAG: dict[str, str] = {}

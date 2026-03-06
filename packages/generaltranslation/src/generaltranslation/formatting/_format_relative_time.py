@@ -86,10 +86,10 @@ def format_relative_time(
     # (match JS literal behavior where "5 seconds" stays as seconds)
     return format_timedelta(
         delta,
-        granularity=_singular_unit(unit),
+        granularity=_singular_unit(unit),  # type: ignore[arg-type]
         threshold=999,
         add_direction=True,
-        format=babel_format,
+        format=babel_format,  # type: ignore[arg-type]
         locale=locale,
     )
 

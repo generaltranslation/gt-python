@@ -68,9 +68,7 @@ def requires_translation(
                 return False
 
         # Check if target language is represented in approved locales
-        target_represented = any(
-            is_same_language(target_locale, approved) for approved in approved_locales
-        )
+        target_represented = any(is_same_language(target_locale, approved) for approved in approved_locales)
         if not target_represented:
             return False
 

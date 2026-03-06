@@ -124,6 +124,7 @@ If you're using VS Code, install the following extensions:
 | Extension | ID | Purpose |
 | --------- | -- | ------- |
 | Python | `ms-python.python` | IntelliSense, debugging, virtualenv support (includes Pylance) |
+| Mypy Type Checker | `ms-python.mypy-type-checker` | Inline mypy type errors (matches project config) |
 | Ruff | `charliermarsh.ruff` | Linting and formatting (matches project config) |
 | Even Better TOML | `tamasfe.even-better-toml` | Syntax highlighting for `pyproject.toml` |
 
@@ -175,7 +176,11 @@ This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formattin
 ### Commit Messages
 
 Please use [Semantic Commit Messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716).
+For the scope, you can also mention the package names.
 Use clear, descriptive commit messages that explain the "why" behind the change.
+
+These commit conventions are generally most important on commits to main.
+All branch commits get squash-merged.
 
 ## Join The Project Team
 

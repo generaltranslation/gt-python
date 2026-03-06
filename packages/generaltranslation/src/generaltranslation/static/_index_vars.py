@@ -4,9 +4,7 @@ from generaltranslation.static._constants import VAR_IDENTIFIER
 from generaltranslation.static._traverse_icu import is_gt_unindexed_select, traverse_icu
 
 
-def _find_other_span(
-    icu_string: str, node_start: int, node_end: int
-) -> tuple[int, int]:
+def _find_other_span(icu_string: str, node_start: int, node_end: int) -> tuple[int, int]:
     """Find the ``{content}`` span of the ``other`` option within a select node.
 
     Returns ``(brace_open, brace_close_exclusive)`` — the positions of the

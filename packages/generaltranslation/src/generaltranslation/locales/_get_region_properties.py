@@ -15,7 +15,7 @@ from generaltranslation.locales._types import CustomRegionMapping
 
 def get_region_properties(
     region: str,
-    default_locale: str = "en",
+    default_locale: str | None = "en",
     custom_mapping: CustomRegionMapping | None = None,
 ) -> dict[str, str]:
     """Return metadata for a region code.

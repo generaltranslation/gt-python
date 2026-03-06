@@ -2,13 +2,12 @@
 
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 from generaltranslation.formatting import format_date_time
 
-FIXTURES = json.loads(
-    (Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text()
-)
+FIXTURES = json.loads((Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text())
 
 
 def _normalize_ws(s: str) -> str:
@@ -21,7 +20,7 @@ def _normalize_ws(s: str) -> str:
 
 
 @pytest.mark.parametrize("case", FIXTURES["format_date_time"])
-def test_format_date_time(case):
+def test_format_date_time(case: dict[str, Any]) -> None:
     result = format_date_time(
         case["value"],
         locales=case.get("locales"),

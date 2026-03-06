@@ -2,17 +2,16 @@
 
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 from generaltranslation.formatting import format_list_to_parts
 
-FIXTURES = json.loads(
-    (Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text()
-)
+FIXTURES = json.loads((Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text())
 
 
 @pytest.mark.parametrize("case", FIXTURES["format_list_to_parts"])
-def test_format_list_to_parts(case):
+def test_format_list_to_parts(case: dict[str, Any]) -> None:
     result = format_list_to_parts(
         case["value"],
         locales=case.get("locales"),
