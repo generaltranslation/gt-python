@@ -25,6 +25,7 @@ Examples
 from __future__ import annotations
 
 import logging
+from typing import cast
 
 from babel import Locale
 from babel.core import get_global
@@ -34,7 +35,7 @@ logger = logging.getLogger(__name__)
 # CLDR likely-subtags table: maps partial locale tags to their most
 # likely fully-qualified form.
 # e.g. "en" → "en_Latn_US", "zh_Hant" → "zh_Hant_TW"
-_likely_subtags: dict[str, str] = get_global("likely_subtags")
+_likely_subtags: dict[str, str] = cast(dict[str, str], get_global("likely_subtags"))
 
 
 def _parse_locale(

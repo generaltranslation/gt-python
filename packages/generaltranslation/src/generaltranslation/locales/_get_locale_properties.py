@@ -12,7 +12,7 @@ from babel.core import get_global
 
 from generaltranslation.locales._types import CustomMapping, LocaleProperties
 
-_likely_subtags: dict[str, str] = get_global("likely_subtags")
+_likely_subtags: dict[str, str] = dict(get_global("likely_subtags"))
 
 
 def _create_custom_locale_properties(
@@ -81,9 +81,7 @@ def _build_component_name(
     if script:
         details.append(display_locale.scripts.get(script, script))
     if territory:
-        details.append(
-            display_locale.territories.get(territory, territory)
-        )
+        details.append(display_locale.territories.get(territory, territory))
 
     if not details:
         return lang_name
@@ -107,7 +105,7 @@ def _build_component_name(
 
 def get_locale_properties(
     locale: str,
-    default_locale: str = "en",
+    default_locale: str | None = "en",
     custom_mapping: CustomMapping | None = None,
 ) -> LocaleProperties:
     """Return a :class:`LocaleProperties` for *locale*."""
@@ -122,9 +120,7 @@ def get_locale_properties(
 
     # Resolve canonical if needed
     canonical_code = locale
-    if custom_mapping is not None and should_use_canonical_locale(
-        locale, custom_mapping
-    ):
+    if custom_mapping is not None and should_use_canonical_locale(locale, custom_mapping):
         entry = custom_mapping[locale]
         if isinstance(entry, dict) and "code" in entry:
             canonical_code = entry["code"]
@@ -205,22 +201,14 @@ def get_locale_properties(
     # --- Display names in default_locale ---
     name = _get_compound_name(std_locale, display_locale, parsed)
     language_name = display_locale.languages.get(language_code, language_code)
-    region_name = (
-        display_locale.territories.get(region_code, "") if region_code else ""
-    )
-    script_name = (
-        display_locale.scripts.get(script_code, "") if script_code else ""
-    )
+    region_name = display_locale.territories.get(region_code, "") if region_code else ""
+    script_name = display_locale.scripts.get(script_code, "") if script_code else ""
 
     # Maximized name: always use component form
-    maximized_name = _build_component_name(
-        language_code, max_script, max_territory, display_locale
-    )
+    maximized_name = _build_component_name(language_code, max_script, max_territory, display_locale)
 
     # Minimized name: use compound lookup
-    minimized_name = _get_compound_name(
-        minimized_code, display_locale, minimized_parsed
-    )
+    minimized_name = _get_compound_name(minimized_code, display_locale, minimized_parsed)
 
     # --- Native display names ---
     # Include script in native locale for correct display (e.g. sr-Latn vs sr-Cyrl)
@@ -236,28 +224,16 @@ def get_locale_properties(
             native_locale = parsed
 
     native_name = _get_compound_name(std_locale, native_locale, parsed)
-    native_language_name = native_locale.languages.get(
-        language_code, language_code
-    )
-    native_region_name = (
-        native_locale.territories.get(region_code, "") if region_code else ""
-    )
-    native_script_name = (
-        native_locale.scripts.get(script_code, "") if script_code else ""
-    )
-    native_maximized_name = _build_component_name(
-        language_code, max_script, max_territory, native_locale
-    )
-    native_minimized_name = _get_compound_name(
-        minimized_code, native_locale, minimized_parsed
-    )
+    native_language_name = native_locale.languages.get(language_code, language_code)
+    native_region_name = native_locale.territories.get(region_code, "") if region_code else ""
+    native_script_name = native_locale.scripts.get(script_code, "") if script_code else ""
+    native_maximized_name = _build_component_name(language_code, max_script, max_territory, native_locale)
+    native_minimized_name = _get_compound_name(minimized_code, native_locale, minimized_parsed)
 
     # Name with region code
     if parsed.territory:
         name_with_region_code = f"{language_name} ({parsed.territory})"
-        native_name_with_region_code = (
-            f"{native_language_name} ({parsed.territory})"
-        )
+        native_name_with_region_code = f"{native_language_name} ({parsed.territory})"
     else:
         name_with_region_code = language_name
         native_name_with_region_code = native_language_name
@@ -291,9 +267,7 @@ def get_locale_properties(
     # Apply custom overrides
     if custom_mapping is not None:
         locale_variants = [original_locale, std_locale, language_code]
-        custom_props = _create_custom_locale_properties(
-            locale_variants, custom_mapping
-        )
+        custom_props = _create_custom_locale_properties(locale_variants, custom_mapping)
         if custom_props:
             key_map = {
                 "name": "name",

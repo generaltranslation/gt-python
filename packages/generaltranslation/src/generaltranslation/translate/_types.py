@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal, Optional, TypedDict
-
+from typing import Any, Literal, TypedDict
 
 # --- Config ---
+
 
 class TranslationRequestConfig(TypedDict, total=False):
     project_id: str
@@ -79,6 +79,7 @@ class TranslationError(TypedDict):
 
 # --- Batch ---
 
+
 class BatchList(TypedDict):
     data: list[Any]
     count: int
@@ -86,6 +87,7 @@ class BatchList(TypedDict):
 
 
 # --- Enqueue ---
+
 
 class EnqueueOptions(TypedDict, total=False):
     source_locale: str
@@ -104,6 +106,7 @@ class EnqueueFilesResult(TypedDict, total=False):
 
 
 # --- Setup ---
+
 
 class SetupProjectOptions(TypedDict, total=False):
     force: bool
@@ -132,6 +135,7 @@ CheckJobStatusResult = list[JobStatusEntry]
 
 # --- Branch ---
 
+
 class BranchQuery(TypedDict):
     branch_names: list[str]
 
@@ -143,7 +147,7 @@ class BranchInfo(TypedDict):
 
 class BranchDataResult(TypedDict, total=False):
     branches: list[BranchInfo]
-    default_branch: Optional[BranchInfo]
+    default_branch: BranchInfo | None
 
 
 class CreateBranchQuery(TypedDict):
@@ -156,6 +160,7 @@ class CreateBranchResult(TypedDict):
 
 
 # --- File Data ---
+
 
 class FileDataQuery(TypedDict, total=False):
     source_files: list[dict[str, str]]
@@ -184,6 +189,7 @@ class CheckFileTranslationsOptions(TypedDict, total=False):
 
 # --- Download ---
 
+
 class DownloadFileBatchOptions(TypedDict, total=False):
     timeout: int
 
@@ -207,6 +213,7 @@ class DownloadFileBatchResult(TypedDict):
 
 # --- Upload ---
 
+
 class UploadFilesOptions(TypedDict, total=False):
     source_locale: str
     model_provider: str
@@ -221,6 +228,7 @@ class UploadFilesResponse(TypedDict, total=False):
 
 # --- Orphaned Files ---
 
+
 class OrphanedFile(TypedDict):
     file_id: str
     version_id: str
@@ -232,6 +240,7 @@ class GetOrphanedFilesResult(TypedDict):
 
 
 # --- Process Moves ---
+
 
 class MoveMapping(TypedDict):
     old_file_id: str
@@ -260,6 +269,7 @@ class ProcessMovesOptions(TypedDict, total=False):
 
 # --- Submit User Edit Diffs ---
 
+
 class SubmitUserEditDiff(TypedDict):
     file_name: str
     locale: str
@@ -275,6 +285,7 @@ class SubmitUserEditDiffsPayload(TypedDict):
 
 
 # --- Project Data ---
+
 
 class ProjectData(TypedDict):
     id: str

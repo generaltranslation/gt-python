@@ -5,8 +5,9 @@ Ports ``CutoffFormat`` from the JS core library.
 
 from __future__ import annotations
 
-from generaltranslation.formatting._helpers import _get_language_code
+from typing import cast
 
+from generaltranslation.formatting._helpers import _get_language_code
 
 # Default style when maxChars is set
 DEFAULT_CUTOFF_FORMAT_STYLE = "ellipsis"
@@ -15,8 +16,8 @@ DEFAULT_CUTOFF_FORMAT_STYLE = "ellipsis"
 TERMINATOR_MAP: dict[str, dict[str, dict[str, str | None]]] = {
     "ellipsis": {
         "fr": {
-            "terminator": "\u2026",       # …
-            "separator": "\u202F",        # narrow no-break space
+            "terminator": "\u2026",  # …
+            "separator": "\u202f",  # narrow no-break space
         },
         "zh": {
             "terminator": "\u2026\u2026",  # ……
@@ -27,7 +28,7 @@ TERMINATOR_MAP: dict[str, dict[str, dict[str, str | None]]] = {
             "separator": None,
         },
         "_default": {
-            "terminator": "\u2026",       # …
+            "terminator": "\u2026",  # …
             "separator": None,
         },
     },
@@ -70,8 +71,7 @@ class CutoffFormat:
         # Validate style
         if style_input not in TERMINATOR_MAP:
             raise ValueError(
-                f"Invalid cutoff format style: {style_input!r}. "
-                f"Must be one of: {', '.join(TERMINATOR_MAP.keys())}"
+                f"Invalid cutoff format style: {style_input!r}. Must be one of: {', '.join(TERMINATOR_MAP.keys())}"
             )
 
         # Resolve terminator options
@@ -89,9 +89,7 @@ class CutoffFormat:
             separator = options.get("separator", preset.get("separator") if preset else None)
 
         # Calculate addition length
-        self._addition_length = (len(terminator) if terminator else 0) + (
-            len(separator) if separator else 0
-        )
+        self._addition_length = (len(terminator) if terminator else 0) + (len(separator) if separator else 0)
 
         # If maxChars doesn't have enough space for terminator+separator, drop them
         if max_chars is not None and abs(max_chars) < self._addition_length:
@@ -129,9 +127,9 @@ class CutoffFormat:
             - Negative max_chars: ``[terminator?, separator?, sliced_value]``
             - No cutoff: ``[original_value]``
         """
-        max_chars = self._options["max_chars"]
-        terminator = self._options["terminator"]
-        separator = self._options["separator"]
+        max_chars = cast("int | None", self._options["max_chars"])
+        terminator = cast("str | None", self._options["terminator"])
+        separator = cast("str | None", self._options["separator"])
 
         # Calculate adjusted cutoff
         if max_chars is None or abs(max_chars) >= len(value):

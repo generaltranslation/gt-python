@@ -37,9 +37,7 @@ def t(message: str, **kwargs: object) -> str:
     )
     translated = translations.get(h)
     if translated:
-        return interpolate_message(
-            translated, {**kwargs, "$_fallback": message}, locale
-        )
+        return interpolate_message(translated, {**kwargs, "$_fallback": message}, locale)
 
     # No translation found — use source
     return interpolate_message(message, kwargs, locale)

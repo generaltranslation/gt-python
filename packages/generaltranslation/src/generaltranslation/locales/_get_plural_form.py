@@ -7,6 +7,8 @@ Uses CLDR plural rules (via ``babel``) instead of the browser
 
 from __future__ import annotations
 
+from typing import cast
+
 from babel import Locale
 
 from generaltranslation.locales._types import PLURAL_FORMS, PluralType
@@ -78,7 +80,7 @@ def get_plural_form(
     cldr_category = _get_cldr_category(n, locales)
 
     # Try to find the best matching form
-    return _find_best_form(cldr_category, forms_set, forms)
+    return _find_best_form(cldr_category, cast("set[str]", forms_set), cast("list[str]", forms))
 
 
 def _get_cldr_category(n: int | float, locales: list[str]) -> str:

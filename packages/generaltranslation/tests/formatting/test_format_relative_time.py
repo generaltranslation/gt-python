@@ -2,17 +2,16 @@
 
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 from generaltranslation.formatting import format_relative_time
 
-FIXTURES = json.loads(
-    (Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text()
-)
+FIXTURES = json.loads((Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text())
 
 
 @pytest.mark.parametrize("case", FIXTURES["format_relative_time"])
-def test_format_relative_time(case):
+def test_format_relative_time(case: dict[str, Any]) -> None:
     result = format_relative_time(
         case["value"],
         unit=case["unit"],

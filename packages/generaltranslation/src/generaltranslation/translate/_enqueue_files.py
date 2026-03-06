@@ -48,5 +48,7 @@ async def enqueue_files(
     return {
         "jobData": jobs,
         "locales": target_locales,
-        "message": f"Successfully enqueued {result['count']} file translation jobs in {result['batch_count']} batch(es)",
+        "message": (
+            f"Successfully enqueued {result['count']} file translation jobs in {result['batch_count']} batch(es)"
+        ),
     }

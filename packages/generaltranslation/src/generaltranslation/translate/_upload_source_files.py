@@ -21,9 +21,7 @@ async def upload_source_files(
             "data": [
                 {
                     "source": {
-                        "content": base64.b64encode(
-                            item["source"]["content"].encode()
-                        ).decode(),
+                        "content": base64.b64encode(item["source"]["content"].encode()).decode(),
                         "fileName": item["source"].get("file_name", item["source"].get("fileName", "")),
                         "fileFormat": item["source"].get("file_format", item["source"].get("fileFormat", "")),
                         "locale": item["source"].get("locale", ""),
@@ -32,8 +30,13 @@ async def upload_source_files(
                         "fileId": item["source"].get("file_id", item["source"].get("fileId")),
                         "versionId": item["source"].get("version_id", item["source"].get("versionId")),
                         "branchId": item["source"].get("branch_id", item["source"].get("branchId")),
-                        "incomingBranchId": item["source"].get("incoming_branch_id", item["source"].get("incomingBranchId")),
-                        "checkedOutBranchId": item["source"].get("checked_out_branch_id", item["source"].get("checkedOutBranchId")),
+                        "incomingBranchId": item["source"].get(
+                            "incoming_branch_id", item["source"].get("incomingBranchId")
+                        ),
+                        "checkedOutBranchId": item["source"].get(
+                            "checked_out_branch_id",
+                            item["source"].get("checkedOutBranchId"),
+                        ),
                     }
                 }
                 for item in batch

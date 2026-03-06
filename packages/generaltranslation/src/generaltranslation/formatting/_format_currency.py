@@ -9,10 +9,9 @@ from babel.numbers import format_currency as babel_format_currency
 
 from generaltranslation.formatting._helpers import _resolve_babel_locale
 
-
 # Map JS currencyDisplay values to Babel format_type
 _DISPLAY_MAP = {
-    "symbol": None,        # Babel default
+    "symbol": None,  # Babel default
     "narrowSymbol": None,  # Babel doesn't distinguish; use default
     "name": "name",
 }
@@ -64,6 +63,7 @@ def format_currency(
         )
         # Get the currency symbol to replace it with the code
         from babel.numbers import get_currency_symbol
+
         symbol = get_currency_symbol(currency.upper(), locale=locale)
         return formatted.replace(symbol, currency.upper())
 

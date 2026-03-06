@@ -14,9 +14,7 @@ def get_i18n_manager() -> I18nManager:
         RuntimeError: If ``set_i18n_manager`` has not been called yet.
     """
     if _manager is None:
-        raise RuntimeError(
-            "I18nManager not initialized. Call initialize_gt() first."
-        )
+        raise RuntimeError("I18nManager not initialized. Call initialize_gt() first.")
     return _manager
 
 

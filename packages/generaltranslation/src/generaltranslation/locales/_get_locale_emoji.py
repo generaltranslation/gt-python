@@ -7,6 +7,8 @@ exceptions for languages that do not map cleanly to a single country.
 
 from __future__ import annotations
 
+from typing import cast
+
 from babel import Locale
 from babel.core import get_global
 
@@ -30,12 +32,8 @@ EMOJI_EXCEPTIONS: dict[str, str] = {
     "ku": EUROPE_AFRICA_GLOBE,
     "bo": ASIA_AUSTRALIA_GLOBE,
     "ug": ASIA_AUSTRALIA_GLOBE,
-    "gd": (
-        "\U0001f3f4\U000e0067\U000e0062\U000e0073\U000e0063\U000e0074\U000e007f"
-    ),
-    "cy": (
-        "\U0001f3f4\U000e0067\U000e0062\U000e0077\U000e006c\U000e0073\U000e007f"
-    ),
+    "gd": ("\U0001f3f4\U000e0067\U000e0062\U000e0073\U000e0063\U000e0074\U000e007f"),
+    "cy": ("\U0001f3f4\U000e0067\U000e0062\U000e0077\U000e006c\U000e0073\U000e007f"),
     "gv": "\U0001f1ee\U0001f1f2",
     "grc": "\U0001f3fa",
 }
@@ -299,7 +297,7 @@ EMOJIS: dict[str, str] = {
 }
 
 # CLDR likely subtags for territory inference
-_likely_subtags: dict[str, str] = get_global("likely_subtags")
+_likely_subtags: dict[str, str] = cast(dict[str, str], get_global("likely_subtags"))
 
 
 def get_locale_emoji(
@@ -323,9 +321,7 @@ def get_locale_emoji(
             entry = custom_mapping[locale]
             if isinstance(entry, dict):
                 canonical = entry["code"]
-                custom_emoji = get_custom_property(
-                    custom_mapping, canonical, "emoji"
-                )
+                custom_emoji = get_custom_property(custom_mapping, canonical, "emoji")
                 if custom_emoji:
                     return custom_emoji
 

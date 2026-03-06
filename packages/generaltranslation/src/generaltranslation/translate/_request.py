@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 import httpx
 
@@ -37,7 +37,7 @@ async def api_request(
     endpoint: str,
     *,
     body: Any = None,
-    timeout: Optional[int] = None,
+    timeout: int | None = None,
     method: str = "POST",
     retry_policy: RetryPolicy = "exponential",
 ) -> Any:
@@ -96,9 +96,7 @@ async def api_request(
                 if attempt < max_retries:
                     await asyncio.sleep(_get_retry_delay(retry_policy, attempt))
                     continue
-                raise Exception(
-                    translation_request_failed_error(str(exc))
-                ) from exc
+                raise Exception(translation_request_failed_error(str(exc))) from exc
 
             # Retry on 5XX server errors
             if response.status_code >= 500 and attempt < max_retries:
@@ -117,9 +115,7 @@ async def api_request(
                         error_msg = text or "Unknown error"
                 except Exception:
                     pass
-                error_message = api_error_message(
-                    response.status_code, response.reason_phrase or "", error_msg
-                )
+                error_message = api_error_message(response.status_code, response.reason_phrase or "", error_msg)
                 raise ApiError(error_message, response.status_code, error_msg)
 
             return response.json()

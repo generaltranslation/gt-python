@@ -5,7 +5,7 @@ from __future__ import annotations
 import asyncio
 import inspect
 import time
-from typing import Awaitable, Callable
+from collections.abc import Awaitable, Callable
 
 TranslationsLoader = Callable[[str], dict[str, str] | Awaitable[dict[str, str]]]
 
@@ -72,6 +72,4 @@ class TranslationsManager:
 
     async def load_all(self, locales: list[str]) -> None:
         """Eagerly fetch translations for all *locales*."""
-        await asyncio.gather(
-            *(self.get_translations(loc) for loc in locales)
-        )
+        await asyncio.gather(*(self.get_translations(loc) for loc in locales))

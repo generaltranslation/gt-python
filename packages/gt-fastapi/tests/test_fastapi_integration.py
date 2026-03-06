@@ -1,16 +1,17 @@
 """FastAPI integration tests."""
 
-import pytest
+from collections.abc import Generator
+from typing import Any
 
+import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
 from gt_fastapi import initialize_gt, t
 from gt_i18n.translation_functions._hash_message import hash_message
 
 
 @pytest.fixture(autouse=True)
-def _reset_singleton():
+def _reset_singleton() -> Generator[None, None, None]:
     import gt_i18n.i18n_manager._singleton as mod
 
     old = mod._manager
@@ -18,7 +19,7 @@ def _reset_singleton():
     mod._manager = old
 
 
-def test_fastapi_t_source_locale():
+def test_fastapi_t_source_locale() -> None:
     app = FastAPI()
     initialize_gt(
         app,
@@ -28,7 +29,7 @@ def test_fastapi_t_source_locale():
     )
 
     @app.get("/hello")
-    def hello():
+    def hello() -> dict[str, Any]:
         return {"message": t("Hello, world!")}
 
     with TestClient(app) as client:
@@ -36,10 +37,10 @@ def test_fastapi_t_source_locale():
         assert resp.json()["message"] == "Hello, world!"
 
 
-def test_fastapi_t_with_accept_language():
+def test_fastapi_t_with_accept_language() -> None:
     h = hash_message("Hello, world!")
 
-    def loader(locale):
+    def loader(locale: str) -> dict[str, str]:
         if locale == "es":
             return {h: "Hola, mundo!"}
         return {}
@@ -53,7 +54,7 @@ def test_fastapi_t_with_accept_language():
     )
 
     @app.get("/hello")
-    def hello():
+    def hello() -> dict[str, Any]:
         return {"message": t("Hello, world!")}
 
     with TestClient(app) as client:
@@ -64,7 +65,7 @@ def test_fastapi_t_with_accept_language():
         assert resp.json()["message"] == "Hello, world!"
 
 
-def test_fastapi_custom_get_locale():
+def test_fastapi_custom_get_locale() -> None:
     h = hash_message("Hello!")
 
     app = FastAPI()
@@ -77,7 +78,7 @@ def test_fastapi_custom_get_locale():
     )
 
     @app.get("/hello")
-    def hello():
+    def hello() -> dict[str, Any]:
         return {"message": t("Hello!")}
 
     with TestClient(app) as client:
@@ -85,7 +86,7 @@ def test_fastapi_custom_get_locale():
         assert resp.json()["message"] == "Bonjour!"
 
 
-def test_fastapi_variable_interpolation():
+def test_fastapi_variable_interpolation() -> None:
     h = hash_message("Hello, {name}!")
 
     app = FastAPI()
@@ -97,7 +98,7 @@ def test_fastapi_variable_interpolation():
     )
 
     @app.get("/hello")
-    def hello():
+    def hello() -> dict[str, Any]:
         return {"message": t("Hello, {name}!", name="Carlos")}
 
     with TestClient(app) as client:

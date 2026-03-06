@@ -7,7 +7,6 @@ first request per locale via before_request hook, and are cached.
 import asyncio
 
 from flask import Flask
-
 from gt_flask import initialize_gt, t
 
 TRANSLATIONS = {

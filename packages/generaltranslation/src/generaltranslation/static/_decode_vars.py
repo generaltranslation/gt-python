@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from generaltranslation.static._constants import VAR_IDENTIFIER
-from generaltranslation.static._traverse_icu import traverse_icu, is_gt_unindexed_select
+from generaltranslation.static._traverse_icu import is_gt_unindexed_select, traverse_icu
 
 
 def decode_vars(icu_string: str) -> str:

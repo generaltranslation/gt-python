@@ -9,9 +9,7 @@ from __future__ import annotations
 from babel import Locale
 from babel.core import UnknownLocaleError
 from babel.numbers import format_decimal
-
 from generaltranslation_icu_messageformat_parser import Parser
-
 
 _parser = Parser()
 

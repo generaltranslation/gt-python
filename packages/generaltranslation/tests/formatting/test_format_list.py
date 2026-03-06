@@ -2,17 +2,16 @@
 
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 from generaltranslation.formatting import format_list
 
-FIXTURES = json.loads(
-    (Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text()
-)
+FIXTURES = json.loads((Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text())
 
 
 @pytest.mark.parametrize("case", FIXTURES["format_list"])
-def test_format_list(case):
+def test_format_list(case: dict[str, Any]) -> None:
     result = format_list(
         case["value"],
         locales=case.get("locales"),

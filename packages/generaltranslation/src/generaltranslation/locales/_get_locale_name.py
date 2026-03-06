@@ -13,7 +13,7 @@ from generaltranslation.locales._types import CustomMapping
 
 def get_locale_name(
     locale: str,
-    default_locale: str = "en",
+    default_locale: str | None = "en",
     custom_mapping: CustomMapping | None = None,
 ) -> str:
     """Return the display name of *locale* rendered in *default_locale*.
@@ -62,9 +62,7 @@ def get_locale_name(
             entry = custom_mapping[locale]
             if isinstance(entry, dict):
                 canonical = entry["code"]
-                custom_name = get_custom_property(
-                    custom_mapping, canonical, "name"
-                )
+                custom_name = get_custom_property(custom_mapping, canonical, "name")
                 if custom_name:
                     return custom_name
                 locale = canonical

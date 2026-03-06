@@ -3,16 +3,14 @@
 from __future__ import annotations
 
 import asyncio
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from generaltranslation.locales import determine_locale
-
 from gt_i18n import I18nManager, set_i18n_manager, t  # noqa: F401
 
 
-def _detect_from_accept_language(
-    request: Any, manager: I18nManager
-) -> str:
+def _detect_from_accept_language(request: Any, manager: I18nManager) -> str:
     """Parse Accept-Language header and resolve against configured locales."""
     accept = request.headers.get("Accept-Language", "")
     if not accept:

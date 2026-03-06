@@ -1,6 +1,7 @@
 """Core Python language toolkit for General Translation."""
 
 from generaltranslation._gt import GT
+from generaltranslation._id import hash_source, hash_string, hash_template
 from generaltranslation._settings import (
     API_VERSION,
     DEFAULT_BASE_URL,
@@ -10,7 +11,6 @@ from generaltranslation._settings import (
     LIBRARY_DEFAULT_LOCALE,
 )
 from generaltranslation.errors import ApiError
-from generaltranslation._id import hash_source, hash_string, hash_template
 from generaltranslation.formatting import (
     CutoffFormat,
     format_currency,
@@ -49,9 +49,9 @@ from generaltranslation.static import (
     VAR_IDENTIFIER,
     VAR_NAME_IDENTIFIER,
     condense_vars,
-    decode_vars,
     declare_static,
     declare_var,
+    decode_vars,
     extract_vars,
     index_vars,
     sanitize_var,

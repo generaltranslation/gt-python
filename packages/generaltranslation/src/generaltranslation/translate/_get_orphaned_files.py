@@ -43,9 +43,7 @@ async def get_orphaned_files(
         orphaned_map[orphan["fileId"]] = orphan
 
     for i in range(1, len(batch_results)):
-        batch_orphan_ids = {
-            f["fileId"] for f in batch_results[i].get("orphanedFiles", [])
-        }
+        batch_orphan_ids = {f["fileId"] for f in batch_results[i].get("orphanedFiles", [])}
         for file_id in list(orphaned_map.keys()):
             if file_id not in batch_orphan_ids:
                 del orphaned_map[file_id]

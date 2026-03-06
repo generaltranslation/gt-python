@@ -1,13 +1,11 @@
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
-
 from generaltranslation.static import decode_vars
 
-FIXTURES = json.loads(
-    (Path(__file__).parent / "fixtures" / "static_fixtures.json").read_text()
-)
+FIXTURES = json.loads((Path(__file__).parent / "fixtures" / "static_fixtures.json").read_text())
 
 
 @pytest.mark.parametrize(
@@ -15,6 +13,6 @@ FIXTURES = json.loads(
     FIXTURES["decode_vars"],
     ids=[c["label"] for c in FIXTURES["decode_vars"]],
 )
-def test_decode_vars(case):
+def test_decode_vars(case: dict[str, Any]) -> None:
     result = decode_vars(case["input"])
     assert result == case["expected"]

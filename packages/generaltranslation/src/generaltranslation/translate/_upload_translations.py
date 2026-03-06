@@ -21,9 +21,7 @@ async def upload_translations(
             "data": [
                 {
                     "source": {
-                        "content": base64.b64encode(
-                            item["source"]["content"].encode()
-                        ).decode(),
+                        "content": base64.b64encode(item["source"]["content"].encode()).decode(),
                         "fileName": item["source"].get("file_name", item["source"].get("fileName", "")),
                         "fileFormat": item["source"].get("file_format", item["source"].get("fileFormat", "")),
                         "locale": item["source"].get("locale", ""),
@@ -35,9 +33,7 @@ async def upload_translations(
                     },
                     "translations": [
                         {
-                            "content": base64.b64encode(
-                                t["content"].encode()
-                            ).decode(),
+                            "content": base64.b64encode(t["content"].encode()).decode(),
                             "fileName": t.get("file_name", t.get("fileName", "")),
                             "fileFormat": t.get("file_format", t.get("fileFormat", "")),
                             "locale": t.get("locale", ""),

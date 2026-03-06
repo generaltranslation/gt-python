@@ -1,16 +1,23 @@
 import json
-import pytest
-from unittest.mock import AsyncMock, patch, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
+
 import httpx
-from generaltranslation.translate._request import api_request
+import pytest
 from generaltranslation.errors import ApiError
+from generaltranslation.translate._request import api_request
+
 
 @pytest.fixture
-def config():
-    return {"project_id": "proj-123", "api_key": "test-key", "base_url": "https://test.api.com"}
+def config() -> dict[str, str]:
+    return {
+        "project_id": "proj-123",
+        "api_key": "test-key",
+        "base_url": "https://test.api.com",
+    }
+
 
 @pytest.mark.asyncio
-async def test_successful_post(config):
+async def test_successful_post(config: dict[str, str]) -> None:
     mock_response = MagicMock()
     mock_response.status_code = 200
     mock_response.json.return_value = {"result": "ok"}
@@ -25,8 +32,9 @@ async def test_successful_post(config):
         result = await api_request(config, "/v2/test", body={"key": "value"})
         assert result == {"result": "ok"}
 
+
 @pytest.mark.asyncio
-async def test_successful_get(config):
+async def test_successful_get(config: dict[str, str]) -> None:
     mock_response = MagicMock()
     mock_response.status_code = 200
     mock_response.json.return_value = {"data": [1, 2, 3]}
@@ -41,8 +49,9 @@ async def test_successful_get(config):
         result = await api_request(config, "/v2/test", method="GET")
         assert result == {"data": [1, 2, 3]}
 
+
 @pytest.mark.asyncio
-async def test_4xx_raises_api_error(config):
+async def test_4xx_raises_api_error(config: dict[str, str]) -> None:
     mock_response = MagicMock()
     mock_response.status_code = 401
     mock_response.reason_phrase = "Unauthorized"
@@ -59,8 +68,9 @@ async def test_4xx_raises_api_error(config):
             await api_request(config, "/v2/test", body={})
         assert exc_info.value.code == 401
 
+
 @pytest.mark.asyncio
-async def test_timeout_raises_error(config):
+async def test_timeout_raises_error(config: dict[str, str]) -> None:
     with patch("generaltranslation.translate._request.httpx.AsyncClient") as mock_client_cls:
         mock_client = AsyncMock()
         mock_client.post.side_effect = httpx.TimeoutException("timed out")
@@ -71,8 +81,9 @@ async def test_timeout_raises_error(config):
         with pytest.raises(Exception, match="timed out"):
             await api_request(config, "/v2/test", body={}, retry_policy="none")
 
+
 @pytest.mark.asyncio
-async def test_no_retry_on_none_policy(config):
+async def test_no_retry_on_none_policy(config: dict[str, str]) -> None:
     call_count = 0
     mock_response = MagicMock()
     mock_response.status_code = 500
@@ -81,10 +92,12 @@ async def test_no_retry_on_none_policy(config):
 
     with patch("generaltranslation.translate._request.httpx.AsyncClient") as mock_client_cls:
         mock_client = AsyncMock()
-        async def counting_post(*args, **kwargs):
+
+        async def counting_post(*args: object, **kwargs: object) -> object:
             nonlocal call_count
             call_count += 1
             return mock_response
+
         mock_client.post = counting_post
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
         mock_client.__aexit__ = AsyncMock(return_value=False)
@@ -96,7 +109,7 @@ async def test_no_retry_on_none_policy(config):
 
 
 @pytest.mark.asyncio
-async def test_client_reused_across_retries(config):
+async def test_client_reused_across_retries(config: dict[str, str]) -> None:
     """AsyncClient should be instantiated once even when retries occur."""
     # First call returns 500 (triggers retry), second returns 200
     mock_response_500 = MagicMock()
@@ -115,7 +128,10 @@ async def test_client_reused_across_retries(config):
         mock_client.__aexit__ = AsyncMock(return_value=False)
         mock_client_cls.return_value = mock_client
 
-        with patch("generaltranslation.translate._request.asyncio.sleep", new_callable=AsyncMock):
+        with patch(
+            "generaltranslation.translate._request.asyncio.sleep",
+            new_callable=AsyncMock,
+        ):
             result = await api_request(config, "/v2/test", body={})
 
         assert result == {"ok": True}

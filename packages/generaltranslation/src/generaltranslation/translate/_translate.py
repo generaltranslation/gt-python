@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from generaltranslation._id import hash_source
 from generaltranslation._settings import DEFAULT_RUNTIME_API_URL
@@ -13,7 +13,7 @@ async def translate_many(
     requests: list[Any] | dict[str, Any],
     global_metadata: dict[str, Any],
     config: dict[str, Any],
-    timeout: Optional[int] = None,
+    timeout: int | None = None,
 ) -> list[dict[str, Any]] | dict[str, dict[str, Any]]:
     """Translate multiple entries in a single API request.
 
@@ -42,6 +42,7 @@ async def translate_many(
     if is_array:
         entries: list[tuple[str | None, Any]] = [(None, r) for r in requests]
     else:
+        assert isinstance(requests, dict)
         entries = list(requests.items())
 
     for key, request in entries:
@@ -98,8 +99,7 @@ async def translate_many(
 
     if hash_order is not None:
         return [
-            response.get(h, {"success": False, "error": "No translation returned", "code": 500})
-            for h in hash_order
+            response.get(h, {"success": False, "error": "No translation returned", "code": 500}) for h in hash_order
         ]
 
     return response

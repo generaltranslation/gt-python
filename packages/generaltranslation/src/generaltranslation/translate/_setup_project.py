@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from generaltranslation.translate._request import api_request
 
@@ -10,7 +10,7 @@ from generaltranslation.translate._request import api_request
 async def setup_project(
     files: list[dict[str, Any]],
     config: dict[str, Any],
-    options: Optional[dict[str, Any]] = None,
+    options: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Enqueue files for project setup."""
     options = options or {}
