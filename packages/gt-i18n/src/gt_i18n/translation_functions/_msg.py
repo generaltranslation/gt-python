@@ -1,48 +1,47 @@
-"""msg() — register a message with its hash for later retrieval."""
+"""msg() -- register a message with its hash for later retrieval."""
 
 from __future__ import annotations
 
 import base64
 import json
 
+from generaltranslation.formatting._format_message import format_message
+from generaltranslation.static._constants import VAR_IDENTIFIER
+
+from gt_i18n.translation_functions._extract_variables import extract_variables
 from gt_i18n.translation_functions._hash_message import hash_message
 
 
 def msg(message: str, **kwargs: object) -> str:
-    """Register a message and return an encoded string with hash and source.
+    """Register a message and return an encoded string.
 
-    The returned string contains a base64-encoded JSON payload with the
-    source message, its hash, and any interpolation variables.
-
-    Args:
-        message: The ICU MessageFormat source string.
-        **kwargs: Interpolation variables and GT options.
-
-    Returns:
-        A base64-encoded string.
+    If no options are provided, returns the message unchanged.
+    Otherwise returns ``{interpolated}:{base64options}``.
     """
-    context = kwargs.get("$context")
-    msg_id = kwargs.get("$id")
-    max_chars = kwargs.get("$max_chars")
+    if not kwargs:
+        return message
 
-    h = hash_message(
+    variables = extract_variables(kwargs)
+
+    # Interpolate the message
+    try:
+        interpolated = format_message(
+            message, None, {**variables, VAR_IDENTIFIER: "other"}
+        )
+    except Exception:
+        return message
+
+    # Build encoded options (preserve all kwargs including $-prefixed)
+    h = kwargs.get("$_hash") or hash_message(
         message,
-        context=context,  # type: ignore[arg-type]
-        id=msg_id,  # type: ignore[arg-type]
-        max_chars=max_chars,  # type: ignore[arg-type]
+        context=kwargs.get("$context"),  # type: ignore[arg-type]
+        id=kwargs.get("$id"),  # type: ignore[arg-type]
+        max_chars=kwargs.get("$max_chars"),  # type: ignore[arg-type]
     )
 
-    # Filter user variables (non-$ keys)
-    variables = {k: v for k, v in kwargs.items() if not k.startswith("$")}
-
-    payload = {
-        "$_source": message,
-        "$_hash": h,
-        **variables,
-    }
-
-    encoded = base64.b64encode(
-        json.dumps(payload, separators=(",", ":")).encode()
+    encoded_options = {**kwargs, "$_source": message, "$_hash": h}
+    options_encoding = base64.b64encode(
+        json.dumps(encoded_options, separators=(",", ":")).encode()
     ).decode()
 
-    return encoded
+    return f"{interpolated}:{options_encoding}"

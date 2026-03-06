@@ -5,33 +5,27 @@ from __future__ import annotations
 import base64
 import json
 
-from gt_i18n.translation_functions._interpolate import interpolate_message
 
+def decode_msg(encoded_msg: str) -> str:
+    """Extract the interpolated message from an encoded msg() result.
 
-def decode_options(encoded: str) -> dict[str, object]:
-    """Decode a base64-encoded message payload from ``msg()``.
-
-    Args:
-        encoded: The base64 string.
-
-    Returns:
-        The decoded dict with ``$_source``, ``$_hash``, and variables.
+    Splits at the last colon. If no colon is found, returns the input as-is.
     """
-    raw = base64.b64decode(encoded).decode()
-    return json.loads(raw)
+    idx = encoded_msg.rfind(":")
+    if idx == -1:
+        return encoded_msg
+    return encoded_msg[:idx]
 
 
-def decode_msg(encoded: str) -> str:
-    """Decode and interpolate a base64-encoded message from ``msg()``.
+def decode_options(encoded_msg: str) -> dict[str, object] | None:
+    """Extract the options dict from an encoded msg() result.
 
-    Args:
-        encoded: The base64 string.
-
-    Returns:
-        The interpolated source message.
+    Returns None if the message has no colon or the base64 payload is invalid.
     """
-    options = decode_options(encoded)
-    source = options.get("$_source", "")
-    if not isinstance(source, str):
-        source = str(source)
-    return interpolate_message(source, options)
+    idx = encoded_msg.rfind(":")
+    if idx == -1:
+        return None
+    try:
+        return json.loads(base64.b64decode(encoded_msg[idx + 1 :]).decode())
+    except Exception:
+        return None
