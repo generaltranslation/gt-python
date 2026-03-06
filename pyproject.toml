@@ -1,6 +1,6 @@
 [project]
 name = "gt-python"
-version = "0.1.0"
+version = "0.1.1"
 description = "General Translation Python libraries"
 readme = "README.md"
 requires-python = ">=3.10"

@@ -226,7 +226,7 @@ requires-dist = [
 
 [[package]]
 name = "generaltranslation"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/generaltranslation" }
 dependencies = [
     { name = "babel" },
@@ -245,12 +245,12 @@ requires-dist = [
 
 [[package]]
 name = "generaltranslation-icu-messageformat-parser"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/generaltranslation-icu-messageformat-parser" }
 
 [[package]]
 name = "generaltranslation-intl-messageformat"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/generaltranslation-intl-messageformat" }
 dependencies = [
     { name = "babel" },
@@ -265,7 +265,7 @@ requires-dist = [
 
 [[package]]
 name = "generaltranslation-supported-locales"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/generaltranslation-supported-locales" }
 dependencies = [
     { name = "generaltranslation" },
@@ -276,7 +276,7 @@ requires-dist = [{ name = "generaltranslation", editable = "packages/generaltran
 
 [[package]]
 name = "gt-fastapi"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/gt-fastapi" }
 dependencies = [
     { name = "fastapi" },
@@ -293,7 +293,7 @@ requires-dist = [
 
 [[package]]
 name = "gt-flask"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/gt-flask" }
 dependencies = [
     { name = "flask" },
@@ -310,7 +310,7 @@ requires-dist = [
 
 [[package]]
 name = "gt-i18n"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/gt-i18n" }
 dependencies = [
     { name = "generaltranslation" },
@@ -327,7 +327,7 @@ requires-dist = [
 
 [[package]]
 name = "gt-python"
-version = "0.1.0"
+version = "0.1.1"
 source = { virtual = "." }
 
 [package.dev-dependencies]
