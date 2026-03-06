@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+    outputs:
+      published: ${{ steps.sampo.outputs.published }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --all-packages
+      - name: Create Release Pull Request or Tag
+        id: sampo
+        uses: bruits/sampo/crates/sampo-github-action@main
+        with:
+          command: auto
+          create-github-release: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    name: Publish to PyPI
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Build all packages
+        run: |
+          for pkg in packages/*/; do
+            pkg_name=$(basename "$pkg")
+            if grep -q '\[build-system\]' "$pkg/pyproject.toml" 2>/dev/null; then
+              echo "Building $pkg_name..."
+              uv build --package "$pkg_name" --out-dir dist/
+            fi
+          done
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

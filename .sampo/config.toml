@@ -1,0 +1,13 @@
+[git]
+default_branch = "main"
+
+[github]
+repository = "generaltranslation/gt-python"
+
+[changelog]
+show_commit_hash = true
+show_acknowledgments = true
+
+[packages]
+ignore_unpublished = true
+ignore = ["examples/*"]

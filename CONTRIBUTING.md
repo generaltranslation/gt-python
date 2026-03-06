@@ -107,15 +107,15 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ### Installation
 
-Clone the repository and install all dependencies:
+Clone the repository and run the setup script:
 
 ```bash
 git clone https://github.com/generaltranslation/gt-python.git
 cd gt-python
-uv sync --all-packages
+./scripts/setup.sh
 ```
 
-This creates a virtual environment at `.venv/` and installs all workspace packages as editable installs. Changes to source code are immediately reflected — no rebuild needed.
+This installs uv (if needed), all workspace packages, Rust/Cargo (if needed), and [Sampo](https://github.com/bruits/sampo) (the release tool). A virtual environment is created at `.venv/` with all workspace packages as editable installs — changes to source code are immediately reflected.
 
 ### Recommended Editor Extensions
 
@@ -151,6 +151,20 @@ uv run mypy .
 # Build a specific package
 uv build --package generaltranslation
 ```
+
+### Releasing
+
+This project uses [Sampo](https://github.com/bruits/sampo) for automated releases. When you make a change that should be released, add a changeset:
+
+```bash
+sampo add
+```
+
+This prompts you to select affected packages and the bump type (patch/minor/major), then creates a changeset file in `.sampo/changesets/`. Commit this file with your PR.
+
+When your PR merges to `main`, a GitHub Action automatically creates a Release PR that bumps versions and updates changelogs. Merging that Release PR publishes the packages to PyPI.
+
+See `guides/releasing.md` for the full workflow.
 
 ## Styleguides
 
