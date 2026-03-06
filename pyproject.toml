@@ -9,7 +9,7 @@ requires-python = ">=3.10"
 package = false
 
 [tool.uv.workspace]
-members = ["packages/*"]
+members = ["packages/*", "examples/*"]
 
 [dependency-groups]
 dev = [
@@ -35,6 +35,8 @@ warn_return_any = true
 warn_unused_configs = true
 
 [tool.pytest.ini_options]
-testpaths = ["packages"]
+testpaths = ["packages", "examples"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
+addopts = "--import-mode=importlib"
+norecursedirs = ["scripts"]

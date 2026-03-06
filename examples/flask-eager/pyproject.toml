@@ -1,0 +1,16 @@
+[project]
+name = "flask-eager-example"
+version = "0.1.0"
+description = "Flask example with eager translation loading"
+requires-python = ">=3.10"
+dependencies = [
+    "flask>=3.0.0",
+    "httpx>=0.27.0",
+    "gt-flask",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+gt-flask = { workspace = true }
