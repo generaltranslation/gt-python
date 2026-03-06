@@ -12,6 +12,7 @@ license-files = ["LICENSE.md"]
 dependencies = [
     "generaltranslation",
     "generaltranslation-supported-locales",
+    "httpx>=0.25.0",
 ]
 
 [tool.uv.sources]

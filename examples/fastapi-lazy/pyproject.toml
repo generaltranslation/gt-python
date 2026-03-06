@@ -1,0 +1,17 @@
+[project]
+name = "fastapi-lazy-example"
+version = "0.1.0"
+description = "FastAPI example with lazy translation loading"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "httpx>=0.27.0",
+    "gt-fastapi",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+gt-fastapi = { workspace = true }

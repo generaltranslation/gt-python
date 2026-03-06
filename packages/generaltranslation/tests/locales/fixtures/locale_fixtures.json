@@ -1,0 +1,1410 @@
+{
+  "is_valid_locale": {
+    "valid": [
+      "en",
+      "en-US",
+      "en-GB",
+      "fr",
+      "fr-FR",
+      "fr-CA",
+      "de",
+      "de-DE",
+      "de-AT",
+      "es",
+      "es-ES",
+      "es-MX",
+      "ja",
+      "ja-JP",
+      "zh",
+      "zh-CN",
+      "zh-TW",
+      "ar",
+      "ar-SA",
+      "zh-Hans",
+      "zh-Hans-CN",
+      "zh-Hant",
+      "zh-Hant-TW",
+      "sr-Latn",
+      "sr-Latn-RS",
+      "sr-Cyrl",
+      "sr-Cyrl-RS",
+      "ko",
+      "he",
+      "pt-BR",
+      "pt-PT",
+      "qaa",
+      "qtz"
+    ],
+    "invalid": [
+      "not-a-locale",
+      "xx",
+      "en-XX",
+      "",
+      "xyz",
+      "123",
+      "en-Latn-US-extra",
+      "zzz-ZZ",
+      "a",
+      "en-FAKE"
+    ],
+    "custom_mapping_cases": [
+      {
+        "locale": "pt-custom",
+        "mapping": {
+          "pt-custom": {
+            "code": "pt-BR",
+            "name": "Custom PT"
+          }
+        },
+        "expected": true
+      },
+      {
+        "locale": "es-LAM",
+        "mapping": {
+          "es-LAM": "Latin American Spanish"
+        },
+        "expected": false
+      }
+    ]
+  },
+  "standardize_locale": [
+    {
+      "input": "en_us",
+      "expected": "en_us"
+    },
+    {
+      "input": "zh-hans-cn",
+      "expected": "zh-Hans-CN"
+    },
+    {
+      "input": "EN-US",
+      "expected": "en-US"
+    },
+    {
+      "input": "de_at",
+      "expected": "de_at"
+    },
+    {
+      "input": "sr-latn-rs",
+      "expected": "sr-Latn-RS"
+    },
+    {
+      "input": "pt_br",
+      "expected": "pt_br"
+    },
+    {
+      "input": "fr_ca",
+      "expected": "fr_ca"
+    },
+    {
+      "input": "invalid",
+      "expected": "invalid"
+    },
+    {
+      "input": "",
+      "expected": ""
+    },
+    {
+      "input": "en",
+      "expected": "en"
+    },
+    {
+      "input": "ja",
+      "expected": "ja"
+    }
+  ],
+  "get_locale_name": [
+    {
+      "locale": "de",
+      "default_locale": "en",
+      "expected": "German"
+    },
+    {
+      "locale": "de-AT",
+      "default_locale": "en",
+      "expected": "Austrian German"
+    },
+    {
+      "locale": "zh-Hans",
+      "default_locale": "en",
+      "expected": "Simplified Chinese"
+    },
+    {
+      "locale": "zh-Hans-CN",
+      "default_locale": "en",
+      "expected": "Chinese (Simplified, China)"
+    },
+    {
+      "locale": "en-US",
+      "default_locale": "fr",
+      "expected": "anglais américain"
+    },
+    {
+      "locale": "ja",
+      "default_locale": "en",
+      "expected": "Japanese"
+    },
+    {
+      "locale": "ar",
+      "default_locale": "en",
+      "expected": "Arabic"
+    },
+    {
+      "locale": "ko",
+      "default_locale": "en",
+      "expected": "Korean"
+    },
+    {
+      "locale": "pt-BR",
+      "default_locale": "en",
+      "expected": "Brazilian Portuguese"
+    },
+    {
+      "locale": "sr-Latn",
+      "default_locale": "en",
+      "expected": "Serbian (Latin)"
+    },
+    {
+      "locale": "en",
+      "default_locale": "de",
+      "expected": "Englisch"
+    },
+    {
+      "locale": "fr",
+      "default_locale": "ja",
+      "expected": "フランス語"
+    },
+    {
+      "locale": "en-US",
+      "default_locale": "en",
+      "expected": "American English"
+    },
+    {
+      "locale": "he",
+      "default_locale": "en",
+      "expected": "Hebrew"
+    }
+  ],
+  "get_locale_direction": [
+    {
+      "locale": "en",
+      "expected": "ltr"
+    },
+    {
+      "locale": "en-US",
+      "expected": "ltr"
+    },
+    {
+      "locale": "ar",
+      "expected": "rtl"
+    },
+    {
+      "locale": "he",
+      "expected": "rtl"
+    },
+    {
+      "locale": "fa",
+      "expected": "rtl"
+    },
+    {
+      "locale": "ur",
+      "expected": "rtl"
+    },
+    {
+      "locale": "zh",
+      "expected": "ltr"
+    },
+    {
+      "locale": "de",
+      "expected": "ltr"
+    },
+    {
+      "locale": "yi",
+      "expected": "rtl"
+    },
+    {
+      "locale": "ja",
+      "expected": "ltr"
+    },
+    {
+      "locale": "ko",
+      "expected": "ltr"
+    },
+    {
+      "locale": "th",
+      "expected": "ltr"
+    }
+  ],
+  "get_locale_emoji": [
+    {
+      "locale": "en-US",
+      "expected": "🇺🇸"
+    },
+    {
+      "locale": "ja",
+      "expected": "🇯🇵"
+    },
+    {
+      "locale": "de",
+      "expected": "🇩🇪"
+    },
+    {
+      "locale": "fr-CA",
+      "expected": "🇨🇦"
+    },
+    {
+      "locale": "ar",
+      "expected": "🇪🇬"
+    },
+    {
+      "locale": "zh-Hans-CN",
+      "expected": "🇨🇳"
+    },
+    {
+      "locale": "ko",
+      "expected": "🇰🇷"
+    },
+    {
+      "locale": "pt-BR",
+      "expected": "🇧🇷"
+    },
+    {
+      "locale": "en-GB",
+      "expected": "🇬🇧"
+    },
+    {
+      "locale": "es-419",
+      "expected": "🌎"
+    },
+    {
+      "locale": "gd",
+      "expected": "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+    },
+    {
+      "locale": "cy",
+      "expected": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+    },
+    {
+      "locale": "gv",
+      "expected": "🇮🇲"
+    },
+    {
+      "locale": "grc",
+      "expected": "🏺"
+    },
+    {
+      "locale": "ca",
+      "expected": "🌍"
+    },
+    {
+      "locale": "eu",
+      "expected": "🌍"
+    },
+    {
+      "locale": "ku",
+      "expected": "🌍"
+    },
+    {
+      "locale": "bo",
+      "expected": "🌏"
+    },
+    {
+      "locale": "ug",
+      "expected": "🌏"
+    },
+    {
+      "locale": "he",
+      "expected": "🇮🇱"
+    },
+    {
+      "locale": "invalid",
+      "expected": "🌍"
+    }
+  ],
+  "is_same_language": [
+    {
+      "locales": [
+        "en-US",
+        "en-GB"
+      ],
+      "expected": true
+    },
+    {
+      "locales": [
+        "en-US",
+        "fr-FR"
+      ],
+      "expected": false
+    },
+    {
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "expected": true
+    },
+    {
+      "locales": [
+        "en",
+        "en"
+      ],
+      "expected": true
+    },
+    {
+      "locales": [
+        "pt-BR",
+        "pt-PT"
+      ],
+      "expected": true
+    },
+    {
+      "locales": [
+        "sr-Latn",
+        "sr-Cyrl"
+      ],
+      "expected": true
+    },
+    {
+      "locales": [
+        "de",
+        "de-AT"
+      ],
+      "expected": true
+    },
+    {
+      "locales": [
+        "ja",
+        "ko"
+      ],
+      "expected": false
+    }
+  ],
+  "is_same_dialect": [
+    {
+      "locales": [
+        "en-US",
+        "en"
+      ],
+      "expected": true
+    },
+    {
+      "locales": [
+        "en-US",
+        "en-GB"
+      ],
+      "expected": false
+    },
+    {
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "expected": false
+    },
+    {
+      "locales": [
+        "de-AT",
+        "de"
+      ],
+      "expected": true
+    },
+    {
+      "locales": [
+        "en",
+        "en"
+      ],
+      "expected": true
+    },
+    {
+      "locales": [
+        "pt-BR",
+        "pt-PT"
+      ],
+      "expected": false
+    },
+    {
+      "locales": [
+        "sr-Latn",
+        "sr-Cyrl"
+      ],
+      "expected": false
+    },
+    {
+      "locales": [
+        "sr-Latn-RS",
+        "sr-Latn"
+      ],
+      "expected": true
+    },
+    {
+      "locales": [
+        "en-US",
+        "en-US"
+      ],
+      "expected": true
+    }
+  ],
+  "is_superset_locale": [
+    {
+      "super_locale": "en",
+      "sub_locale": "en-US",
+      "expected": true
+    },
+    {
+      "super_locale": "en-US",
+      "sub_locale": "en",
+      "expected": false
+    },
+    {
+      "super_locale": "en-US",
+      "sub_locale": "en-US",
+      "expected": true
+    },
+    {
+      "super_locale": "en-US",
+      "sub_locale": "en-GB",
+      "expected": false
+    },
+    {
+      "super_locale": "zh",
+      "sub_locale": "zh-Hans",
+      "expected": true
+    },
+    {
+      "super_locale": "zh",
+      "sub_locale": "zh-Hant",
+      "expected": true
+    },
+    {
+      "super_locale": "zh-Hans",
+      "sub_locale": "zh-Hant",
+      "expected": false
+    },
+    {
+      "super_locale": "de",
+      "sub_locale": "de-AT",
+      "expected": true
+    },
+    {
+      "super_locale": "de-AT",
+      "sub_locale": "de-DE",
+      "expected": false
+    },
+    {
+      "super_locale": "en",
+      "sub_locale": "fr",
+      "expected": false
+    }
+  ],
+  "requires_translation": [
+    {
+      "source": "en",
+      "target": "fr",
+      "approved": null,
+      "expected": true
+    },
+    {
+      "source": "en-US",
+      "target": "en",
+      "approved": null,
+      "expected": false
+    },
+    {
+      "source": "en-US",
+      "target": "en-GB",
+      "approved": null,
+      "expected": true
+    },
+    {
+      "source": "en",
+      "target": "ja",
+      "approved": [
+        "fr",
+        "de"
+      ],
+      "expected": false
+    },
+    {
+      "source": "en",
+      "target": "fr",
+      "approved": [
+        "fr",
+        "de"
+      ],
+      "expected": true
+    },
+    {
+      "source": "en",
+      "target": "de-AT",
+      "approved": [
+        "de"
+      ],
+      "expected": true
+    },
+    {
+      "source": "invalid",
+      "target": "en",
+      "approved": null,
+      "expected": false
+    },
+    {
+      "source": "en",
+      "target": "invalid",
+      "approved": null,
+      "expected": false
+    },
+    {
+      "source": "zh-Hans",
+      "target": "zh-Hant",
+      "approved": null,
+      "expected": true
+    }
+  ],
+  "determine_locale": [
+    {
+      "locales": "en-US",
+      "approved": [
+        "en",
+        "fr",
+        "de"
+      ],
+      "expected": "en"
+    },
+    {
+      "locales": [
+        "ja",
+        "en"
+      ],
+      "approved": [
+        "en-US",
+        "fr"
+      ],
+      "expected": "en-US"
+    },
+    {
+      "locales": "ko",
+      "approved": [
+        "en",
+        "fr"
+      ],
+      "expected": null
+    },
+    {
+      "locales": "en",
+      "approved": [
+        "en-US",
+        "en-GB"
+      ],
+      "expected": "en-US"
+    },
+    {
+      "locales": "de-AT",
+      "approved": [
+        "de",
+        "de-AT",
+        "de-CH"
+      ],
+      "expected": "de-AT"
+    },
+    {
+      "locales": "zh-Hans-CN",
+      "approved": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "expected": "zh-Hans"
+    },
+    {
+      "locales": "pt",
+      "approved": [
+        "pt-BR",
+        "pt-PT"
+      ],
+      "expected": "pt-BR"
+    },
+    {
+      "locales": "sr-Latn",
+      "approved": [
+        "sr-Cyrl",
+        "sr-Latn"
+      ],
+      "expected": "sr-Latn"
+    },
+    {
+      "locales": [
+        "invalid",
+        "en"
+      ],
+      "approved": [
+        "en",
+        "fr"
+      ],
+      "expected": "en"
+    }
+  ],
+  "resolve_canonical_locale": [
+    {
+      "locale": "pt-custom",
+      "mapping": {
+        "pt-custom": {
+          "code": "pt-BR",
+          "name": "Custom Brazilian Portuguese"
+        },
+        "es-LAM": {
+          "code": "es-419",
+          "name": "Latin American Spanish"
+        },
+        "en-simple": {
+          "name": "Simple English",
+          "emoji": "🎯"
+        }
+      },
+      "expected": "pt-BR"
+    },
+    {
+      "locale": "es-LAM",
+      "mapping": {
+        "pt-custom": {
+          "code": "pt-BR",
+          "name": "Custom Brazilian Portuguese"
+        },
+        "es-LAM": {
+          "code": "es-419",
+          "name": "Latin American Spanish"
+        },
+        "en-simple": {
+          "name": "Simple English",
+          "emoji": "🎯"
+        }
+      },
+      "expected": "es-419"
+    },
+    {
+      "locale": "en-simple",
+      "mapping": {
+        "pt-custom": {
+          "code": "pt-BR",
+          "name": "Custom Brazilian Portuguese"
+        },
+        "es-LAM": {
+          "code": "es-419",
+          "name": "Latin American Spanish"
+        },
+        "en-simple": {
+          "name": "Simple English",
+          "emoji": "🎯"
+        }
+      },
+      "expected": "en-simple"
+    },
+    {
+      "locale": "en",
+      "mapping": {
+        "pt-custom": {
+          "code": "pt-BR",
+          "name": "Custom Brazilian Portuguese"
+        },
+        "es-LAM": {
+          "code": "es-419",
+          "name": "Latin American Spanish"
+        },
+        "en-simple": {
+          "name": "Simple English",
+          "emoji": "🎯"
+        }
+      },
+      "expected": "en"
+    },
+    {
+      "locale": "en",
+      "mapping": null,
+      "expected": "en"
+    }
+  ],
+  "resolve_alias_locale": [
+    {
+      "locale": "pt-BR",
+      "mapping": {
+        "pt-custom": {
+          "code": "pt-BR",
+          "name": "Custom Brazilian Portuguese"
+        },
+        "es-LAM": {
+          "code": "es-419",
+          "name": "Latin American Spanish"
+        },
+        "en-simple": {
+          "name": "Simple English",
+          "emoji": "🎯"
+        }
+      },
+      "expected": "pt-custom"
+    },
+    {
+      "locale": "es-419",
+      "mapping": {
+        "pt-custom": {
+          "code": "pt-BR",
+          "name": "Custom Brazilian Portuguese"
+        },
+        "es-LAM": {
+          "code": "es-419",
+          "name": "Latin American Spanish"
+        },
+        "en-simple": {
+          "name": "Simple English",
+          "emoji": "🎯"
+        }
+      },
+      "expected": "es-LAM"
+    },
+    {
+      "locale": "en",
+      "mapping": {
+        "pt-custom": {
+          "code": "pt-BR",
+          "name": "Custom Brazilian Portuguese"
+        },
+        "es-LAM": {
+          "code": "es-419",
+          "name": "Latin American Spanish"
+        },
+        "en-simple": {
+          "name": "Simple English",
+          "emoji": "🎯"
+        }
+      },
+      "expected": "en"
+    },
+    {
+      "locale": "en",
+      "mapping": null,
+      "expected": "en"
+    }
+  ],
+  "get_plural_form": [
+    {
+      "n": 0,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "zero"
+    },
+    {
+      "n": 1,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "singular"
+    },
+    {
+      "n": 2,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "dual"
+    },
+    {
+      "n": 5,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "other"
+    },
+    {
+      "n": 0,
+      "forms": [
+        "zero",
+        "one",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "zero"
+    },
+    {
+      "n": 1,
+      "forms": [
+        "singular",
+        "plural"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "singular"
+    },
+    {
+      "n": 2,
+      "forms": [
+        "singular",
+        "plural"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "plural"
+    },
+    {
+      "n": 5,
+      "forms": [
+        "singular",
+        "plural"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "plural"
+    },
+    {
+      "n": 0,
+      "forms": [
+        "one",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "other"
+    },
+    {
+      "n": 1,
+      "forms": [
+        "one",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "one"
+    },
+    {
+      "n": 2,
+      "forms": [
+        "one",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "other"
+    },
+    {
+      "n": 100,
+      "forms": [
+        "one",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "other"
+    },
+    {
+      "n": -1,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "singular"
+    },
+    {
+      "n": 0.5,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "other"
+    },
+    {
+      "n": 1.5,
+      "forms": [
+        "singular",
+        "plural"
+      ],
+      "locales": [
+        "en"
+      ],
+      "expected": "plural"
+    },
+    {
+      "n": 0,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "ar"
+      ],
+      "expected": "zero"
+    },
+    {
+      "n": 1,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "ar"
+      ],
+      "expected": "singular"
+    },
+    {
+      "n": 2,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "ar"
+      ],
+      "expected": "dual"
+    },
+    {
+      "n": 3,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "ar"
+      ],
+      "expected": "few"
+    },
+    {
+      "n": 11,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "ar"
+      ],
+      "expected": "many"
+    },
+    {
+      "n": 100,
+      "forms": [
+        "singular",
+        "plural",
+        "dual",
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
+      ],
+      "locales": [
+        "ar"
+      ],
+      "expected": "other"
+    }
+  ],
+  "get_locale_properties": [
+    {
+      "locale": "de-AT",
+      "default_locale": "en",
+      "expected": {
+        "code": "de-AT",
+        "name": "Austrian German",
+        "nativeName": "Österreichisches Deutsch",
+        "maximizedCode": "de-Latn-AT",
+        "maximizedName": "German (Latin, Austria)",
+        "nativeMaximizedName": "Deutsch (Lateinisch, Österreich)",
+        "minimizedCode": "de-AT",
+        "minimizedName": "Austrian German",
+        "nativeMinimizedName": "Österreichisches Deutsch",
+        "languageCode": "de",
+        "languageName": "German",
+        "nativeLanguageName": "Deutsch",
+        "nameWithRegionCode": "German (AT)",
+        "nativeNameWithRegionCode": "Deutsch (AT)",
+        "regionCode": "AT",
+        "regionName": "Austria",
+        "nativeRegionName": "Österreich",
+        "scriptCode": "Latn",
+        "scriptName": "Latin",
+        "nativeScriptName": "Lateinisch",
+        "emoji": "🇦🇹"
+      }
+    },
+    {
+      "locale": "en-US",
+      "default_locale": "en",
+      "expected": {
+        "code": "en-US",
+        "name": "American English",
+        "nativeName": "American English",
+        "maximizedCode": "en-Latn-US",
+        "maximizedName": "English (Latin, United States)",
+        "nativeMaximizedName": "English (Latin, United States)",
+        "minimizedCode": "en",
+        "minimizedName": "English",
+        "nativeMinimizedName": "English",
+        "languageCode": "en",
+        "languageName": "English",
+        "nativeLanguageName": "English",
+        "nameWithRegionCode": "English (US)",
+        "nativeNameWithRegionCode": "English (US)",
+        "regionCode": "US",
+        "regionName": "United States",
+        "nativeRegionName": "United States",
+        "scriptCode": "Latn",
+        "scriptName": "Latin",
+        "nativeScriptName": "Latin",
+        "emoji": "🇺🇸"
+      }
+    },
+    {
+      "locale": "zh-Hans-CN",
+      "default_locale": "en",
+      "expected": {
+        "code": "zh-Hans-CN",
+        "name": "Chinese (Simplified, China)",
+        "nativeName": "中文（简体，中国）",
+        "maximizedCode": "zh-Hans-CN",
+        "maximizedName": "Chinese (Simplified, China)",
+        "nativeMaximizedName": "中文（简体，中国）",
+        "minimizedCode": "zh",
+        "minimizedName": "Chinese",
+        "nativeMinimizedName": "中文",
+        "languageCode": "zh",
+        "languageName": "Chinese",
+        "nativeLanguageName": "中文",
+        "nameWithRegionCode": "Chinese (CN)",
+        "nativeNameWithRegionCode": "中文 (CN)",
+        "regionCode": "CN",
+        "regionName": "China",
+        "nativeRegionName": "中国",
+        "scriptCode": "Hans",
+        "scriptName": "Simplified",
+        "nativeScriptName": "简体",
+        "emoji": "🇨🇳"
+      }
+    },
+    {
+      "locale": "ja",
+      "default_locale": "en",
+      "expected": {
+        "code": "ja",
+        "name": "Japanese",
+        "nativeName": "日本語",
+        "maximizedCode": "ja-Jpan-JP",
+        "maximizedName": "Japanese (Japanese, Japan)",
+        "nativeMaximizedName": "日本語 (日本語の文字、日本)",
+        "minimizedCode": "ja",
+        "minimizedName": "Japanese",
+        "nativeMinimizedName": "日本語",
+        "languageCode": "ja",
+        "languageName": "Japanese",
+        "nativeLanguageName": "日本語",
+        "nameWithRegionCode": "Japanese",
+        "nativeNameWithRegionCode": "日本語",
+        "regionCode": "JP",
+        "regionName": "Japan",
+        "nativeRegionName": "日本",
+        "scriptCode": "Jpan",
+        "scriptName": "Japanese",
+        "nativeScriptName": "日本語の文字",
+        "emoji": "🇯🇵"
+      }
+    },
+    {
+      "locale": "sr-Latn-RS",
+      "default_locale": "en",
+      "expected": {
+        "code": "sr-Latn-RS",
+        "name": "Serbian (Latin, Serbia)",
+        "nativeName": "srpski (latinica, Srbija)",
+        "maximizedCode": "sr-Latn-RS",
+        "maximizedName": "Serbian (Latin, Serbia)",
+        "nativeMaximizedName": "srpski (latinica, Srbija)",
+        "minimizedCode": "sr-Latn",
+        "minimizedName": "Serbian (Latin)",
+        "nativeMinimizedName": "srpski (latinica)",
+        "languageCode": "sr",
+        "languageName": "Serbian",
+        "nativeLanguageName": "srpski",
+        "nameWithRegionCode": "Serbian (RS)",
+        "nativeNameWithRegionCode": "srpski (RS)",
+        "regionCode": "RS",
+        "regionName": "Serbia",
+        "nativeRegionName": "Srbija",
+        "scriptCode": "Latn",
+        "scriptName": "Latin",
+        "nativeScriptName": "latinica",
+        "emoji": "🇷🇸"
+      }
+    },
+    {
+      "locale": "pt-BR",
+      "default_locale": "en",
+      "expected": {
+        "code": "pt-BR",
+        "name": "Brazilian Portuguese",
+        "nativeName": "português (Brasil)",
+        "maximizedCode": "pt-Latn-BR",
+        "maximizedName": "Portuguese (Latin, Brazil)",
+        "nativeMaximizedName": "português (latim, Brasil)",
+        "minimizedCode": "pt",
+        "minimizedName": "Portuguese",
+        "nativeMinimizedName": "português",
+        "languageCode": "pt",
+        "languageName": "Portuguese",
+        "nativeLanguageName": "português",
+        "nameWithRegionCode": "Portuguese (BR)",
+        "nativeNameWithRegionCode": "português (BR)",
+        "regionCode": "BR",
+        "regionName": "Brazil",
+        "nativeRegionName": "Brasil",
+        "scriptCode": "Latn",
+        "scriptName": "Latin",
+        "nativeScriptName": "latim",
+        "emoji": "🇧🇷"
+      }
+    }
+  ],
+  "get_region_properties": [
+    {
+      "region": "US",
+      "default_locale": "en",
+      "expected": {
+        "code": "US",
+        "name": "United States",
+        "emoji": "🇺🇸"
+      }
+    },
+    {
+      "region": "US",
+      "default_locale": "fr",
+      "expected": {
+        "code": "US",
+        "name": "États-Unis",
+        "emoji": "🇺🇸"
+      }
+    },
+    {
+      "region": "GB",
+      "default_locale": "en",
+      "expected": {
+        "code": "GB",
+        "name": "United Kingdom",
+        "emoji": "🇬🇧"
+      }
+    },
+    {
+      "region": "DE",
+      "default_locale": "en",
+      "expected": {
+        "code": "DE",
+        "name": "Germany",
+        "emoji": "🇩🇪"
+      }
+    },
+    {
+      "region": "DE",
+      "default_locale": "de",
+      "expected": {
+        "code": "DE",
+        "name": "Deutschland",
+        "emoji": "🇩🇪"
+      }
+    },
+    {
+      "region": "JP",
+      "default_locale": "en",
+      "expected": {
+        "code": "JP",
+        "name": "Japan",
+        "emoji": "🇯🇵"
+      }
+    },
+    {
+      "region": "CN",
+      "default_locale": "en",
+      "expected": {
+        "code": "CN",
+        "name": "China",
+        "emoji": "🇨🇳"
+      }
+    },
+    {
+      "region": "BR",
+      "default_locale": "en",
+      "expected": {
+        "code": "BR",
+        "name": "Brazil",
+        "emoji": "🇧🇷"
+      }
+    },
+    {
+      "region": "419",
+      "default_locale": "en",
+      "expected": {
+        "code": "419",
+        "name": "Latin America",
+        "emoji": "🌎"
+      }
+    },
+    {
+      "region": "AT",
+      "default_locale": "en",
+      "expected": {
+        "code": "AT",
+        "name": "Austria",
+        "emoji": "🇦🇹"
+      }
+    }
+  ],
+  "custom_mapping": {
+    "mapping": {
+      "pt-custom": {
+        "code": "pt-BR",
+        "name": "Custom Brazilian Portuguese",
+        "emoji": "🎯"
+      },
+      "es-LAM": "Latin American Spanish"
+    },
+    "get_custom_property": [
+      {
+        "locale": "es-LAM",
+        "property": "name",
+        "expected": "Latin American Spanish"
+      },
+      {
+        "locale": "es-LAM",
+        "property": "emoji",
+        "expected": null
+      },
+      {
+        "locale": "pt-custom",
+        "property": "emoji",
+        "expected": "🎯"
+      },
+      {
+        "locale": "pt-custom",
+        "property": "name",
+        "expected": "Custom Brazilian Portuguese"
+      },
+      {
+        "locale": "en",
+        "property": "name",
+        "expected": null
+      }
+    ],
+    "should_use_canonical_locale": [
+      {
+        "locale": "pt-custom",
+        "expected": true
+      },
+      {
+        "locale": "es-LAM",
+        "expected": false
+      },
+      {
+        "locale": "en",
+        "expected": false
+      }
+    ]
+  }
+}

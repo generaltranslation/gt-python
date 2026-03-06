@@ -1,0 +1,133 @@
+{
+  "msg": {
+    "no_options": {
+      "args": [
+        "Hello, world!"
+      ],
+      "result": "Hello, world!"
+    },
+    "with_vars": {
+      "args": [
+        "Hello, {name}!",
+        {
+          "name": "Alice"
+        }
+      ],
+      "result": "Hello, Alice!:eyJuYW1lIjoiQWxpY2UiLCIkX3NvdXJjZSI6IkhlbGxvLCB7bmFtZX0hIiwiJF9oYXNoIjoiOWIzMjNlMzVlMWE4MGM1MSJ9"
+    },
+    "with_context": {
+      "args": [
+        "Save",
+        {
+          "$context": "button"
+        }
+      ],
+      "result": "Save:eyIkY29udGV4dCI6ImJ1dHRvbiIsIiRfc291cmNlIjoiU2F2ZSIsIiRfaGFzaCI6Ijk4YzUzMzcwYTYxMTk2NDIifQ=="
+    },
+    "with_id": {
+      "args": [
+        "Hello",
+        {
+          "$id": "greeting"
+        }
+      ],
+      "result": "Hello:eyIkaWQiOiJncmVldGluZyIsIiRfc291cmNlIjoiSGVsbG8iLCIkX2hhc2giOiJlMDA0M2M3NzNhN2VhZjcxIn0="
+    },
+    "with_id_and_var": {
+      "args": [
+        "Hi, {name}!",
+        {
+          "$id": "greet",
+          "name": "Bob"
+        }
+      ],
+      "result": "Hi, Bob!:eyIkaWQiOiJncmVldCIsIm5hbWUiOiJCb2IiLCIkX3NvdXJjZSI6IkhpLCB7bmFtZX0hIiwiJF9oYXNoIjoiN2MzNmIyNDRlNGMzOWQ5NiJ9"
+    }
+  },
+  "decodeMsg": {
+    "encoded": {
+      "input": "Hello, Alice!:eyJuYW1lIjoiQWxpY2UiLCIkX3NvdXJjZSI6IkhlbGxvLCB7bmFtZX0hIiwiJF9oYXNoIjoiOWIzMjNlMzVlMWE4MGM1MSJ9",
+      "result": "Hello, Alice!"
+    },
+    "plain": {
+      "input": "plain text",
+      "result": "plain text"
+    },
+    "no_opts": {
+      "input": "Hello, world!",
+      "result": "Hello, world!"
+    },
+    "with_colon": {
+      "input": "key:value",
+      "result": "key"
+    }
+  },
+  "decodeOptions": {
+    "encoded": {
+      "input": "Hello, Alice!:eyJuYW1lIjoiQWxpY2UiLCIkX3NvdXJjZSI6IkhlbGxvLCB7bmFtZX0hIiwiJF9oYXNoIjoiOWIzMjNlMzVlMWE4MGM1MSJ9",
+      "result": {
+        "name": "Alice",
+        "$_source": "Hello, {name}!",
+        "$_hash": "9b323e35e1a80c51"
+      }
+    },
+    "plain": {
+      "input": "plain text",
+      "result": null
+    },
+    "no_opts": {
+      "input": "Hello, world!",
+      "result": null
+    }
+  },
+  "gtFallback": {
+    "plain": {
+      "input": [
+        "Hello, world!",
+        {}
+      ],
+      "result": "Hello, world!"
+    },
+    "with_vars": {
+      "input": [
+        "Hello, {name}!",
+        {
+          "name": "Bob"
+        }
+      ],
+      "result": "Hello, Bob!"
+    },
+    "null_input": {
+      "input": [
+        null,
+        {}
+      ],
+      "result": null
+    },
+    "declare_var": {
+      "input": [
+        "Hello, {_gt_, select, other {John}}!",
+        {}
+      ],
+      "result": "Hello, John!"
+    }
+  },
+  "mFallback": {
+    "encoded": {
+      "input": "Hello, Alice!:eyJuYW1lIjoiQWxpY2UiLCIkX3NvdXJjZSI6IkhlbGxvLCB7bmFtZX0hIiwiJF9oYXNoIjoiOWIzMjNlMzVlMWE4MGM1MSJ9",
+      "result": "Hello, Alice!"
+    },
+    "plain": {
+      "input": "plain text",
+      "result": "plain text"
+    },
+    "no_opts": {
+      "input": "Hello, world!",
+      "result": "Hello, world!"
+    },
+    "null_input": {
+      "input": null,
+      "result": null
+    }
+  }
+}

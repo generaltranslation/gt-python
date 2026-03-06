@@ -1,0 +1,22 @@
+[project]
+name = "generaltranslation-intl-messageformat"
+version = "0.0.0"
+description = "ICU MessageFormat formatter with locale-aware plural and select rules"
+readme = "README.md"
+authors = [
+    { name = "General Translation, Inc.", email = "support@generaltranslation.com" }
+]
+requires-python = ">=3.10"
+license = "FSL-1.1-ALv2"
+license-files = ["LICENSE.md"]
+dependencies = [
+    "babel>=2.18.0",
+    "generaltranslation-icu-messageformat-parser",
+]
+
+[build-system]
+requires = ["uv_build>=0.10.8,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+generaltranslation-icu-messageformat-parser = { workspace = true }

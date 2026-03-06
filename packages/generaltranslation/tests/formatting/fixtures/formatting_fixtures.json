@@ -1,0 +1,1701 @@
+{
+  "format_num": [
+    {
+      "value": 0,
+      "locales": "en",
+      "options": {},
+      "expected": "0"
+    },
+    {
+      "value": 0,
+      "locales": "de",
+      "options": {},
+      "expected": "0"
+    },
+    {
+      "value": 0,
+      "locales": "fr",
+      "options": {},
+      "expected": "0"
+    },
+    {
+      "value": 0,
+      "locales": "ja",
+      "options": {},
+      "expected": "0"
+    },
+    {
+      "value": 0,
+      "locales": "ar",
+      "options": {},
+      "expected": "0"
+    },
+    {
+      "value": 1,
+      "locales": "en",
+      "options": {},
+      "expected": "1"
+    },
+    {
+      "value": 1,
+      "locales": "de",
+      "options": {},
+      "expected": "1"
+    },
+    {
+      "value": 1,
+      "locales": "fr",
+      "options": {},
+      "expected": "1"
+    },
+    {
+      "value": 1,
+      "locales": "ja",
+      "options": {},
+      "expected": "1"
+    },
+    {
+      "value": 1,
+      "locales": "ar",
+      "options": {},
+      "expected": "1"
+    },
+    {
+      "value": -1,
+      "locales": "en",
+      "options": {},
+      "expected": "-1"
+    },
+    {
+      "value": -1,
+      "locales": "de",
+      "options": {},
+      "expected": "-1"
+    },
+    {
+      "value": -1,
+      "locales": "fr",
+      "options": {},
+      "expected": "-1"
+    },
+    {
+      "value": -1,
+      "locales": "ja",
+      "options": {},
+      "expected": "-1"
+    },
+    {
+      "value": 42,
+      "locales": "en",
+      "options": {},
+      "expected": "42"
+    },
+    {
+      "value": 42,
+      "locales": "de",
+      "options": {},
+      "expected": "42"
+    },
+    {
+      "value": 42,
+      "locales": "fr",
+      "options": {},
+      "expected": "42"
+    },
+    {
+      "value": 42,
+      "locales": "ja",
+      "options": {},
+      "expected": "42"
+    },
+    {
+      "value": 42,
+      "locales": "ar",
+      "options": {},
+      "expected": "42"
+    },
+    {
+      "value": -42,
+      "locales": "en",
+      "options": {},
+      "expected": "-42"
+    },
+    {
+      "value": -42,
+      "locales": "de",
+      "options": {},
+      "expected": "-42"
+    },
+    {
+      "value": -42,
+      "locales": "fr",
+      "options": {},
+      "expected": "-42"
+    },
+    {
+      "value": -42,
+      "locales": "ja",
+      "options": {},
+      "expected": "-42"
+    },
+    {
+      "value": 1234.5,
+      "locales": "en",
+      "options": {},
+      "expected": "1,234.5"
+    },
+    {
+      "value": 1234.5,
+      "locales": "de",
+      "options": {},
+      "expected": "1.234,5"
+    },
+    {
+      "value": 1234.5,
+      "locales": "fr",
+      "options": {},
+      "expected": "1 234,5"
+    },
+    {
+      "value": 1234.5,
+      "locales": "ja",
+      "options": {},
+      "expected": "1,234.5"
+    },
+    {
+      "value": 1234.5,
+      "locales": "ar",
+      "options": {},
+      "expected": "1,234.5"
+    },
+    {
+      "value": 1000000,
+      "locales": "en",
+      "options": {},
+      "expected": "1,000,000"
+    },
+    {
+      "value": 1000000,
+      "locales": "de",
+      "options": {},
+      "expected": "1.000.000"
+    },
+    {
+      "value": 1000000,
+      "locales": "fr",
+      "options": {},
+      "expected": "1 000 000"
+    },
+    {
+      "value": 1000000,
+      "locales": "ja",
+      "options": {},
+      "expected": "1,000,000"
+    },
+    {
+      "value": 1000000,
+      "locales": "ar",
+      "options": {},
+      "expected": "1,000,000"
+    },
+    {
+      "value": 0.5,
+      "locales": "en",
+      "options": {},
+      "expected": "0.5"
+    },
+    {
+      "value": 0.5,
+      "locales": "de",
+      "options": {},
+      "expected": "0,5"
+    },
+    {
+      "value": 0.5,
+      "locales": "fr",
+      "options": {},
+      "expected": "0,5"
+    },
+    {
+      "value": 0.5,
+      "locales": "ja",
+      "options": {},
+      "expected": "0.5"
+    },
+    {
+      "value": 0.5,
+      "locales": "ar",
+      "options": {},
+      "expected": "0.5"
+    },
+    {
+      "value": 3.14159,
+      "locales": "en",
+      "options": {},
+      "expected": "3.142"
+    },
+    {
+      "value": 3.14159,
+      "locales": "de",
+      "options": {},
+      "expected": "3,142"
+    },
+    {
+      "value": 3.14159,
+      "locales": "fr",
+      "options": {},
+      "expected": "3,142"
+    },
+    {
+      "value": 3.14159,
+      "locales": "ja",
+      "options": {},
+      "expected": "3.142"
+    },
+    {
+      "value": 3.14159,
+      "locales": "ar",
+      "options": {},
+      "expected": "3.142"
+    },
+    {
+      "value": 1234.5,
+      "locales": "en",
+      "options": {
+        "minimum_fraction_digits": 2,
+        "maximum_fraction_digits": 2
+      },
+      "expected": "1,234.50"
+    },
+    {
+      "value": 1234.5,
+      "locales": "de",
+      "options": {
+        "minimum_fraction_digits": 2,
+        "maximum_fraction_digits": 2
+      },
+      "expected": "1.234,50"
+    },
+    {
+      "value": 0.5,
+      "locales": "en",
+      "options": {
+        "style": "percent"
+      },
+      "expected": "50%"
+    },
+    {
+      "value": 0.5,
+      "locales": "de",
+      "options": {
+        "style": "percent"
+      },
+      "expected": "50 %"
+    },
+    {
+      "value": 0.5,
+      "locales": "fr",
+      "options": {
+        "style": "percent"
+      },
+      "expected": "50 %"
+    },
+    {
+      "value": 1000000,
+      "locales": "en",
+      "options": {
+        "use_grouping": false
+      },
+      "expected": "1000000"
+    }
+  ],
+  "format_currency": [
+    {
+      "value": 99.99,
+      "currency": "USD",
+      "locales": "en",
+      "options": {},
+      "expected": "$99.99"
+    },
+    {
+      "value": 99.99,
+      "currency": "USD",
+      "locales": "de",
+      "options": {},
+      "expected": "99,99 $"
+    },
+    {
+      "value": 99.99,
+      "currency": "USD",
+      "locales": "fr",
+      "options": {},
+      "expected": "99,99 $US"
+    },
+    {
+      "value": 99.99,
+      "currency": "USD",
+      "locales": "ja",
+      "options": {},
+      "expected": "$99.99"
+    },
+    {
+      "value": 99.99,
+      "currency": "EUR",
+      "locales": "en",
+      "options": {},
+      "expected": "€99.99"
+    },
+    {
+      "value": 99.99,
+      "currency": "EUR",
+      "locales": "de",
+      "options": {},
+      "expected": "99,99 €"
+    },
+    {
+      "value": 99.99,
+      "currency": "EUR",
+      "locales": "fr",
+      "options": {},
+      "expected": "99,99 €"
+    },
+    {
+      "value": 99.99,
+      "currency": "EUR",
+      "locales": "ja",
+      "options": {},
+      "expected": "€99.99"
+    },
+    {
+      "value": 99.99,
+      "currency": "JPY",
+      "locales": "en",
+      "options": {},
+      "expected": "¥100"
+    },
+    {
+      "value": 99.99,
+      "currency": "JPY",
+      "locales": "de",
+      "options": {},
+      "expected": "100 ¥"
+    },
+    {
+      "value": 99.99,
+      "currency": "JPY",
+      "locales": "fr",
+      "options": {},
+      "expected": "100 JPY"
+    },
+    {
+      "value": 99.99,
+      "currency": "JPY",
+      "locales": "ja",
+      "options": {},
+      "expected": "￥100"
+    },
+    {
+      "value": 99.99,
+      "currency": "GBP",
+      "locales": "en",
+      "options": {},
+      "expected": "£99.99"
+    },
+    {
+      "value": 99.99,
+      "currency": "GBP",
+      "locales": "de",
+      "options": {},
+      "expected": "99,99 £"
+    },
+    {
+      "value": 99.99,
+      "currency": "GBP",
+      "locales": "fr",
+      "options": {},
+      "expected": "99,99 £GB"
+    },
+    {
+      "value": 99.99,
+      "currency": "GBP",
+      "locales": "ja",
+      "options": {},
+      "expected": "£99.99"
+    },
+    {
+      "value": 1234.56,
+      "currency": "USD",
+      "locales": "en",
+      "options": {},
+      "expected": "$1,234.56"
+    },
+    {
+      "value": 1234.56,
+      "currency": "USD",
+      "locales": "de",
+      "options": {},
+      "expected": "1.234,56 $"
+    },
+    {
+      "value": 1234.56,
+      "currency": "USD",
+      "locales": "fr",
+      "options": {},
+      "expected": "1 234,56 $US"
+    },
+    {
+      "value": 1234.56,
+      "currency": "USD",
+      "locales": "ja",
+      "options": {},
+      "expected": "$1,234.56"
+    },
+    {
+      "value": 1234.56,
+      "currency": "EUR",
+      "locales": "en",
+      "options": {},
+      "expected": "€1,234.56"
+    },
+    {
+      "value": 1234.56,
+      "currency": "EUR",
+      "locales": "de",
+      "options": {},
+      "expected": "1.234,56 €"
+    },
+    {
+      "value": 1234.56,
+      "currency": "EUR",
+      "locales": "fr",
+      "options": {},
+      "expected": "1 234,56 €"
+    },
+    {
+      "value": 1234.56,
+      "currency": "EUR",
+      "locales": "ja",
+      "options": {},
+      "expected": "€1,234.56"
+    },
+    {
+      "value": 1234.56,
+      "currency": "JPY",
+      "locales": "en",
+      "options": {},
+      "expected": "¥1,235"
+    },
+    {
+      "value": 1234.56,
+      "currency": "JPY",
+      "locales": "de",
+      "options": {},
+      "expected": "1.235 ¥"
+    },
+    {
+      "value": 1234.56,
+      "currency": "JPY",
+      "locales": "fr",
+      "options": {},
+      "expected": "1 235 JPY"
+    },
+    {
+      "value": 1234.56,
+      "currency": "JPY",
+      "locales": "ja",
+      "options": {},
+      "expected": "￥1,235"
+    },
+    {
+      "value": 1234.56,
+      "currency": "GBP",
+      "locales": "en",
+      "options": {},
+      "expected": "£1,234.56"
+    },
+    {
+      "value": 1234.56,
+      "currency": "GBP",
+      "locales": "de",
+      "options": {},
+      "expected": "1.234,56 £"
+    },
+    {
+      "value": 1234.56,
+      "currency": "GBP",
+      "locales": "fr",
+      "options": {},
+      "expected": "1 234,56 £GB"
+    },
+    {
+      "value": 1234.56,
+      "currency": "GBP",
+      "locales": "ja",
+      "options": {},
+      "expected": "£1,234.56"
+    },
+    {
+      "value": 1234.56,
+      "currency": "USD",
+      "locales": "en",
+      "options": {
+        "currency_display": "symbol"
+      },
+      "expected": "$1,234.56"
+    },
+    {
+      "value": 1234.56,
+      "currency": "USD",
+      "locales": "en",
+      "options": {
+        "currency_display": "name"
+      },
+      "expected": "1,234.56 US dollars"
+    },
+    {
+      "value": 1234.56,
+      "currency": "USD",
+      "locales": "en",
+      "options": {
+        "currency_display": "code"
+      },
+      "expected": "USD1,234.56"
+    }
+  ],
+  "format_date_time": [
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "en",
+      "options": {
+        "date_style": "full"
+      },
+      "expected": "Monday, January 15, 2024"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "en",
+      "options": {
+        "date_style": "long"
+      },
+      "expected": "January 15, 2024"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "en",
+      "options": {
+        "date_style": "medium"
+      },
+      "expected": "Jan 15, 2024"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "en",
+      "options": {
+        "date_style": "short"
+      },
+      "expected": "1/15/24"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "de",
+      "options": {
+        "date_style": "full"
+      },
+      "expected": "Montag, 15. Januar 2024"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "de",
+      "options": {
+        "date_style": "long"
+      },
+      "expected": "15. Januar 2024"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "de",
+      "options": {
+        "date_style": "medium"
+      },
+      "expected": "15.01.2024"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "de",
+      "options": {
+        "date_style": "short"
+      },
+      "expected": "15.01.24"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "fr",
+      "options": {
+        "date_style": "full"
+      },
+      "expected": "lundi 15 janvier 2024"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "fr",
+      "options": {
+        "date_style": "long"
+      },
+      "expected": "15 janvier 2024"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "fr",
+      "options": {
+        "date_style": "medium"
+      },
+      "expected": "15 janv. 2024"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "fr",
+      "options": {
+        "date_style": "short"
+      },
+      "expected": "15/01/2024"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "ja",
+      "options": {
+        "date_style": "full"
+      },
+      "expected": "2024年1月15日月曜日"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "ja",
+      "options": {
+        "date_style": "long"
+      },
+      "expected": "2024年1月15日"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "ja",
+      "options": {
+        "date_style": "medium"
+      },
+      "expected": "2024/01/15"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "ja",
+      "options": {
+        "date_style": "short"
+      },
+      "expected": "2024/01/15"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "en",
+      "options": {
+        "time_style": "full"
+      },
+      "expected": "10:30:00 AM Coordinated Universal Time",
+      "expected_alt": "10:30:00 AM Coordinated Universal Time"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "en",
+      "options": {
+        "time_style": "long"
+      },
+      "expected": "10:30:00 AM UTC",
+      "expected_alt": "10:30:00 AM UTC"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "en",
+      "options": {
+        "time_style": "medium"
+      },
+      "expected": "10:30:00 AM",
+      "expected_alt": "10:30:00 AM"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "en",
+      "options": {
+        "time_style": "short"
+      },
+      "expected": "10:30 AM",
+      "expected_alt": "10:30 AM"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "de",
+      "options": {
+        "time_style": "full"
+      },
+      "expected": "10:30:00 Koordinierte Weltzeit",
+      "expected_alt": "10:30:00 Koordinierte Weltzeit"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "de",
+      "options": {
+        "time_style": "long"
+      },
+      "expected": "10:30:00 UTC",
+      "expected_alt": "10:30:00 UTC"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "de",
+      "options": {
+        "time_style": "medium"
+      },
+      "expected": "10:30:00",
+      "expected_alt": "10:30:00"
+    },
+    {
+      "value": "2024-01-15T10:30:00.000Z",
+      "locales": "de",
+      "options": {
+        "time_style": "short"
+      },
+      "expected": "10:30",
+      "expected_alt": "10:30"
+    }
+  ],
+  "format_list": [
+    {
+      "value": [],
+      "locales": "en",
+      "options": {},
+      "expected": ""
+    },
+    {
+      "value": [],
+      "locales": "de",
+      "options": {},
+      "expected": ""
+    },
+    {
+      "value": [],
+      "locales": "fr",
+      "options": {},
+      "expected": ""
+    },
+    {
+      "value": [],
+      "locales": "ja",
+      "options": {},
+      "expected": ""
+    },
+    {
+      "value": [
+        "apple"
+      ],
+      "locales": "en",
+      "options": {},
+      "expected": "apple"
+    },
+    {
+      "value": [
+        "apple"
+      ],
+      "locales": "de",
+      "options": {},
+      "expected": "apple"
+    },
+    {
+      "value": [
+        "apple"
+      ],
+      "locales": "fr",
+      "options": {},
+      "expected": "apple"
+    },
+    {
+      "value": [
+        "apple"
+      ],
+      "locales": "ja",
+      "options": {},
+      "expected": "apple"
+    },
+    {
+      "value": [
+        "apple",
+        "banana"
+      ],
+      "locales": "en",
+      "options": {},
+      "expected": "apple and banana"
+    },
+    {
+      "value": [
+        "apple",
+        "banana"
+      ],
+      "locales": "de",
+      "options": {},
+      "expected": "apple und banana"
+    },
+    {
+      "value": [
+        "apple",
+        "banana"
+      ],
+      "locales": "fr",
+      "options": {},
+      "expected": "apple et banana"
+    },
+    {
+      "value": [
+        "apple",
+        "banana"
+      ],
+      "locales": "ja",
+      "options": {},
+      "expected": "apple、banana"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry"
+      ],
+      "locales": "en",
+      "options": {},
+      "expected": "apple, banana, and cherry"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry"
+      ],
+      "locales": "de",
+      "options": {},
+      "expected": "apple, banana und cherry"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry"
+      ],
+      "locales": "fr",
+      "options": {},
+      "expected": "apple, banana et cherry"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry"
+      ],
+      "locales": "ja",
+      "options": {},
+      "expected": "apple、banana、cherry"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry",
+        "date"
+      ],
+      "locales": "en",
+      "options": {},
+      "expected": "apple, banana, cherry, and date"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry",
+        "date"
+      ],
+      "locales": "de",
+      "options": {},
+      "expected": "apple, banana, cherry und date"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry",
+        "date"
+      ],
+      "locales": "fr",
+      "options": {},
+      "expected": "apple, banana, cherry et date"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry",
+        "date"
+      ],
+      "locales": "ja",
+      "options": {},
+      "expected": "apple、banana、cherry、date"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry"
+      ],
+      "locales": "en",
+      "options": {
+        "type": "disjunction"
+      },
+      "expected": "apple, banana, or cherry"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry"
+      ],
+      "locales": "de",
+      "options": {
+        "type": "disjunction"
+      },
+      "expected": "apple, banana oder cherry"
+    },
+    {
+      "value": [
+        "apple",
+        "banana",
+        "cherry"
+      ],
+      "locales": "en",
+      "options": {
+        "style": "short"
+      },
+      "expected": "apple, banana, & cherry"
+    }
+  ],
+  "format_list_to_parts": [
+    {
+      "value": [
+        "a"
+      ],
+      "locales": "en",
+      "options": {},
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "value": [
+        "a"
+      ],
+      "locales": "de",
+      "options": {},
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "value": [
+        "a"
+      ],
+      "locales": "fr",
+      "options": {},
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "value": [
+        "a",
+        "b"
+      ],
+      "locales": "en",
+      "options": {},
+      "expected": [
+        "a",
+        " and ",
+        "b"
+      ]
+    },
+    {
+      "value": [
+        "a",
+        "b"
+      ],
+      "locales": "de",
+      "options": {},
+      "expected": [
+        "a",
+        " und ",
+        "b"
+      ]
+    },
+    {
+      "value": [
+        "a",
+        "b"
+      ],
+      "locales": "fr",
+      "options": {},
+      "expected": [
+        "a",
+        " et ",
+        "b"
+      ]
+    },
+    {
+      "value": [
+        "a",
+        "b",
+        "c"
+      ],
+      "locales": "en",
+      "options": {},
+      "expected": [
+        "a",
+        ", ",
+        "b",
+        ", and ",
+        "c"
+      ]
+    },
+    {
+      "value": [
+        "a",
+        "b",
+        "c"
+      ],
+      "locales": "de",
+      "options": {},
+      "expected": [
+        "a",
+        ", ",
+        "b",
+        " und ",
+        "c"
+      ]
+    },
+    {
+      "value": [
+        "a",
+        "b",
+        "c"
+      ],
+      "locales": "fr",
+      "options": {},
+      "expected": [
+        "a",
+        ", ",
+        "b",
+        " et ",
+        "c"
+      ]
+    },
+    {
+      "value": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "locales": "en",
+      "options": {},
+      "expected": [
+        "a",
+        ", ",
+        "b",
+        ", ",
+        "c",
+        ", and ",
+        "d"
+      ]
+    },
+    {
+      "value": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "locales": "de",
+      "options": {},
+      "expected": [
+        "a",
+        ", ",
+        "b",
+        ", ",
+        "c",
+        " und ",
+        "d"
+      ]
+    },
+    {
+      "value": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "locales": "fr",
+      "options": {},
+      "expected": [
+        "a",
+        ", ",
+        "b",
+        ", ",
+        "c",
+        " et ",
+        "d"
+      ]
+    }
+  ],
+  "format_relative_time": [
+    {
+      "value": -1,
+      "unit": "day",
+      "locales": "en",
+      "options": {},
+      "expected": "1 day ago"
+    },
+    {
+      "value": -1,
+      "unit": "day",
+      "locales": "de",
+      "options": {},
+      "expected": "vor 1 Tag"
+    },
+    {
+      "value": -1,
+      "unit": "day",
+      "locales": "fr",
+      "options": {},
+      "expected": "il y a 1 jour"
+    },
+    {
+      "value": -1,
+      "unit": "day",
+      "locales": "ja",
+      "options": {},
+      "expected": "1 日前"
+    },
+    {
+      "value": 1,
+      "unit": "day",
+      "locales": "en",
+      "options": {},
+      "expected": "in 1 day"
+    },
+    {
+      "value": 1,
+      "unit": "day",
+      "locales": "de",
+      "options": {},
+      "expected": "in 1 Tag"
+    },
+    {
+      "value": 1,
+      "unit": "day",
+      "locales": "fr",
+      "options": {},
+      "expected": "dans 1 jour"
+    },
+    {
+      "value": 1,
+      "unit": "day",
+      "locales": "ja",
+      "options": {},
+      "expected": "1 日後"
+    },
+    {
+      "value": -5,
+      "unit": "minute",
+      "locales": "en",
+      "options": {},
+      "expected": "5 minutes ago"
+    },
+    {
+      "value": -5,
+      "unit": "minute",
+      "locales": "de",
+      "options": {},
+      "expected": "vor 5 Minuten"
+    },
+    {
+      "value": -5,
+      "unit": "minute",
+      "locales": "fr",
+      "options": {},
+      "expected": "il y a 5 minutes"
+    },
+    {
+      "value": -5,
+      "unit": "minute",
+      "locales": "ja",
+      "options": {},
+      "expected": "5 分前"
+    },
+    {
+      "value": 5,
+      "unit": "minute",
+      "locales": "en",
+      "options": {},
+      "expected": "in 5 minutes"
+    },
+    {
+      "value": 5,
+      "unit": "minute",
+      "locales": "de",
+      "options": {},
+      "expected": "in 5 Minuten"
+    },
+    {
+      "value": 5,
+      "unit": "minute",
+      "locales": "fr",
+      "options": {},
+      "expected": "dans 5 minutes"
+    },
+    {
+      "value": 5,
+      "unit": "minute",
+      "locales": "ja",
+      "options": {},
+      "expected": "5 分後"
+    },
+    {
+      "value": -1,
+      "unit": "hour",
+      "locales": "en",
+      "options": {},
+      "expected": "1 hour ago"
+    },
+    {
+      "value": -1,
+      "unit": "hour",
+      "locales": "de",
+      "options": {},
+      "expected": "vor 1 Stunde"
+    },
+    {
+      "value": -1,
+      "unit": "hour",
+      "locales": "fr",
+      "options": {},
+      "expected": "il y a 1 heure"
+    },
+    {
+      "value": -1,
+      "unit": "hour",
+      "locales": "ja",
+      "options": {},
+      "expected": "1 時間前"
+    },
+    {
+      "value": 1,
+      "unit": "hour",
+      "locales": "en",
+      "options": {},
+      "expected": "in 1 hour"
+    },
+    {
+      "value": 1,
+      "unit": "hour",
+      "locales": "de",
+      "options": {},
+      "expected": "in 1 Stunde"
+    },
+    {
+      "value": 1,
+      "unit": "hour",
+      "locales": "fr",
+      "options": {},
+      "expected": "dans 1 heure"
+    },
+    {
+      "value": 1,
+      "unit": "hour",
+      "locales": "ja",
+      "options": {},
+      "expected": "1 時間後"
+    },
+    {
+      "value": -3,
+      "unit": "month",
+      "locales": "en",
+      "options": {},
+      "expected": "3 months ago"
+    },
+    {
+      "value": -3,
+      "unit": "month",
+      "locales": "de",
+      "options": {},
+      "expected": "vor 3 Monaten"
+    },
+    {
+      "value": -3,
+      "unit": "month",
+      "locales": "fr",
+      "options": {},
+      "expected": "il y a 3 mois"
+    },
+    {
+      "value": -3,
+      "unit": "month",
+      "locales": "ja",
+      "options": {},
+      "expected": "3 か月前"
+    },
+    {
+      "value": 3,
+      "unit": "month",
+      "locales": "en",
+      "options": {},
+      "expected": "in 3 months"
+    },
+    {
+      "value": 3,
+      "unit": "month",
+      "locales": "de",
+      "options": {},
+      "expected": "in 3 Monaten"
+    },
+    {
+      "value": 3,
+      "unit": "month",
+      "locales": "fr",
+      "options": {},
+      "expected": "dans 3 mois"
+    },
+    {
+      "value": 3,
+      "unit": "month",
+      "locales": "ja",
+      "options": {},
+      "expected": "3 か月後"
+    },
+    {
+      "value": -1,
+      "unit": "year",
+      "locales": "en",
+      "options": {},
+      "expected": "1 year ago"
+    },
+    {
+      "value": -1,
+      "unit": "year",
+      "locales": "de",
+      "options": {},
+      "expected": "vor 1 Jahr"
+    },
+    {
+      "value": -1,
+      "unit": "year",
+      "locales": "fr",
+      "options": {},
+      "expected": "il y a 1 an"
+    },
+    {
+      "value": -1,
+      "unit": "year",
+      "locales": "ja",
+      "options": {},
+      "expected": "1 年前"
+    },
+    {
+      "value": 2,
+      "unit": "year",
+      "locales": "en",
+      "options": {},
+      "expected": "in 2 years"
+    },
+    {
+      "value": 2,
+      "unit": "year",
+      "locales": "de",
+      "options": {},
+      "expected": "in 2 Jahren"
+    },
+    {
+      "value": 2,
+      "unit": "year",
+      "locales": "fr",
+      "options": {},
+      "expected": "dans 2 ans"
+    },
+    {
+      "value": 2,
+      "unit": "year",
+      "locales": "ja",
+      "options": {},
+      "expected": "2 年後"
+    },
+    {
+      "value": -30,
+      "unit": "second",
+      "locales": "en",
+      "options": {},
+      "expected": "30 seconds ago"
+    },
+    {
+      "value": -30,
+      "unit": "second",
+      "locales": "de",
+      "options": {},
+      "expected": "vor 30 Sekunden"
+    },
+    {
+      "value": -30,
+      "unit": "second",
+      "locales": "fr",
+      "options": {},
+      "expected": "il y a 30 secondes"
+    },
+    {
+      "value": -30,
+      "unit": "second",
+      "locales": "ja",
+      "options": {},
+      "expected": "30 秒前"
+    },
+    {
+      "value": 1,
+      "unit": "week",
+      "locales": "en",
+      "options": {},
+      "expected": "in 1 week"
+    },
+    {
+      "value": 1,
+      "unit": "week",
+      "locales": "de",
+      "options": {},
+      "expected": "in 1 Woche"
+    },
+    {
+      "value": 1,
+      "unit": "week",
+      "locales": "fr",
+      "options": {},
+      "expected": "dans 1 semaine"
+    },
+    {
+      "value": 1,
+      "unit": "week",
+      "locales": "ja",
+      "options": {},
+      "expected": "1 週間後"
+    },
+    {
+      "value": -1,
+      "unit": "day",
+      "locales": "en",
+      "options": {
+        "style": "short"
+      },
+      "expected": "1 day ago"
+    },
+    {
+      "value": 1,
+      "unit": "day",
+      "locales": "en",
+      "options": {
+        "style": "short"
+      },
+      "expected": "in 1 day"
+    },
+    {
+      "value": -5,
+      "unit": "minute",
+      "locales": "en",
+      "options": {
+        "style": "short"
+      },
+      "expected": "5 min. ago"
+    },
+    {
+      "value": 5,
+      "unit": "minute",
+      "locales": "en",
+      "options": {
+        "style": "short"
+      },
+      "expected": "in 5 min."
+    }
+  ],
+  "format_message": [
+    {
+      "message": "Hello, {name}!",
+      "locales": "en",
+      "variables": {
+        "name": "World"
+      },
+      "expected": "Hello, World!"
+    },
+    {
+      "message": "{greeting}, {name}!",
+      "locales": "en",
+      "variables": {
+        "greeting": "Hi",
+        "name": "Alice"
+      },
+      "expected": "Hi, Alice!"
+    },
+    {
+      "message": "Hello, world!",
+      "locales": "en",
+      "variables": {},
+      "expected": "Hello, world!"
+    },
+    {
+      "message": "{count, plural, one {# item} other {# items}}",
+      "locales": "en",
+      "variables": {
+        "count": 1
+      },
+      "expected": "1 item"
+    },
+    {
+      "message": "{count, plural, one {# item} other {# items}}",
+      "locales": "en",
+      "variables": {
+        "count": 5
+      },
+      "expected": "5 items"
+    },
+    {
+      "message": "{count, plural, =0 {no items} one {# item} other {# items}}",
+      "locales": "en",
+      "variables": {
+        "count": 0
+      },
+      "expected": "no items"
+    },
+    {
+      "message": "{gender, select, male {He} female {She} other {They}} went.",
+      "locales": "en",
+      "variables": {
+        "gender": "male"
+      },
+      "expected": "He went."
+    },
+    {
+      "message": "{gender, select, male {He} female {She} other {They}} went.",
+      "locales": "en",
+      "variables": {
+        "gender": "female"
+      },
+      "expected": "She went."
+    },
+    {
+      "message": "{gender, select, male {He} female {She} other {They}} went.",
+      "locales": "en",
+      "variables": {
+        "gender": "unknown"
+      },
+      "expected": "They went."
+    },
+    {
+      "message": "You have {count, plural, one {# new message} other {# new messages}}.",
+      "locales": "en",
+      "variables": {
+        "count": 3
+      },
+      "expected": "You have 3 new messages."
+    }
+  ],
+  "format_cutoff": [
+    {
+      "value": "Hello, world!",
+      "locales": "en",
+      "options": {
+        "max_chars": 8
+      },
+      "expected": "Hello, …"
+    },
+    {
+      "value": "Hello, world!",
+      "locales": "en",
+      "options": {
+        "max_chars": 5
+      },
+      "expected": "Hell…"
+    },
+    {
+      "value": "Hi",
+      "locales": "en",
+      "options": {
+        "max_chars": 10
+      },
+      "expected": "Hi"
+    },
+    {
+      "value": "Hello, world!",
+      "locales": "en",
+      "options": {
+        "max_chars": -5
+      },
+      "expected": "…rld!"
+    },
+    {
+      "value": "Hello, world!",
+      "locales": "en",
+      "options": {
+        "max_chars": 0
+      },
+      "expected": ""
+    },
+    {
+      "value": "Hello, world!",
+      "locales": "en",
+      "options": {},
+      "expected": "Hello, world!"
+    },
+    {
+      "value": "Hello, world!",
+      "locales": "fr",
+      "options": {
+        "max_chars": 8
+      },
+      "expected": "Hello, …"
+    },
+    {
+      "value": "Hello, world!",
+      "locales": "zh",
+      "options": {
+        "max_chars": 8
+      },
+      "expected": "Hello,……"
+    },
+    {
+      "value": "Hello, world!",
+      "locales": "ja",
+      "options": {
+        "max_chars": 8
+      },
+      "expected": "Hello,……"
+    },
+    {
+      "value": "Hello, world!",
+      "locales": "en",
+      "options": {
+        "max_chars": 5,
+        "style": "none"
+      },
+      "expected": "Hello"
+    },
+    {
+      "value": "Hello, world!",
+      "locales": "fr",
+      "options": {
+        "max_chars": 1
+      },
+      "expected": "H"
+    }
+  ]
+}

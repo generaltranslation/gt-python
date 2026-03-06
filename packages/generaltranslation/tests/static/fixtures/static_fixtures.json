@@ -1,0 +1,873 @@
+{
+  "sanitize_var": [
+    {
+      "label": "plain text",
+      "input": "Hello World",
+      "expected": "Hello World"
+    },
+    {
+      "label": "braces",
+      "input": "Hello {World}",
+      "expected": "Hello '{World}'"
+    },
+    {
+      "label": "quotes",
+      "input": "it's a test",
+      "expected": "it''s a test"
+    },
+    {
+      "label": "hash",
+      "input": "item #1",
+      "expected": "item #1"
+    },
+    {
+      "label": "angle brackets",
+      "input": "<div>hello</div>",
+      "expected": "'<div>hello</div>'"
+    },
+    {
+      "label": "ICU plural",
+      "input": "{count, plural, one {# item} other {# items}}",
+      "expected": "'{count, plural, one {# item} other {# items}}'"
+    },
+    {
+      "label": "variable reference",
+      "input": "Hello {name}!",
+      "expected": "Hello '{name}'!"
+    },
+    {
+      "label": "date format",
+      "input": "{date, date, short}",
+      "expected": "'{date, date, short}'"
+    },
+    {
+      "label": "XML tags",
+      "input": "<b>bold</b> and <i>italic</i>",
+      "expected": "'<b>bold</b> and <i>italic</i>'"
+    },
+    {
+      "label": "empty",
+      "input": "",
+      "expected": ""
+    },
+    {
+      "label": "whitespace",
+      "input": "   ",
+      "expected": "   "
+    },
+    {
+      "label": "consecutive braces",
+      "input": "{{{}}}",
+      "expected": "'{{{}}}'"
+    },
+    {
+      "label": "consecutive quotes",
+      "input": "'''",
+      "expected": "''''''"
+    },
+    {
+      "label": "consecutive brackets",
+      "input": "<<<>>>",
+      "expected": "'<<<>>>'"
+    },
+    {
+      "label": "mixed special chars",
+      "input": "{hello} <world> 'test'",
+      "expected": "'{hello} <world>' ''test''"
+    },
+    {
+      "label": "HTML script injection",
+      "input": "<script>alert(\"xss\")</script>",
+      "expected": "'<script>alert(\"xss\")</script>'"
+    },
+    {
+      "label": "JSON-like",
+      "input": "{\"key\": \"value\", \"num\": 42}",
+      "expected": "'{\"key\": \"value\", \"num\": 42}'"
+    },
+    {
+      "label": "price formatting",
+      "input": "$1,234.56",
+      "expected": "$1,234.56"
+    },
+    {
+      "label": "unicode",
+      "input": "éàüñ",
+      "expected": "éàüñ"
+    },
+    {
+      "label": "emojis",
+      "input": "😀🎉🚀",
+      "expected": "😀🎉🚀"
+    },
+    {
+      "label": "chinese with special chars",
+      "input": "你好 {world}",
+      "expected": "你好 '{world}'"
+    },
+    {
+      "label": "apostrophes",
+      "input": "it's John's book",
+      "expected": "it''s John''s book"
+    },
+    {
+      "label": "adversarial input",
+      "input": "}{><''{{}}<<>>",
+      "expected": "'}{><''''{{}}<<>>'"
+    },
+    {
+      "label": "single char open brace",
+      "input": "{",
+      "expected": "'{'"
+    },
+    {
+      "label": "single char close brace",
+      "input": "}",
+      "expected": "'}'"
+    },
+    {
+      "label": "single char lt",
+      "input": "<",
+      "expected": "'<'"
+    },
+    {
+      "label": "single char gt",
+      "input": ">",
+      "expected": "'>'"
+    },
+    {
+      "label": "only quotes",
+      "input": "'''",
+      "expected": "''''''"
+    },
+    {
+      "label": "nested braces",
+      "input": "{{{}}}",
+      "expected": "'{{{}}}'"
+    },
+    {
+      "label": "mixed quote types U+0027 and text",
+      "input": "it's here and it's there",
+      "expected": "it''s here and it''s there"
+    },
+    {
+      "label": "newlines inside braces",
+      "input": "{\nhello\n}",
+      "expected": "'{\nhello\n}'"
+    },
+    {
+      "label": "tab characters",
+      "input": "hello\t{world}",
+      "expected": "hello\t'{world}'"
+    },
+    {
+      "label": "empty braces",
+      "input": "{}",
+      "expected": "'{}'"
+    },
+    {
+      "label": "opening brace only",
+      "input": "{hello",
+      "expected": "'{'hello"
+    },
+    {
+      "label": "closing brace only",
+      "input": "hello}",
+      "expected": "hello'}'"
+    },
+    {
+      "label": "angle bracket only",
+      "input": "<hello",
+      "expected": "'<'hello"
+    },
+    {
+      "label": "deeply nested",
+      "input": "{a{b{c}d}e}",
+      "expected": "'{a{b{c}d}e}'"
+    },
+    {
+      "label": "special chars at start",
+      "input": "{start",
+      "expected": "'{'start"
+    },
+    {
+      "label": "special chars at end",
+      "input": "end}",
+      "expected": "end'}'"
+    },
+    {
+      "label": "braces and angles mixed",
+      "input": "{a} <b> {c}",
+      "expected": "'{a} <b> {c}'"
+    },
+    {
+      "label": "single quote at start",
+      "input": "'hello",
+      "expected": "''hello"
+    },
+    {
+      "label": "single quote at end",
+      "input": "hello'",
+      "expected": "hello''"
+    },
+    {
+      "label": "single quote and braces",
+      "input": "it's {here}",
+      "expected": "it''s '{here}'"
+    },
+    {
+      "label": "multiple single quotes",
+      "input": "it''s not it'''s",
+      "expected": "it''''s not it''''''s"
+    },
+    {
+      "label": "angle and brace adjacent",
+      "input": "<{test}>",
+      "expected": "'<{test}>'"
+    },
+    {
+      "label": "only angle brackets",
+      "input": "<>",
+      "expected": "'<>'"
+    },
+    {
+      "label": "hash with braces",
+      "input": "# {item}",
+      "expected": "# '{item}'"
+    },
+    {
+      "label": "complex ICU-like",
+      "input": "{name} bought {count, plural, one {# thing} other {# things}} for <price>{amount}</price>",
+      "expected": "'{name} bought {count, plural, one {# thing} other {# things}} for <price>{amount}</price>'"
+    }
+  ],
+  "declare_var": [
+    {
+      "label": "undefined",
+      "options": null,
+      "expected": "{_gt_, select, other {}}"
+    },
+    {
+      "label": "null",
+      "variable": null,
+      "options": null,
+      "expected": "{_gt_, select, other {}}"
+    },
+    {
+      "label": "simple text",
+      "variable": "hello",
+      "options": null,
+      "expected": "{_gt_, select, other {hello}}"
+    },
+    {
+      "label": "with name",
+      "variable": "hello",
+      "options": {
+        "$name": "greeting"
+      },
+      "expected": "{_gt_, select, other {hello} _gt_var_name {greeting}}"
+    },
+    {
+      "label": "complex ICU content",
+      "variable": "{count, plural, one {# item} other {# items}}",
+      "options": null,
+      "expected": "{_gt_, select, other {'{count, plural, one {# item} other {# items}}'}}"
+    },
+    {
+      "label": "special chars",
+      "variable": "Hello {World} <div>",
+      "options": null,
+      "expected": "{_gt_, select, other {Hello '{World} <div>'}}"
+    },
+    {
+      "label": "quotes with braces",
+      "variable": "it's a {test}",
+      "options": null,
+      "expected": "{_gt_, select, other {it''s a '{test}'}}"
+    },
+    {
+      "label": "empty string",
+      "variable": "",
+      "options": null,
+      "expected": "{_gt_, select, other {}}"
+    },
+    {
+      "label": "boolean true",
+      "variable": true,
+      "options": null,
+      "expected": "{_gt_, select, other {true}}"
+    },
+    {
+      "label": "boolean false",
+      "variable": false,
+      "options": null,
+      "expected": "{_gt_, select, other {false}}"
+    },
+    {
+      "label": "number 0",
+      "variable": 0,
+      "options": null,
+      "expected": "{_gt_, select, other {0}}"
+    },
+    {
+      "label": "number 42",
+      "variable": 42,
+      "options": null,
+      "expected": "{_gt_, select, other {42}}"
+    },
+    {
+      "label": "negative number",
+      "variable": -1,
+      "options": null,
+      "expected": "{_gt_, select, other {-1}}"
+    },
+    {
+      "label": "float 3.14",
+      "variable": 3.14,
+      "options": null,
+      "expected": "{_gt_, select, other {3.14}}"
+    },
+    {
+      "label": "string with newlines",
+      "variable": "hello\nworld",
+      "options": null,
+      "expected": "{_gt_, select, other {hello\nworld}}"
+    },
+    {
+      "label": "string with tabs",
+      "variable": "hello\tworld",
+      "options": null,
+      "expected": "{_gt_, select, other {hello\tworld}}"
+    },
+    {
+      "label": "string with unicode",
+      "variable": "éàü",
+      "options": null,
+      "expected": "{_gt_, select, other {éàü}}"
+    },
+    {
+      "label": "string with emojis",
+      "variable": "😀🎉",
+      "options": null,
+      "expected": "{_gt_, select, other {😀🎉}}"
+    },
+    {
+      "label": "string looks like ICU",
+      "variable": "{name, select, other {test}}",
+      "options": null,
+      "expected": "{_gt_, select, other {'{name, select, other {test}}'}}"
+    },
+    {
+      "label": "name with special chars",
+      "variable": "hello",
+      "options": {
+        "$name": "var_{name}"
+      },
+      "expected": "{_gt_, select, other {hello} _gt_var_name {var_'{name}'}}"
+    },
+    {
+      "label": "name with spaces",
+      "variable": "hello",
+      "options": {
+        "$name": "my variable"
+      },
+      "expected": "{_gt_, select, other {hello} _gt_var_name {my variable}}"
+    },
+    {
+      "label": "name with unicode",
+      "variable": "hello",
+      "options": {
+        "$name": "éà"
+      },
+      "expected": "{_gt_, select, other {hello} _gt_var_name {éà}}"
+    },
+    {
+      "label": "name with quotes",
+      "variable": "hello",
+      "options": {
+        "$name": "it's"
+      },
+      "expected": "{_gt_, select, other {hello} _gt_var_name {it''s}}"
+    },
+    {
+      "label": "both special",
+      "variable": "{hello}",
+      "options": {
+        "$name": "<name>"
+      },
+      "expected": "{_gt_, select, other {'{hello}'} _gt_var_name {'<name>'}}"
+    }
+  ],
+  "decode_vars": [
+    {
+      "label": "single var",
+      "input": "{_gt_, select, other {hello}}",
+      "expected": "hello"
+    },
+    {
+      "label": "multiple vars",
+      "input": "Hi {_gt_, select, other {Alice}} and {_gt_, select, other {Bob}}",
+      "expected": "Hi Alice and Bob"
+    },
+    {
+      "label": "preserve non-GT elements",
+      "input": "{name} said {_gt_, select, other {hello}}",
+      "expected": "{name} said hello"
+    },
+    {
+      "label": "empty string",
+      "input": "",
+      "expected": ""
+    },
+    {
+      "label": "no GT vars",
+      "input": "Hello {name}, you have {count} items",
+      "expected": "Hello {name}, you have {count} items"
+    },
+    {
+      "label": "complex escaped content",
+      "input": "{_gt_, select, other {it''s a ''test''}}",
+      "expected": "it's a 'test'"
+    },
+    {
+      "label": "var at start",
+      "input": "{_gt_, select, other {hello}} world",
+      "expected": "hello world"
+    },
+    {
+      "label": "var at end",
+      "input": "world {_gt_, select, other {hello}}",
+      "expected": "world hello"
+    },
+    {
+      "label": "escaped content inside var",
+      "input": "{_gt_, select, other {Hello '{World}'}}",
+      "expected": "Hello {World}"
+    },
+    {
+      "label": "var with empty content",
+      "input": "{_gt_, select, other {}}",
+      "expected": ""
+    },
+    {
+      "label": "unicode content",
+      "input": "{_gt_, select, other {éàü}}",
+      "expected": "éàü"
+    },
+    {
+      "label": "whitespace content",
+      "input": "{_gt_, select, other {   }}",
+      "expected": "   "
+    },
+    {
+      "label": "round-trip simple",
+      "input": "{_gt_, select, other {Brian}}",
+      "expected": "Brian"
+    },
+    {
+      "label": "round-trip special",
+      "input": "{_gt_, select, other {Hello '{World}'}}",
+      "expected": "Hello {World}"
+    },
+    {
+      "label": "round-trip quotes",
+      "input": "{_gt_, select, other {it''s here}}",
+      "expected": "it's here"
+    },
+    {
+      "label": "round-trip empty",
+      "input": "{_gt_, select, other {}}",
+      "expected": ""
+    },
+    {
+      "label": "round-trip with name",
+      "input": "{_gt_, select, other {hello} _gt_var_name {greeting}}",
+      "expected": "hello"
+    },
+    {
+      "label": "adjacent vars",
+      "input": "{_gt_, select, other {A}}{_gt_, select, other {B}}",
+      "expected": "AB"
+    },
+    {
+      "label": "var at very start",
+      "input": "{_gt_, select, other {X}}",
+      "expected": "X"
+    },
+    {
+      "label": "just one var",
+      "input": "{_gt_, select, other {value}}",
+      "expected": "value"
+    },
+    {
+      "label": "gt text not in select",
+      "input": "The _gt_ prefix is used",
+      "expected": "The _gt_ prefix is used"
+    },
+    {
+      "label": "gt in URL",
+      "input": "https://example.com/_gt_/path",
+      "expected": "https://example.com/_gt_/path"
+    },
+    {
+      "label": "var with doubled quotes",
+      "input": "{_gt_, select, other {user''s}}",
+      "expected": "user's"
+    },
+    {
+      "label": "var with escaped braces",
+      "input": "{_gt_, select, other {'{data}'}}",
+      "expected": "{data}"
+    }
+  ],
+  "extract_vars": [
+    {
+      "label": "single var",
+      "input": "{_gt_, select, other {hello}}",
+      "expected": {
+        "_gt_1": "hello"
+      }
+    },
+    {
+      "label": "multiple vars",
+      "input": "{_gt_, select, other {alice}} and {_gt_, select, other {bob}}",
+      "expected": {
+        "_gt_1": "alice",
+        "_gt_2": "bob"
+      }
+    },
+    {
+      "label": "no vars",
+      "input": "Hello {name}!",
+      "expected": {}
+    },
+    {
+      "label": "empty string",
+      "input": "",
+      "expected": {}
+    },
+    {
+      "label": "special chars",
+      "input": "{_gt_, select, other {Hello '{World}'}}",
+      "expected": {
+        "_gt_1": "Hello {World}"
+      }
+    },
+    {
+      "label": "unicode",
+      "input": "{_gt_, select, other {éàü}}",
+      "expected": {
+        "_gt_1": "éàü"
+      }
+    },
+    {
+      "label": "empty other content",
+      "input": "{_gt_, select, other {}}",
+      "expected": {
+        "_gt_1": ""
+      }
+    },
+    {
+      "label": "mixed with non-GT",
+      "input": "{name} and {_gt_, select, other {test}}",
+      "expected": {
+        "_gt_1": "test"
+      }
+    },
+    {
+      "label": "indexed ignored",
+      "input": "{_gt_1, select, other {hello}}",
+      "expected": {}
+    },
+    {
+      "label": "mixed indexed and unindexed",
+      "input": "{_gt_1, select, other {hello}} and {_gt_, select, other {world}}",
+      "expected": {
+        "_gt_1": "world"
+      }
+    },
+    {
+      "label": "many vars sequential",
+      "input": "{_gt_, select, other {a}} {_gt_, select, other {b}} {_gt_, select, other {c}} {_gt_, select, other {d}} {_gt_, select, other {e}}",
+      "expected": {
+        "_gt_1": "a",
+        "_gt_2": "b",
+        "_gt_3": "c",
+        "_gt_4": "d",
+        "_gt_5": "e"
+      }
+    },
+    {
+      "label": "no gt prefix",
+      "input": "just plain text",
+      "expected": {}
+    },
+    {
+      "label": "gt text not select",
+      "input": "the _gt_ marker",
+      "expected": {}
+    },
+    {
+      "label": "round-trip",
+      "input": "{_gt_, select, other {hello}} {_gt_, select, other {world}}",
+      "expected": {
+        "_gt_1": "hello",
+        "_gt_2": "world"
+      }
+    }
+  ],
+  "index_vars": [
+    {
+      "label": "single placeholder",
+      "input": "{_gt_, select, other {hello}}",
+      "expected": "{_gt_1, select, other {}}"
+    },
+    {
+      "label": "multiple placeholders",
+      "input": "{_gt_, select, other {hello}} {_gt_, select, other {world}}",
+      "expected": "{_gt_1, select, other {}} {_gt_2, select, other {}}"
+    },
+    {
+      "label": "at start",
+      "input": "{_gt_, select, other {hello}} world",
+      "expected": "{_gt_1, select, other {}} world"
+    },
+    {
+      "label": "at end",
+      "input": "world {_gt_, select, other {hello}}",
+      "expected": "world {_gt_1, select, other {}}"
+    },
+    {
+      "label": "preserve non-GT",
+      "input": "{name} said {_gt_, select, other {hello}}",
+      "expected": "{name} said {_gt_1, select, other {}}"
+    },
+    {
+      "label": "empty string",
+      "input": "",
+      "expected": ""
+    },
+    {
+      "label": "no GT vars",
+      "input": "Hello {name}!",
+      "expected": "Hello {name}!"
+    },
+    {
+      "label": "var with empty other",
+      "input": "{_gt_, select, other {}}",
+      "expected": "{_gt_1, select, other {}}"
+    },
+    {
+      "label": "with var name",
+      "input": "{_gt_, select, other {hello} _gt_var_name {greeting}}",
+      "expected": "{_gt_1, select, other {} _gt_var_name {greeting}}"
+    },
+    {
+      "label": "multiple with var names",
+      "input": "{_gt_, select, other {a} _gt_var_name {x}} and {_gt_, select, other {b} _gt_var_name {y}}",
+      "expected": "{_gt_1, select, other {} _gt_var_name {x}} and {_gt_2, select, other {} _gt_var_name {y}}"
+    },
+    {
+      "label": "gt text not in select",
+      "input": "The _gt_ prefix is used",
+      "expected": "The _gt_ prefix is used"
+    },
+    {
+      "label": "gt in URL",
+      "input": "https://example.com/_gt_/path",
+      "expected": "https://example.com/_gt_/path"
+    },
+    {
+      "label": "adjacent vars",
+      "input": "{_gt_, select, other {A}}{_gt_, select, other {B}}",
+      "expected": "{_gt_1, select, other {}}{_gt_2, select, other {}}"
+    },
+    {
+      "label": "round-trip simple",
+      "input": "{_gt_, select, other {hello}}",
+      "expected": "{_gt_1, select, other {}}"
+    },
+    {
+      "label": "round-trip with name",
+      "input": "{_gt_, select, other {hello} _gt_var_name {greeting}}",
+      "expected": "{_gt_1, select, other {} _gt_var_name {greeting}}"
+    },
+    {
+      "label": "round-trip special",
+      "input": "{_gt_, select, other {Hello '{World}'}}",
+      "expected": "{_gt_1, select, other {}}"
+    },
+    {
+      "label": "mixed with plain var",
+      "input": "{name} {_gt_, select, other {val}}",
+      "expected": "{name} {_gt_1, select, other {}}"
+    },
+    {
+      "label": "many sequential",
+      "input": "{_gt_, select, other {a}} {_gt_, select, other {b}} {_gt_, select, other {c}} {_gt_, select, other {d}} {_gt_, select, other {e}}",
+      "expected": "{_gt_1, select, other {}} {_gt_2, select, other {}} {_gt_3, select, other {}} {_gt_4, select, other {}} {_gt_5, select, other {}}"
+    },
+    {
+      "label": "escaped in other",
+      "input": "{_gt_, select, other {it''s here}}",
+      "expected": "{_gt_1, select, other {}}"
+    },
+    {
+      "label": "escaped braces in other",
+      "input": "{_gt_, select, other {'{braces}'}}",
+      "expected": "{_gt_1, select, other {}}"
+    }
+  ],
+  "condense_vars": [
+    {
+      "label": "basic single",
+      "input": "{_gt_1, select, other {hello}}",
+      "expected": "{_gt_1}"
+    },
+    {
+      "label": "basic multiple",
+      "input": "{_gt_1, select, other {hello}} {_gt_2, select, other {world}}",
+      "expected": "{_gt_1} {_gt_2}"
+    },
+    {
+      "label": "preserve non-indexed selects",
+      "input": "{gender, select, male {He} female {She} other {They}}",
+      "expected": "{gender, select, male {He} female {She} other {They}}"
+    },
+    {
+      "label": "plain text",
+      "input": "Hello World",
+      "expected": "Hello World"
+    },
+    {
+      "label": "non-select vars",
+      "input": "{name} and {count}",
+      "expected": "{name} and {count}"
+    },
+    {
+      "label": "empty string",
+      "input": "",
+      "expected": ""
+    },
+    {
+      "label": "mixed indexed and regular args",
+      "input": "{_gt_1, select, other {hello}} {name}",
+      "expected": "{_gt_1} {name}"
+    },
+    {
+      "label": "single digit index",
+      "input": "{_gt_1, select, other {x}}",
+      "expected": "{_gt_1}"
+    },
+    {
+      "label": "multi digit index",
+      "input": "{_gt_10, select, other {x}}",
+      "expected": "{_gt_10}"
+    },
+    {
+      "label": "zero index",
+      "input": "{_gt_0, select, other {x}}",
+      "expected": "{_gt_0}"
+    },
+    {
+      "label": "no prefix",
+      "input": "{foo, select, other {bar}}",
+      "expected": "{foo, select, other {bar}}"
+    },
+    {
+      "label": "non-numeric suffix",
+      "input": "{_gt_abc, select, other {bar}}",
+      "expected": "{_gt_abc,select,other{bar}}"
+    },
+    {
+      "label": "extra chars after num",
+      "input": "{_gt_1abc, select, other {bar}}",
+      "expected": "{_gt_1abc,select,other{bar}}"
+    },
+    {
+      "label": "large index",
+      "input": "{_gt_9999, select, other {x}}",
+      "expected": "{_gt_9999}"
+    },
+    {
+      "label": "consecutive indexed 1-5",
+      "input": "{_gt_1, select, other {a}} {_gt_2, select, other {b}} {_gt_3, select, other {c}} {_gt_4, select, other {d}} {_gt_5, select, other {e}}",
+      "expected": "{_gt_1} {_gt_2} {_gt_3} {_gt_4} {_gt_5}"
+    },
+    {
+      "label": "indexed with var_name",
+      "input": "{_gt_1, select, other {hello} _gt_var_name {greeting}}",
+      "expected": "{_gt_1}"
+    },
+    {
+      "label": "empty other",
+      "input": "{_gt_1, select, other {}}",
+      "expected": "{_gt_1}"
+    },
+    {
+      "label": "back-to-back no text",
+      "input": "{_gt_1, select, other {a}}{_gt_2, select, other {b}}",
+      "expected": "{_gt_1}{_gt_2}"
+    },
+    {
+      "label": "mix condensable and non",
+      "input": "{_gt_1, select, other {hello}} {gender, select, male {He} other {They}}",
+      "expected": "{_gt_1} {gender,select,male{He} other{They}}"
+    },
+    {
+      "label": "whitespace around indexed",
+      "input": "  {_gt_1, select, other {hello}}  ",
+      "expected": "  {_gt_1}  "
+    },
+    {
+      "label": "text before and after",
+      "input": "Hello {_gt_1, select, other {name}} goodbye",
+      "expected": "Hello {_gt_1} goodbye"
+    },
+    {
+      "label": "unindexed not condensed",
+      "input": "{_gt_, select, other {hello}}",
+      "expected": "{_gt_,select,other{hello}}"
+    },
+    {
+      "label": "escaped quotes in other",
+      "input": "{_gt_1, select, other {user''s data}}",
+      "expected": "{_gt_1}"
+    },
+    {
+      "label": "escaped braces in other",
+      "input": "{_gt_1, select, other {'{data}'}}",
+      "expected": "{_gt_1}"
+    },
+    {
+      "label": "gt text not select",
+      "input": "The _gt_ prefix",
+      "expected": "The _gt_ prefix"
+    },
+    {
+      "label": "gt in url",
+      "input": "https://example.com/_gt_1/path",
+      "expected": "https://example.com/_gt_1/path"
+    },
+    {
+      "label": "round-trip simple",
+      "input": "{_gt_1, select, other {}}",
+      "expected": "{_gt_1}"
+    },
+    {
+      "label": "round-trip special",
+      "input": "{_gt_1, select, other {}}",
+      "expected": "{_gt_1}"
+    },
+    {
+      "label": "round-trip with name",
+      "input": "{_gt_1, select, other {} _gt_var_name {greeting}}",
+      "expected": "{_gt_1}"
+    },
+    {
+      "label": "round-trip multiple",
+      "input": "{_gt_1, select, other {}} and {_gt_2, select, other {}}",
+      "expected": "{_gt_1} and {_gt_2}"
+    }
+  ]
+}

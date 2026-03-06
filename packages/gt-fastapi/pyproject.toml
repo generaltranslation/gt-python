@@ -1,0 +1,24 @@
+[project]
+name = "gt-fastapi"
+version = "0.0.0"
+description = "FastAPI integration for General Translation"
+readme = "README.md"
+authors = [
+    { name = "Ernest McCarter", email = "ernest@generaltranslation.com" }
+]
+requires-python = ">=3.10"
+license = "FSL-1.1-ALv2"
+license-files = ["LICENSE.md"]
+dependencies = [
+    "generaltranslation",
+    "gt-i18n",
+    "fastapi>=0.100.0",
+]
+
+[tool.uv.sources]
+generaltranslation = { workspace = true }
+gt-i18n = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.10.8,<0.11.0"]
+build-backend = "uv_build"
