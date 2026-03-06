@@ -190,7 +190,7 @@ requires-dist = [
 [[package]]
 name = "generaltranslation-supported-locales"
 version = "0.0.0"
-source = { editable = "packages/supported-locales" }
+source = { editable = "packages/generaltranslation-supported-locales" }
 dependencies = [
     { name = "generaltranslation" },
 ]
@@ -245,7 +245,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "generaltranslation", editable = "packages/generaltranslation" },
-    { name = "generaltranslation-supported-locales", editable = "packages/supported-locales" },
+    { name = "generaltranslation-supported-locales", editable = "packages/generaltranslation-supported-locales" },
     { name = "httpx", specifier = ">=0.25.0" },
 ]
 

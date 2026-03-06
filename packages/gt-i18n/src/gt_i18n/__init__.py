@@ -1,5 +1,6 @@
 """Python i18n library for General Translation."""
 
+from generaltranslation.static import declare_static, declare_var, decode_vars
 from gt_i18n.i18n_manager import (
     ContextVarStorageAdapter,
     I18nManager,
@@ -38,4 +39,8 @@ __all__ = [
     "msg",
     "t",
     "t_fallback",
+    # Static variable helpers
+    "declare_var",
+    "declare_static",
+    "decode_vars",
 ]
