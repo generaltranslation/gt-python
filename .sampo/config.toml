@@ -10,4 +10,4 @@ show_acknowledgments = true
 
 [packages]
 ignore_unpublished = true
-ignore = ["examples/*"]
+ignore = ["examples/*", "gt-python"]
