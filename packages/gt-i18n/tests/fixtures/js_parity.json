@@ -1,0 +1,129 @@
+{
+  "indexVars": {
+    "plain_no_vars": {
+      "input": "Hello, world!",
+      "output": "Hello, world!"
+    },
+    "simple_variable": {
+      "input": "Hello, {name}!",
+      "output": "Hello, {name}!"
+    },
+    "single_gt": {
+      "input": "{_gt_, select, other {Hello World}}",
+      "output": "{_gt_1, select, other {}}"
+    },
+    "two_gt": {
+      "input": "Hello {_gt_, select, other {John}} and {_gt_, select, other {Jane}}",
+      "output": "Hello {_gt_1, select, other {}} and {_gt_2, select, other {}}"
+    },
+    "gt_with_var_name": {
+      "input": "Hello {_gt_, select, other {John} _gt_var_name {John}} and {_gt_, select, other {Jane}}",
+      "output": "Hello {_gt_1, select, other {} _gt_var_name {John}} and {_gt_2, select, other {}}"
+    },
+    "nested_in_plural": {
+      "input": "{count, plural, one {{_gt_, select, other {item}}} other {{_gt_, select, other {items}}}}",
+      "output": "{count, plural, one {{_gt_1, select, other {}}} other {{_gt_2, select, other {}}}}"
+    },
+    "empty_string": {
+      "input": "",
+      "output": ""
+    },
+    "no_placeholders": {
+      "input": "No placeholders here",
+      "output": "No placeholders here"
+    }
+  },
+  "hashMessage": {
+    "plain": {
+      "message": "Hello, world!",
+      "options": {},
+      "hash": "8042e0a3d395c1fb"
+    },
+    "with_variable": {
+      "message": "Hello, {name}!",
+      "options": {},
+      "hash": "9b323e35e1a80c51"
+    },
+    "with_context_button": {
+      "message": "Save",
+      "options": {
+        "context": "button"
+      },
+      "hash": "98c53370a6119642"
+    },
+    "with_context_menu": {
+      "message": "Save",
+      "options": {
+        "context": "menu"
+      },
+      "hash": "34e888326f1b51a4"
+    },
+    "no_context": {
+      "message": "Save",
+      "options": {},
+      "hash": "762fcce45b65eea9"
+    },
+    "with_id": {
+      "message": "Hello",
+      "options": {
+        "id": "greeting"
+      },
+      "hash": "e0043c773a7eaf71"
+    },
+    "with_max_chars": {
+      "message": "Hello",
+      "options": {
+        "maxChars": 10
+      },
+      "hash": "caba7f8dc8e5092a"
+    },
+    "with_negative_max_chars": {
+      "message": "Hello",
+      "options": {
+        "maxChars": -10
+      },
+      "hash": "caba7f8dc8e5092a"
+    },
+    "empty": {
+      "message": "",
+      "options": {},
+      "hash": "e2b070737b68f01d"
+    },
+    "plural": {
+      "message": "{count, plural, one {# item} other {# items}}",
+      "options": {},
+      "hash": "f5683e647a65e15c"
+    },
+    "plural_sentence": {
+      "message": "You have {count, plural, one {# item} other {# items}}.",
+      "options": {},
+      "hash": "e584ea9403e60457"
+    },
+    "with_gt_var": {
+      "message": "Hello {_gt_, select, other {John}}!",
+      "options": {},
+      "hash": "6513dde2ae9e6c33"
+    },
+    "with_gt_var_name": {
+      "message": "Hello {_gt_, select, other {John} _gt_var_name {user}}!",
+      "options": {},
+      "hash": "ddec6a441a4c30cb"
+    },
+    "context_and_id": {
+      "message": "Save",
+      "options": {
+        "context": "button",
+        "id": "save_btn"
+      },
+      "hash": "f42de11c6be29974"
+    },
+    "context_and_max_chars": {
+      "message": "Save",
+      "options": {
+        "context": "button",
+        "maxChars": 20
+      },
+      "hash": "1f953e77d27e786b"
+    }
+  }
+}

@@ -1,0 +1,643 @@
+{
+  "get_supported_locale": [
+    {
+      "input": "af",
+      "expected": "af"
+    },
+    {
+      "input": "am",
+      "expected": "am"
+    },
+    {
+      "input": "ar",
+      "expected": "ar"
+    },
+    {
+      "input": "ar-AE",
+      "expected": "ar-AE"
+    },
+    {
+      "input": "ar-EG",
+      "expected": "ar-EG"
+    },
+    {
+      "input": "ar-LB",
+      "expected": "ar-LB"
+    },
+    {
+      "input": "ar-MA",
+      "expected": "ar-MA"
+    },
+    {
+      "input": "ar-SA",
+      "expected": "ar-SA"
+    },
+    {
+      "input": "bg",
+      "expected": "bg"
+    },
+    {
+      "input": "bn",
+      "expected": "bn"
+    },
+    {
+      "input": "bs",
+      "expected": "bs"
+    },
+    {
+      "input": "ca",
+      "expected": "ca"
+    },
+    {
+      "input": "cs",
+      "expected": "cs"
+    },
+    {
+      "input": "cy",
+      "expected": "cy"
+    },
+    {
+      "input": "da",
+      "expected": "da"
+    },
+    {
+      "input": "de",
+      "expected": "de"
+    },
+    {
+      "input": "de-AT",
+      "expected": "de-AT"
+    },
+    {
+      "input": "de-CH",
+      "expected": "de-CH"
+    },
+    {
+      "input": "de-DE",
+      "expected": "de-DE"
+    },
+    {
+      "input": "el",
+      "expected": "el"
+    },
+    {
+      "input": "el-CY",
+      "expected": "el-CY"
+    },
+    {
+      "input": "el-EL",
+      "expected": null
+    },
+    {
+      "input": "en",
+      "expected": "en"
+    },
+    {
+      "input": "en-AU",
+      "expected": "en-AU"
+    },
+    {
+      "input": "en-CA",
+      "expected": "en-CA"
+    },
+    {
+      "input": "en-GB",
+      "expected": "en-GB"
+    },
+    {
+      "input": "en-NZ",
+      "expected": "en-NZ"
+    },
+    {
+      "input": "en-US",
+      "expected": "en-US"
+    },
+    {
+      "input": "es",
+      "expected": "es"
+    },
+    {
+      "input": "es-419",
+      "expected": "es-419"
+    },
+    {
+      "input": "es-AR",
+      "expected": "es-AR"
+    },
+    {
+      "input": "es-CL",
+      "expected": "es-CL"
+    },
+    {
+      "input": "es-CO",
+      "expected": "es-CO"
+    },
+    {
+      "input": "es-ES",
+      "expected": "es-ES"
+    },
+    {
+      "input": "es-MX",
+      "expected": "es-MX"
+    },
+    {
+      "input": "es-PE",
+      "expected": "es-PE"
+    },
+    {
+      "input": "es-US",
+      "expected": "es-US"
+    },
+    {
+      "input": "es-VE",
+      "expected": "es-VE"
+    },
+    {
+      "input": "et",
+      "expected": "et"
+    },
+    {
+      "input": "fa",
+      "expected": "fa"
+    },
+    {
+      "input": "fi",
+      "expected": "fi"
+    },
+    {
+      "input": "fil",
+      "expected": "fil"
+    },
+    {
+      "input": "fr",
+      "expected": "fr"
+    },
+    {
+      "input": "fr-BE",
+      "expected": "fr-BE"
+    },
+    {
+      "input": "fr-CA",
+      "expected": "fr-CA"
+    },
+    {
+      "input": "fr-CH",
+      "expected": "fr-CH"
+    },
+    {
+      "input": "fr-CM",
+      "expected": "fr-CM"
+    },
+    {
+      "input": "fr-FR",
+      "expected": "fr-FR"
+    },
+    {
+      "input": "fr-SN",
+      "expected": "fr-SN"
+    },
+    {
+      "input": "gu",
+      "expected": "gu"
+    },
+    {
+      "input": "he",
+      "expected": "he"
+    },
+    {
+      "input": "hi",
+      "expected": "hi"
+    },
+    {
+      "input": "hr",
+      "expected": "hr"
+    },
+    {
+      "input": "hu",
+      "expected": "hu"
+    },
+    {
+      "input": "hy",
+      "expected": "hy"
+    },
+    {
+      "input": "id",
+      "expected": "id"
+    },
+    {
+      "input": "is",
+      "expected": "is"
+    },
+    {
+      "input": "it",
+      "expected": "it"
+    },
+    {
+      "input": "it-CH",
+      "expected": "it-CH"
+    },
+    {
+      "input": "it-IT",
+      "expected": "it-IT"
+    },
+    {
+      "input": "ja",
+      "expected": "ja"
+    },
+    {
+      "input": "ka",
+      "expected": "ka"
+    },
+    {
+      "input": "kk",
+      "expected": "kk"
+    },
+    {
+      "input": "kn",
+      "expected": "kn"
+    },
+    {
+      "input": "ko",
+      "expected": "ko"
+    },
+    {
+      "input": "la",
+      "expected": "la"
+    },
+    {
+      "input": "lt",
+      "expected": "lt"
+    },
+    {
+      "input": "lv",
+      "expected": "lv"
+    },
+    {
+      "input": "mk",
+      "expected": "mk"
+    },
+    {
+      "input": "ml",
+      "expected": "ml"
+    },
+    {
+      "input": "mn",
+      "expected": "mn"
+    },
+    {
+      "input": "mr",
+      "expected": "mr"
+    },
+    {
+      "input": "ms",
+      "expected": "ms"
+    },
+    {
+      "input": "my",
+      "expected": "my"
+    },
+    {
+      "input": "nl",
+      "expected": "nl"
+    },
+    {
+      "input": "nl-BE",
+      "expected": "nl-BE"
+    },
+    {
+      "input": "nl-NL",
+      "expected": "nl-NL"
+    },
+    {
+      "input": "no",
+      "expected": "no"
+    },
+    {
+      "input": "pa",
+      "expected": "pa"
+    },
+    {
+      "input": "pl",
+      "expected": "pl"
+    },
+    {
+      "input": "pt",
+      "expected": "pt"
+    },
+    {
+      "input": "pt-BR",
+      "expected": "pt-BR"
+    },
+    {
+      "input": "pt-PT",
+      "expected": "pt-PT"
+    },
+    {
+      "input": "qbr",
+      "expected": "qbr"
+    },
+    {
+      "input": "ro",
+      "expected": "ro"
+    },
+    {
+      "input": "ru",
+      "expected": "ru"
+    },
+    {
+      "input": "sk",
+      "expected": "sk"
+    },
+    {
+      "input": "sl",
+      "expected": "sl"
+    },
+    {
+      "input": "so",
+      "expected": "so"
+    },
+    {
+      "input": "sq",
+      "expected": "sq"
+    },
+    {
+      "input": "sr",
+      "expected": "sr"
+    },
+    {
+      "input": "sv",
+      "expected": "sv"
+    },
+    {
+      "input": "sw",
+      "expected": "sw"
+    },
+    {
+      "input": "sw-KE",
+      "expected": "sw-KE"
+    },
+    {
+      "input": "sw-TZ",
+      "expected": "sw-TZ"
+    },
+    {
+      "input": "ta",
+      "expected": "ta"
+    },
+    {
+      "input": "te",
+      "expected": "te"
+    },
+    {
+      "input": "th",
+      "expected": "th"
+    },
+    {
+      "input": "tl",
+      "expected": "fil"
+    },
+    {
+      "input": "tr",
+      "expected": "tr"
+    },
+    {
+      "input": "uk",
+      "expected": "uk"
+    },
+    {
+      "input": "ur",
+      "expected": "ur"
+    },
+    {
+      "input": "uz",
+      "expected": "uz"
+    },
+    {
+      "input": "vi",
+      "expected": "vi"
+    },
+    {
+      "input": "zh",
+      "expected": "zh"
+    },
+    {
+      "input": "zh-CN",
+      "expected": "zh-CN"
+    },
+    {
+      "input": "zh-HK",
+      "expected": "zh-HK"
+    },
+    {
+      "input": "zh-Hans",
+      "expected": "zh-Hans"
+    },
+    {
+      "input": "zh-Hant",
+      "expected": "zh-Hant"
+    },
+    {
+      "input": "zh-SG",
+      "expected": "zh-SG"
+    },
+    {
+      "input": "zh-TW",
+      "expected": "zh-TW"
+    },
+    {
+      "input": "",
+      "expected": null
+    },
+    {
+      "input": "not-a-locale",
+      "expected": null
+    },
+    {
+      "input": "123",
+      "expected": null
+    },
+    {
+      "input": "xx",
+      "expected": null
+    },
+    {
+      "input": "en-us",
+      "expected": "en-US"
+    },
+    {
+      "input": "EN-US",
+      "expected": "en-US"
+    },
+    {
+      "input": "ZH-HANS-CN",
+      "expected": "zh-CN"
+    },
+    {
+      "input": "en-Latn-US",
+      "expected": null
+    },
+    {
+      "input": "fr-Latn-FR",
+      "expected": null
+    },
+    {
+      "input": "zh-Hans-CN",
+      "expected": "zh-CN"
+    },
+    {
+      "input": "de-LU",
+      "expected": "de"
+    },
+    {
+      "input": "fr-DZ",
+      "expected": "fr"
+    },
+    {
+      "input": "en-IE",
+      "expected": "en"
+    },
+    {
+      "input": "es-BO",
+      "expected": "es"
+    },
+    {
+      "input": "zu",
+      "expected": null
+    },
+    {
+      "input": "xh",
+      "expected": null
+    },
+    {
+      "input": "wo",
+      "expected": null
+    },
+    {
+      "input": "qbr",
+      "expected": "qbr"
+    },
+    {
+      "input": "zh-Hant-TW",
+      "expected": "zh-TW"
+    },
+    {
+      "input": "zh-Hant-HK",
+      "expected": "zh-HK"
+    }
+  ],
+  "list_supported_locales": {
+    "expected": [
+      "af",
+      "am",
+      "ar",
+      "ar-AE",
+      "ar-EG",
+      "ar-LB",
+      "ar-MA",
+      "ar-SA",
+      "bg",
+      "bn",
+      "bs",
+      "ca",
+      "cs",
+      "cy",
+      "da",
+      "de",
+      "de-AT",
+      "de-CH",
+      "de-DE",
+      "el",
+      "el-CY",
+      "el-EL",
+      "en",
+      "en-AU",
+      "en-CA",
+      "en-GB",
+      "en-NZ",
+      "en-US",
+      "es",
+      "es-419",
+      "es-AR",
+      "es-CL",
+      "es-CO",
+      "es-ES",
+      "es-MX",
+      "es-PE",
+      "es-US",
+      "es-VE",
+      "et",
+      "fa",
+      "fi",
+      "fil",
+      "fr",
+      "fr-BE",
+      "fr-CA",
+      "fr-CH",
+      "fr-CM",
+      "fr-FR",
+      "fr-SN",
+      "gu",
+      "he",
+      "hi",
+      "hr",
+      "hu",
+      "hy",
+      "id",
+      "is",
+      "it",
+      "it-CH",
+      "it-IT",
+      "ja",
+      "ka",
+      "kk",
+      "kn",
+      "ko",
+      "la",
+      "lt",
+      "lv",
+      "mk",
+      "ml",
+      "mn",
+      "mr",
+      "ms",
+      "my",
+      "nl",
+      "nl-BE",
+      "nl-NL",
+      "no",
+      "pa",
+      "pl",
+      "pt",
+      "pt-BR",
+      "pt-PT",
+      "qbr",
+      "ro",
+      "ru",
+      "sk",
+      "sl",
+      "so",
+      "sq",
+      "sr",
+      "sv",
+      "sw",
+      "sw-KE",
+      "sw-TZ",
+      "ta",
+      "te",
+      "th",
+      "tl",
+      "tr",
+      "uk",
+      "ur",
+      "uz",
+      "vi",
+      "zh",
+      "zh-CN",
+      "zh-HK",
+      "zh-Hans",
+      "zh-Hant",
+      "zh-SG",
+      "zh-TW"
+    ]
+  }
+}
