@@ -1,6 +1,6 @@
 [project]
 name = "generaltranslation-icu-messageformat-parser"
-version = "0.0.0"
+version = "0.0.1"
 description = "ICU MessageFormat parser with whitespace-preserving AST and string reconstruction"
 readme = "README.md"
 authors = [

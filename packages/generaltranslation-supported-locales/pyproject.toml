@@ -1,6 +1,6 @@
 [project]
 name = "generaltranslation-supported-locales"
-version = "0.0.0"
+version = "0.0.1"
 description = "Supported locale data for General Translation"
 readme = "README.md"
 authors = [
