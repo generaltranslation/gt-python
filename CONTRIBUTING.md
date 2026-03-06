@@ -139,6 +139,7 @@ make typecheck      # Run mypy type checking
 make test           # Run all tests
 make check          # Run all checks (lint + format + typecheck + test)
 make build          # Build all packages to dist/
+make changeset      # Add a changeset for your changes (sampo add)
 make clean          # Remove build artifacts and caches
 ```
 
