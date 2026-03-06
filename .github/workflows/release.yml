@@ -17,7 +17,7 @@ jobs:
     environment:
       name: release
     outputs:
-      published: ${{ steps.sampo.outputs.published }}
+      released: ${{ steps.sampo.outputs.released }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,7 +28,7 @@ jobs:
         id: sampo
         uses: bruits/sampo/crates/sampo-github-action@main
         with:
-          command: auto
+          command: release
           create-github-release: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,13 +36,10 @@ jobs:
   publish:
     name: Publish to PyPI
     needs: release
-    if: needs.release.outputs.published == 'true'
+    if: needs.release.outputs.released == 'true'
     runs-on: ubuntu-latest
     environment:
       name: release
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -56,4 +53,6 @@ jobs:
             fi
           done
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        run: uv publish dist/*
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
