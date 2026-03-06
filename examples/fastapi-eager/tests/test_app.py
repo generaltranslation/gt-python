@@ -6,7 +6,6 @@ return correctly translated content.
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
 from gt_fastapi import initialize_gt, t
 
 TRANSLATIONS = {

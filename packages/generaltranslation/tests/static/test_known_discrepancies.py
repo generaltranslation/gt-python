@@ -7,7 +7,6 @@ and ``#`` in plural context.
 
 from generaltranslation.static import condense_vars
 
-
 # ---------------------------------------------------------------------------
 # print_ast re-escapes {} in literal text
 # JS printAST calls printEscapedMessage() which wraps regions containing {}

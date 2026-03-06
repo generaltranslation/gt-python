@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 import httpx
 
@@ -37,7 +37,7 @@ async def api_request(
     endpoint: str,
     *,
     body: Any = None,
-    timeout: Optional[int] = None,
+    timeout: int | None = None,
     method: str = "POST",
     retry_policy: RetryPolicy = "exponential",
 ) -> Any:

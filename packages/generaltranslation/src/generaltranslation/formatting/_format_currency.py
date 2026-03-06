@@ -9,7 +9,6 @@ from babel.numbers import format_currency as babel_format_currency
 
 from generaltranslation.formatting._helpers import _resolve_babel_locale
 
-
 # Map JS currencyDisplay values to Babel format_type
 _DISPLAY_MAP = {
     "symbol": None,  # Babel default

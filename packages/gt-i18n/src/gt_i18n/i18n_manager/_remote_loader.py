@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Callable, Awaitable
+from collections.abc import Awaitable, Callable
 
 import httpx
-
 from generaltranslation._settings import DEFAULT_CACHE_URL
 
 TranslationsLoader = Callable[[str], dict[str, str] | Awaitable[dict[str, str]]]

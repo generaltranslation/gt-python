@@ -8,7 +8,6 @@ import pytest
 from generaltranslation_icu_messageformat_parser import Parser, print_ast
 from pyicumessageformat import Parser as RefParser
 
-
 # ---------------------------------------------------------------------------
 # Exhaustive test input matrix
 # ---------------------------------------------------------------------------

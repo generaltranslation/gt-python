@@ -1,6 +1,7 @@
 import hashlib
 import json
-from typing import Any, Callable, Optional
+from collections.abc import Callable
+from typing import Any
 
 
 def hash_string(s: str) -> str:
@@ -11,11 +12,11 @@ def hash_string(s: str) -> str:
 def hash_source(
     source: Any,
     *,
-    context: Optional[str] = None,
-    id: Optional[str] = None,
-    max_chars: Optional[int] = None,
+    context: str | None = None,
+    id: str | None = None,
+    max_chars: int | None = None,
     data_format: str = "STRING",
-    hash_function: Optional[Callable[[str], str]] = None,
+    hash_function: Callable[[str], str] | None = None,
 ) -> str:
     """Hash source content with metadata. Only ICU/STRING path (no JSX)."""
     if hash_function is None:
@@ -38,7 +39,7 @@ def hash_source(
 
 def hash_template(
     template: dict[str, str],
-    hash_function: Optional[Callable[[str], str]] = None,
+    hash_function: Callable[[str], str] | None = None,
 ) -> str:
     """Hash a template dict."""
     if hash_function is None:

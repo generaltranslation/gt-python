@@ -1,10 +1,13 @@
-.PHONY: setup lint format typecheck test check build clean
+.PHONY: setup lint lint-fix format typecheck test check build clean
 
 setup:
 	./scripts/setup.sh
 
 lint:
 	uv run ruff check .
+
+lint-fix:
+	uv run ruff check --fix .
 
 format:
 	uv run ruff format .

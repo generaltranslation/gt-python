@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from generaltranslation.static import decode_vars
 
 FIXTURES = json.loads(

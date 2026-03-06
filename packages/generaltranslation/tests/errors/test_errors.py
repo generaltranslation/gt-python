@@ -1,11 +1,10 @@
 """Tests for the errors module."""
 
 import pytest
-
 from generaltranslation.errors import (
-    ApiError,
     GT_ERROR_PREFIX,
     INVALID_AUTH_ERROR,
+    ApiError,
     api_error_message,
     create_invalid_cutoff_style_error,
     invalid_locale_error,

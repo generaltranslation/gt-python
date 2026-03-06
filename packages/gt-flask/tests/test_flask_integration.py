@@ -1,9 +1,7 @@
 """Flask integration tests."""
 
 import pytest
-
 from flask import Flask
-
 from gt_flask import initialize_gt, t
 from gt_i18n.translation_functions._hash_message import hash_message
 

@@ -3,7 +3,6 @@
 import asyncio
 
 import pytest
-
 from gt_i18n.i18n_manager._translations_manager import TranslationsManager
 
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from generaltranslation.translate._request import api_request
 
@@ -10,7 +10,7 @@ from generaltranslation.translate._request import api_request
 async def check_job_status(
     job_ids: list[str],
     config: dict[str, Any],
-    timeout_ms: Optional[int] = None,
+    timeout_ms: int | None = None,
 ) -> list[dict[str, Any]]:
     """Query job statuses for a project."""
     return await api_request(

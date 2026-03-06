@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal, Optional, TypedDict
-
+from typing import Any, Literal, TypedDict
 
 # --- Config ---
 
@@ -148,7 +147,7 @@ class BranchInfo(TypedDict):
 
 class BranchDataResult(TypedDict, total=False):
     branches: list[BranchInfo]
-    default_branch: Optional[BranchInfo]
+    default_branch: BranchInfo | None
 
 
 class CreateBranchQuery(TypedDict):

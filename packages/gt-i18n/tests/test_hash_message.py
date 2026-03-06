@@ -8,7 +8,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from generaltranslation.static._index_vars import index_vars
 from gt_i18n.translation_functions._hash_message import hash_message
 

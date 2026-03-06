@@ -2,8 +2,6 @@
 
 import asyncio
 
-import pytest
-
 from gt_i18n import I18nManager
 
 

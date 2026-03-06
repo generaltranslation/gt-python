@@ -1,9 +1,7 @@
 """Tests for the t() function with mock translations."""
 
 import pytest
-
 from gt_i18n import I18nManager, set_i18n_manager, t
-from gt_i18n.i18n_manager._singleton import _manager
 from gt_i18n.translation_functions._hash_message import hash_message
 
 

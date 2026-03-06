@@ -1,11 +1,8 @@
 """Tests for the GT class."""
 
-import os
 import pytest
-from unittest.mock import AsyncMock, patch
-
 from generaltranslation._gt import GT
-from generaltranslation._settings import DEFAULT_BASE_URL, LIBRARY_DEFAULT_LOCALE
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 
 
 class TestGTConstructor:

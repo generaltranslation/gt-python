@@ -5,7 +5,6 @@ and all endpoints return correctly translated content.
 """
 
 from flask import Flask
-
 from gt_flask import initialize_gt, t
 
 TRANSLATIONS = {

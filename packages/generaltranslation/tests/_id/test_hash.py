@@ -2,7 +2,6 @@ import json
 import pathlib
 
 import pytest
-
 from generaltranslation._id import hash_source, hash_string, hash_template
 
 FIXTURES = json.loads(

@@ -7,7 +7,6 @@ from __future__ import annotations
 
 from generaltranslation.formatting._helpers import _get_language_code
 
-
 # Default style when maxChars is set
 DEFAULT_CUTOFF_FORMAT_STYLE = "ellipsis"
 

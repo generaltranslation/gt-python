@@ -1,10 +1,8 @@
 """FastAPI integration tests."""
 
 import pytest
-
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
 from gt_fastapi import initialize_gt, t
 from gt_i18n.translation_functions._hash_message import hash_message
 

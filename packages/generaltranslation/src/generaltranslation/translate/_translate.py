@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from generaltranslation._id import hash_source
 from generaltranslation._settings import DEFAULT_RUNTIME_API_URL
@@ -13,7 +13,7 @@ async def translate_many(
     requests: list[Any] | dict[str, Any],
     global_metadata: dict[str, Any],
     config: dict[str, Any],
-    timeout: Optional[int] = None,
+    timeout: int | None = None,
 ) -> list[dict[str, Any]] | dict[str, dict[str, Any]]:
     """Translate multiple entries in a single API request.
 

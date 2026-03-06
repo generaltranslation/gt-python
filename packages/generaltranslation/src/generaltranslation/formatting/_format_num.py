@@ -5,7 +5,7 @@ Ports ``_formatNum`` from the JS core library.
 
 from __future__ import annotations
 
-from babel.numbers import format_decimal, format_percent, format_compact_decimal
+from babel.numbers import format_compact_decimal, format_decimal, format_percent
 
 from generaltranslation.formatting._helpers import _resolve_babel_locale
 

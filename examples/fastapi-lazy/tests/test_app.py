@@ -6,7 +6,6 @@ first request per locale, and are cached for subsequent requests.
 
 from fastapi import Depends, FastAPI, Request
 from fastapi.testclient import TestClient
-
 from gt_fastapi import initialize_gt, t
 
 TRANSLATIONS = {

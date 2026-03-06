@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 import pytest
-from generaltranslation.formatting import format_cutoff, CutoffFormat
+from generaltranslation.formatting import CutoffFormat, format_cutoff
 
 FIXTURES = json.loads(
     (Path(__file__).parent / "fixtures" / "formatting_fixtures.json").read_text()

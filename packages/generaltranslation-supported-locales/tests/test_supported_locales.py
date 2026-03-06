@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from generaltranslation_supported_locales import (
     get_supported_locale,
     list_supported_locales,

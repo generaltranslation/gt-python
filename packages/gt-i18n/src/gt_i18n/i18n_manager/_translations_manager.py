@@ -5,7 +5,7 @@ from __future__ import annotations
 import asyncio
 import inspect
 import time
-from typing import Awaitable, Callable
+from collections.abc import Awaitable, Callable
 
 TranslationsLoader = Callable[[str], dict[str, str] | Awaitable[dict[str, str]]]
 

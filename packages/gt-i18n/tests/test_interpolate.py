@@ -7,9 +7,7 @@ packages/i18n/src/translation-functions/fallbacks/__tests__/gtFallback.test.ts
 """
 
 from generaltranslation.static._declare_var import declare_var
-
 from gt_i18n.translation_functions._interpolate import interpolate_message
-
 
 # --- Basic interpolation ---
 

@@ -1,5 +1,5 @@
-from generaltranslation.translate._headers import generate_request_headers
 from generaltranslation._settings import API_VERSION
+from generaltranslation.translate._headers import generate_request_headers
 
 
 def test_basic_headers():

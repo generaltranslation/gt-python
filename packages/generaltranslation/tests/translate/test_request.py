@@ -1,9 +1,10 @@
 import json
-import pytest
-from unittest.mock import AsyncMock, patch, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
+
 import httpx
-from generaltranslation.translate._request import api_request
+import pytest
 from generaltranslation.errors import ApiError
+from generaltranslation.translate._request import api_request
 
 
 @pytest.fixture
