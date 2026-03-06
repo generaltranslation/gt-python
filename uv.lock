@@ -8,6 +8,7 @@ members = [
     "generaltranslation-icu-messageformat-parser",
     "generaltranslation-intl-messageformat",
     "generaltranslation-supported-locales",
+    "gt-fastapi",
     "gt-flask",
     "gt-i18n",
     "gt-python",
@@ -198,30 +199,38 @@ dependencies = [
 requires-dist = [{ name = "generaltranslation", editable = "packages/generaltranslation" }]
 
 [[package]]
-name = "gt-flask"
+name = "gt-fastapi"
 version = "0.0.0"
-source = { editable = "packages/gt-flask" }
+source = { editable = "packages/gt-fastapi" }
 dependencies = [
+    { name = "fastapi" },
     { name = "generaltranslation" },
     { name = "gt-i18n" },
 ]
 
-[package.optional-dependencies]
-fastapi = [
-    { name = "fastapi" },
+[package.metadata]
+requires-dist = [
+    { name = "fastapi", specifier = ">=0.100.0" },
+    { name = "generaltranslation", editable = "packages/generaltranslation" },
+    { name = "gt-i18n", editable = "packages/gt-i18n" },
 ]
-flask = [
+
+[[package]]
+name = "gt-flask"
+version = "0.0.0"
+source = { editable = "packages/gt-flask" }
+dependencies = [
     { name = "flask" },
+    { name = "generaltranslation" },
+    { name = "gt-i18n" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "fastapi", marker = "extra == 'fastapi'", specifier = ">=0.100.0" },
-    { name = "flask", marker = "extra == 'flask'", specifier = ">=3.0.0" },
+    { name = "flask", specifier = ">=3.0.0" },
     { name = "generaltranslation", editable = "packages/generaltranslation" },
     { name = "gt-i18n", editable = "packages/gt-i18n" },
 ]
-provides-extras = ["flask", "fastapi"]
 
 [[package]]
 name = "gt-i18n"
@@ -230,12 +239,14 @@ source = { editable = "packages/gt-i18n" }
 dependencies = [
     { name = "generaltranslation" },
     { name = "generaltranslation-supported-locales" },
+    { name = "httpx" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "generaltranslation", editable = "packages/generaltranslation" },
     { name = "generaltranslation-supported-locales", editable = "packages/supported-locales" },
+    { name = "httpx", specifier = ">=0.25.0" },
 ]
 
 [[package]]

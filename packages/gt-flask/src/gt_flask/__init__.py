@@ -1,3 +1,6 @@
-"""Flask and FastAPI integration for General Translation."""
+"""Flask integration for General Translation."""
 
-__all__: list[str] = []
+from gt_flask._setup import initialize_gt
+from gt_i18n import t
+
+__all__ = ["initialize_gt", "t"]

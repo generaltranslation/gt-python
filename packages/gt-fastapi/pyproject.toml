@@ -1,7 +1,7 @@
 [project]
-name = "gt-i18n"
+name = "gt-fastapi"
 version = "0.0.0"
-description = "Python i18n library for General Translation"
+description = "FastAPI integration for General Translation"
 readme = "README.md"
 authors = [
     { name = "Ernest McCarter", email = "ernest@generaltranslation.com" }
@@ -11,13 +11,13 @@ license = "FSL-1.1-ALv2"
 license-files = ["LICENSE.md"]
 dependencies = [
     "generaltranslation",
-    "generaltranslation-supported-locales",
-    "httpx>=0.25.0",
+    "gt-i18n",
+    "fastapi>=0.100.0",
 ]
 
 [tool.uv.sources]
 generaltranslation = { workspace = true }
-generaltranslation-supported-locales = { workspace = true }
+gt-i18n = { workspace = true }
 
 [build-system]
 requires = ["uv_build>=0.10.8,<0.11.0"]
