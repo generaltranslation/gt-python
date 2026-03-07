@@ -174,14 +174,28 @@ This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formattin
 - Keep functions focused and small
 - Add docstrings to public functions and classes
 
-### Commit Messages
+### PR Titles
 
-Please use [Semantic Commit Messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716).
-For the scope, you can also mention the package names.
-Use clear, descriptive commit messages that explain the "why" behind the change.
+Since all branches are squash-merged, the **PR title becomes the commit message** on `main`. PR titles are validated by CI using [Semantic Commit Messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716) format:
 
-These commit conventions are generally most important on commits to main.
-All branch commits get squash-merged.
+```
+type(scope): subject
+```
+
+- **type** (required): `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+- **scope** (optional): package name or area, e.g. `feat(generaltranslation): add new method`
+- **subject** (required): lowercase start, describes the "why" behind the change
+
+Examples:
+
+```
+feat: add batch translation support
+fix(generaltranslation): handle empty input gracefully
+chore: update dependencies
+docs: clarify setup instructions
+```
+
+Individual commit messages on feature branches are not enforced, but following the same convention is encouraged.
 
 ## Join The Project Team
 
