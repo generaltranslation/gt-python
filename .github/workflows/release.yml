@@ -34,6 +34,7 @@ jobs:
         uses: bruits/sampo/crates/sampo-github-action@main
         with:
           command: auto
+          pr-title: "chore(release): bump versions and changelogs"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
