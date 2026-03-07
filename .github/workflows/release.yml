@@ -16,43 +16,79 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: release
-    outputs:
-      released: ${{ steps.sampo.outputs.released }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: astral-sh/setup-uv@v6
       - run: uv sync --all-packages
-      - name: Create Release Pull Request or Tag
-        id: sampo
+      - name: Create Release Pull Request
         uses: bruits/sampo/crates/sampo-github-action@main
         with:
           command: release
-          create-github-release: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
     name: Publish to PyPI
-    needs: release
-    if: needs.release.outputs.released == 'true'
     runs-on: ubuntu-latest
     environment:
       name: release
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - uses: astral-sh/setup-uv@v6
-      - name: Build all packages
+
+      - name: Check for version changes
+        id: check
         run: |
+          CHANGED=$(git diff HEAD~1 -- 'packages/*/pyproject.toml' | grep -c '^+version' || true)
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+
+      - name: Create tags and GitHub releases
+        id: tag
+        if: steps.check.outputs.changed != '0'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_PACKAGES=""
           for pkg in packages/*/; do
-            pkg_name=$(basename "$pkg")
-            if grep -q '\[build-system\]' "$pkg/pyproject.toml" 2>/dev/null; then
-              echo "Building $pkg_name..."
-              uv build --package "$pkg_name" --out-dir dist/
+            name=$(grep '^name = ' "$pkg/pyproject.toml" | head -1 | sed 's/.*"\(.*\)".*/\1/')
+            version=$(grep '^version = ' "$pkg/pyproject.toml" | head -1 | sed 's/.*"\(.*\)".*/\1/')
+            tag="${name}@${version}"
+            if ! git tag -l "$tag" | grep -q .; then
+              git tag "$tag"
+              echo "Tagged $tag"
+              NEW_PACKAGES="$NEW_PACKAGES $name"
             fi
           done
+          git push origin --tags
+
+          # Create GitHub releases for each new tag
+          for pkg in packages/*/; do
+            name=$(grep '^name = ' "$pkg/pyproject.toml" | head -1 | sed 's/.*"\(.*\)".*/\1/')
+            version=$(grep '^version = ' "$pkg/pyproject.toml" | head -1 | sed 's/.*"\(.*\)".*/\1/')
+            tag="${name}@${version}"
+            # Only create releases for packages that were newly tagged
+            if echo "$NEW_PACKAGES" | grep -qw "$name"; then
+              gh release create "$tag" --title "$tag" --generate-notes
+              echo "Created release $tag"
+            fi
+          done
+
+          echo "new_packages=$NEW_PACKAGES" >> "$GITHUB_OUTPUT"
+
+      - name: Build changed packages
+        if: steps.check.outputs.changed != '0'
+        run: |
+          for pkg_name in ${{ steps.tag.outputs.new_packages }}; do
+            echo "Building $pkg_name..."
+            uv build --package "$pkg_name" --out-dir dist/
+          done
+
       - name: Publish to PyPI
+        if: steps.check.outputs.changed != '0'
         run: uv publish dist/*
         env:
           UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
