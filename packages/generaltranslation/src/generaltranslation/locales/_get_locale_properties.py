@@ -8,10 +8,9 @@ name resolution instead of the browser ``Intl`` APIs.
 from __future__ import annotations
 
 from babel import Locale
-
-from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from babel.core import get_global
 
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from generaltranslation.locales._types import CustomMapping, LocaleProperties
 
 _likely_subtags: dict[str, str] = dict(get_global("likely_subtags"))

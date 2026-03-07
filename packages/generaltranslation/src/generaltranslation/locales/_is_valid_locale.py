@@ -10,7 +10,6 @@ from babel import Locale
 from babel.core import UnknownLocaleError
 
 from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
-
 from generaltranslation.locales._types import CustomMapping
 
 # Scripts that are valid but may not be recognised by all display-name APIs.
