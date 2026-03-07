@@ -6,53 +6,21 @@ from collections.abc import AsyncGenerator, Callable
 from contextlib import asynccontextmanager
 from typing import Any
 
-from generaltranslation.locales import determine_locale
-from gt_i18n import I18nManager, set_i18n_manager, t  # noqa: F401
-
-
-def _detect_from_accept_language(request: Any, manager: I18nManager) -> str:
-    """Parse Accept-Language header and resolve against configured locales."""
-    accept = request.headers.get("accept-language", "")
-    if not accept:
-        return manager.default_locale
-
-    locales: list[tuple[float, str]] = []
-    for part in accept.split(","):
-        part = part.strip()
-        if not part:
-            continue
-        if ";q=" in part:
-            lang, q = part.split(";q=", 1)
-            try:
-                quality = float(q.strip())
-            except ValueError:
-                quality = 0.0
-            locales.append((quality, lang.strip()))
-        else:
-            locales.append((1.0, part))
-
-    locales.sort(key=lambda x: x[0], reverse=True)
-    locale_list = [loc for _, loc in locales]
-
-    approved = manager.get_locales()
-    if not approved:
-        return locale_list[0] if locale_list else manager.default_locale
-
-    result = determine_locale(locale_list, approved)
-    return result or manager.default_locale
-
+from gt_i18n import I18nManager, set_i18n_manager
+from gt_i18n.internal import _detect_from_accept_language
+from generaltranslation import CustomMapping
 
 def initialize_gt(
     app: Any,
     *,
     default_locale: str = "en",
     locales: list[str] | None = None,
+    custom_mapping: CustomMapping | None = None,
     project_id: str | None = None,
     cache_url: str | None = None,
     get_locale: Callable[..., str] | None = None,
     load_translations: Callable[[str], dict[str, str]] | None = None,
     eager_loading: bool = True,
-    **kwargs: Any,
 ) -> I18nManager:
     """Initialize General Translation for a FastAPI app.
 
@@ -73,10 +41,10 @@ def initialize_gt(
     manager = I18nManager(
         default_locale=default_locale,
         locales=locales,
+        custom_mapping=custom_mapping,
         project_id=project_id,
         cache_url=cache_url,
         load_translations=load_translations,
-        **kwargs,
     )
     set_i18n_manager(manager)
 

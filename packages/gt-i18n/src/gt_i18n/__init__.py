@@ -21,6 +21,11 @@ from gt_i18n.translation_functions import (
     t,
     t_fallback,
 )
+from gt_i18n.helpers._locales import (
+    get_locale,
+    get_locales,
+    get_default_locale,
+)
 
 __all__ = [
     # I18nManager
@@ -40,6 +45,10 @@ __all__ = [
     "msg",
     "t",
     "t_fallback",
+    # Locale helpers
+    "get_locale",
+    "get_locales",
+    "get_default_locale",
     # Static variable helpers
     "declare_var",
     "declare_static",
