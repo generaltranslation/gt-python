@@ -1,5 +1,14 @@
 # gt-flask
 
+## 0.0.3 — 2026-03-07
+
+### Patch changes
+
+- [d179ff0](https://github.com/generaltranslation/gt-python/commit/d179ff017d018f868f43692453271b87525bd43f) test: changeset — Thanks @ErnestM1234!
+- [40a7db3](https://github.com/generaltranslation/gt-python/commit/40a7db33c709a2fec8c57860c409179f9dca0a3f) test: release — Thanks @ErnestM1234!
+- [87f7355](https://github.com/generaltranslation/gt-python/commit/87f7355cb71a33c7de15102a041f5b57855bf9b6) test: ci — Thanks @ErnestM1234!
+- Updated dependencies: generaltranslation@0.0.3, gt-i18n@0.0.3
+
 ## 0.0.2 — 2026-03-06
 
 ### Patch changes

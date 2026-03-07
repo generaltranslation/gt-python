@@ -1,6 +1,6 @@
 [project]
 name = "generaltranslation-intl-messageformat"
-version = "0.0.2"
+version = "0.0.3"
 description = "ICU MessageFormat formatter with locale-aware plural and select rules"
 readme = "README.md"
 authors = [

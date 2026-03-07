@@ -1,6 +1,6 @@
 [project]
 name = "generaltranslation"
-version = "0.0.2"
+version = "0.0.3"
 description = "Core Python language toolkit for General Translation"
 readme = "README.md"
 authors = [
