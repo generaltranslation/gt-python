@@ -9,6 +9,7 @@ from __future__ import annotations
 from babel import Locale
 from babel.core import UnknownLocaleError
 from babel.numbers import format_decimal
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from generaltranslation_icu_messageformat_parser import Parser
 
 _parser = Parser()
@@ -27,13 +28,13 @@ class IntlMessageFormat:
         mf.format({"count": 5})  # "5 items"
     """
 
-    def __init__(self, pattern: str, locale: str = "en") -> None:
+    def __init__(self, pattern: str, locale: str = LIBRARY_DEFAULT_LOCALE) -> None:
         self._pattern = pattern
         self._ast = _parser.parse(pattern)
         try:
             self._locale = Locale.parse(locale, sep="-")
         except (UnknownLocaleError, ValueError):
-            self._locale = Locale("en")
+            self._locale = Locale(LIBRARY_DEFAULT_LOCALE)
 
     @property
     def pattern(self) -> str:

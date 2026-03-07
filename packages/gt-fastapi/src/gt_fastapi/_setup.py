@@ -6,6 +6,7 @@ from collections.abc import AsyncGenerator, Callable
 from contextlib import asynccontextmanager
 from typing import Any
 
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from generaltranslation.locales import determine_locale
 from gt_i18n import I18nManager, set_i18n_manager, t  # noqa: F401
 
@@ -45,7 +46,7 @@ def _detect_from_accept_language(request: Any, manager: I18nManager) -> str:
 def initialize_gt(
     app: Any,
     *,
-    default_locale: str = "en",
+    default_locale: str = LIBRARY_DEFAULT_LOCALE,
     locales: list[str] | None = None,
     project_id: str | None = None,
     cache_url: str | None = None,

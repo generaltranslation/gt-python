@@ -9,6 +9,8 @@ from __future__ import annotations
 from babel import Locale
 from babel.core import UnknownLocaleError
 
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
+
 
 def _resolve_babel_locale(locales: str | list[str] | None = None) -> Locale:
     """Convert BCP 47 locale(s) to a Babel :class:`Locale` instance.
@@ -22,7 +24,7 @@ def _resolve_babel_locale(locales: str | list[str] | None = None) -> Locale:
         A :class:`babel.Locale` instance.
     """
     if locales is None:
-        return Locale("en")
+        return Locale(LIBRARY_DEFAULT_LOCALE)
     if isinstance(locales, str):
         locales = [locales]
     for tag in locales:
@@ -30,7 +32,7 @@ def _resolve_babel_locale(locales: str | list[str] | None = None) -> Locale:
             return Locale.parse(tag, sep="-")
         except (UnknownLocaleError, ValueError):
             continue
-    return Locale("en")
+    return Locale(LIBRARY_DEFAULT_LOCALE)
 
 
 def _get_language_code(locales: str | list[str] | None = None) -> str:

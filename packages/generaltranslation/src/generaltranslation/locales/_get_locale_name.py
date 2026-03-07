@@ -8,12 +8,13 @@ from __future__ import annotations
 
 from babel import Locale
 
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from generaltranslation.locales._types import CustomMapping
 
 
 def get_locale_name(
     locale: str,
-    default_locale: str | None = "en",
+    default_locale: str | None = LIBRARY_DEFAULT_LOCALE,
     custom_mapping: CustomMapping | None = None,
 ) -> str:
     """Return the display name of *locale* rendered in *default_locale*.

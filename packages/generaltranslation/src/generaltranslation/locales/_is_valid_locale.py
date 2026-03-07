@@ -9,6 +9,8 @@ from __future__ import annotations
 from babel import Locale
 from babel.core import UnknownLocaleError
 
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
+
 from generaltranslation.locales._types import CustomMapping
 
 # Scripts that are valid but may not be recognised by all display-name APIs.
@@ -109,7 +111,7 @@ def is_valid_locale(
     # For region codes, verify they're known
     if parsed.territory:
         try:
-            display_locale = Locale("en")
+            display_locale = Locale(LIBRARY_DEFAULT_LOCALE)
             if parsed.territory not in display_locale.territories:
                 return False
         except Exception:
@@ -119,7 +121,7 @@ def is_valid_locale(
     if parsed.script:
         if parsed.script not in SCRIPT_EXCEPTIONS:
             try:
-                display_locale = Locale("en")
+                display_locale = Locale(LIBRARY_DEFAULT_LOCALE)
                 if parsed.script not in display_locale.scripts:
                     return False
             except Exception:

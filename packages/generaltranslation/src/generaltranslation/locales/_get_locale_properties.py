@@ -8,6 +8,8 @@ name resolution instead of the browser ``Intl`` APIs.
 from __future__ import annotations
 
 from babel import Locale
+
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from babel.core import get_global
 
 from generaltranslation.locales._types import CustomMapping, LocaleProperties
@@ -105,7 +107,7 @@ def _build_component_name(
 
 def get_locale_properties(
     locale: str,
-    default_locale: str | None = "en",
+    default_locale: str | None = LIBRARY_DEFAULT_LOCALE,
     custom_mapping: CustomMapping | None = None,
 ) -> LocaleProperties:
     """Return a :class:`LocaleProperties` for *locale*."""
