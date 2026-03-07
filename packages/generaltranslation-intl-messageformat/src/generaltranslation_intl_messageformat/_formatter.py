@@ -9,8 +9,9 @@ from __future__ import annotations
 from babel import Locale
 from babel.core import UnknownLocaleError
 from babel.numbers import format_decimal
-from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from generaltranslation_icu_messageformat_parser import Parser
+
+LIBRARY_DEFAULT_LOCALE = "en"
 
 _parser = Parser()
 
