@@ -1,5 +1,7 @@
 # generaltranslation-intl-messageformat
 
+> ⚠️ **Experimental / Unstable** — This package is under active development and may be subject to breaking changes.
+
 ICU MessageFormat formatter with locale-aware plural and select rules. Python equivalent of [`intl-messageformat`](https://www.npmjs.com/package/intl-messageformat).
 
 Uses [`generaltranslation-icu-messageformat-parser`](../generaltranslation-icu-messageformat-parser) for parsing and [Babel](https://babel.pocoo.org/) for CLDR plural rules.
