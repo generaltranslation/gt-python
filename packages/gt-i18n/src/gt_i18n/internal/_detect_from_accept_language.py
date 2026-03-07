@@ -1,5 +1,7 @@
 from typing import Any
+
 from gt_i18n.i18n_manager._i18n_manager import I18nManager
+
 
 def _detect_from_accept_language(request: Any, manager: I18nManager) -> str:
     """Default, Parse Accept-Language header and resolve against configured locales."""

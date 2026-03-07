@@ -6,10 +6,10 @@ import asyncio
 from collections.abc import Callable
 from typing import Any
 
+from generaltranslation import CustomMapping
 from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from gt_i18n import I18nManager, set_i18n_manager
 from gt_i18n.internal import _detect_from_accept_language
-from generaltranslation import CustomMapping
 
 
 def initialize_gt(

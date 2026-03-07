@@ -2,6 +2,11 @@
 
 from generaltranslation.static import declare_static, declare_var, decode_vars
 
+from gt_i18n.helpers._locales import (
+    get_default_locale,
+    get_locale,
+    get_locales,
+)
 from gt_i18n.i18n_manager import (
     ContextVarStorageAdapter,
     I18nManager,
@@ -20,11 +25,6 @@ from gt_i18n.translation_functions import (
     msg,
     t,
     t_fallback,
-)
-from gt_i18n.helpers._locales import (
-    get_locale,
-    get_locales,
-    get_default_locale,
 )
 
 __all__ = [

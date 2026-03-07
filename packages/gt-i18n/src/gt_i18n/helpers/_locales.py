@@ -1,5 +1,6 @@
 from gt_i18n.i18n_manager._singleton import get_i18n_manager
 
+
 def get_locale() -> str:
     """Get the current locale from the I18nManager."""
     manager = get_i18n_manager()
