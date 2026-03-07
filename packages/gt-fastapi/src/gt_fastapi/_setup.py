@@ -6,6 +6,7 @@ from collections.abc import AsyncGenerator, Callable
 from contextlib import asynccontextmanager
 from typing import Any
 
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from gt_i18n import I18nManager, set_i18n_manager
 from gt_i18n.internal import _detect_from_accept_language
 from generaltranslation import CustomMapping
@@ -13,7 +14,7 @@ from generaltranslation import CustomMapping
 def initialize_gt(
     app: Any,
     *,
-    default_locale: str = "en",
+    default_locale: str = LIBRARY_DEFAULT_LOCALE,
     locales: list[str] | None = None,
     custom_mapping: CustomMapping | None = None,
     project_id: str | None = None,

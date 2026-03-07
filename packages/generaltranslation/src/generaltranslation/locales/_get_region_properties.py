@@ -9,13 +9,14 @@ from __future__ import annotations
 
 from babel import Locale
 
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from generaltranslation.locales._get_locale_emoji import DEFAULT_EMOJI, EMOJIS
 from generaltranslation.locales._types import CustomRegionMapping
 
 
 def get_region_properties(
     region: str,
-    default_locale: str | None = "en",
+    default_locale: str | None = LIBRARY_DEFAULT_LOCALE,
     custom_mapping: CustomRegionMapping | None = None,
 ) -> dict[str, str]:
     """Return metadata for a region code.
