@@ -1,5 +1,7 @@
 # generaltranslation-icu-messageformat-parser
 
+> ⚠️ **Experimental / Unstable** — This package is under active development and may be subject to breaking changes.
+
 A pure-Python ICU MessageFormat parser with whitespace-preserving AST and string reconstruction. Python equivalent of [`@formatjs/icu-messageformat-parser`](https://www.npmjs.com/package/@formatjs/icu-messageformat-parser).
 
 Derived from [pyicumessageformat](https://github.com/SirStendec/pyicumessageformat) by Mike deBeaubien (MIT license).
