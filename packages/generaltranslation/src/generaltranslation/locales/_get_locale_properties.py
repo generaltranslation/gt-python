@@ -10,6 +10,7 @@ from __future__ import annotations
 from babel import Locale
 from babel.core import get_global
 
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from generaltranslation.locales._types import CustomMapping, LocaleProperties
 
 _likely_subtags: dict[str, str] = dict(get_global("likely_subtags"))
@@ -105,7 +106,7 @@ def _build_component_name(
 
 def get_locale_properties(
     locale: str,
-    default_locale: str | None = "en",
+    default_locale: str | None = LIBRARY_DEFAULT_LOCALE,
     custom_mapping: CustomMapping | None = None,
 ) -> LocaleProperties:
     """Return a :class:`LocaleProperties` for *locale*."""

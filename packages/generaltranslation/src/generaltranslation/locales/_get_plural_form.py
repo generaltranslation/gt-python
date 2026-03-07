@@ -11,6 +11,7 @@ from typing import cast
 
 from babel import Locale
 
+from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from generaltranslation.locales._types import PLURAL_FORMS, PluralType
 
 # Aliases between our custom form names and CLDR form names
@@ -54,7 +55,7 @@ def get_plural_form(
     if forms is None:
         forms = list(PLURAL_FORMS)
     if locales is None:
-        locales = ["en"]
+        locales = [LIBRARY_DEFAULT_LOCALE]
 
     forms_set = set(forms)
 
@@ -95,7 +96,7 @@ def _get_cldr_category(n: int | float, locales: list[str]) -> str:
             continue
     # Default to English rules
     try:
-        rule = Locale("en").plural_form
+        rule = Locale(LIBRARY_DEFAULT_LOCALE).plural_form
         return rule(abs(n))
     except Exception:
         return "other"
