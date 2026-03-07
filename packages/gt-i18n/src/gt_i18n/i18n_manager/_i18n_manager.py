@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from generaltranslation import CustomMapping
+from generaltranslation._gt import GT
 from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from generaltranslation.locales import requires_translation
 
@@ -37,6 +39,7 @@ class I18nManager:
         locales: list[str] | None = None,
         project_id: str | None = None,
         cache_url: str | None = None,
+        custom_mapping: CustomMapping | None = None,
         store_adapter: StorageAdapter | None = None,
         load_translations: TranslationsLoader | None = None,
         cache_expiry_time: int = 60_000,
@@ -44,6 +47,8 @@ class I18nManager:
         self._default_locale = default_locale
         self._locales = locales or []
         self._project_id = project_id
+        self._cache_url = cache_url
+        self._custom_mapping = custom_mapping
 
         # Storage
         self._store: StorageAdapter = store_adapter or ContextVarStorageAdapter()
@@ -65,6 +70,16 @@ class I18nManager:
     @property
     def default_locale(self) -> str:
         return self._default_locale
+
+    def get_gt_instance(self) -> GT:
+        """Get a new GT instance for the current request."""
+        return GT(
+            project_id=self._project_id,
+            source_locale=self._default_locale,
+            target_locale=self.get_locale(),
+            locales=self._locales,
+            custom_mapping=self._custom_mapping,
+        )
 
     def get_locales(self) -> list[str]:
         return list(self._locales)
