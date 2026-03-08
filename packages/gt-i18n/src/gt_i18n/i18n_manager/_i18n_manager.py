@@ -45,7 +45,8 @@ class I18nManager:
         cache_expiry_time: int = 60_000,
     ) -> None:
         self._default_locale = default_locale
-        self._locales = locales or []
+        locales_set: set[str] = {default_locale, *(locales or [])}
+        self._locales = list(locales_set)
         self._project_id = project_id
         self._cache_url = cache_url
         self._custom_mapping = custom_mapping
