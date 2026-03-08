@@ -29,15 +29,15 @@ def msg(message: str, **kwargs: object) -> str:
     except Exception:
         return message
 
-    # Build encoded options (preserve all kwargs including $-prefixed)
-    h = kwargs.get("$_hash") or hash_message(
+    # Build encoded options (preserve all kwargs including _-prefixed)
+    h = kwargs.get("__hash") or hash_message(
         message,
-        context=kwargs.get("$context"),  # type: ignore[arg-type]
-        id=kwargs.get("$id"),  # type: ignore[arg-type]
-        max_chars=kwargs.get("$max_chars"),  # type: ignore[arg-type]
+        context=kwargs.get("_context"),  # type: ignore[arg-type]
+        id=kwargs.get("_id"),  # type: ignore[arg-type]
+        max_chars=kwargs.get("_max_chars"),  # type: ignore[arg-type]
     )
 
-    encoded_options = {**kwargs, "$_source": message, "$_hash": h}
+    encoded_options = {**kwargs, "__source": message, "__hash": h}
     options_encoding = base64.b64encode(json.dumps(encoded_options, separators=(",", ":")).encode()).decode()
 
     return f"{interpolated}:{options_encoding}"
