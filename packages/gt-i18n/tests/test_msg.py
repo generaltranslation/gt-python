@@ -34,7 +34,7 @@ def _convert_encoded_string(encoded: str) -> str:
     if idx == -1:
         return encoded
     msg_part = encoded[:idx]
-    payload = json.loads(base64.b64decode(encoded[idx + 1:]).decode())
+    payload = json.loads(base64.b64decode(encoded[idx + 1 :]).decode())
     converted = _convert_keys(payload)
     new_b64 = base64.b64encode(json.dumps(converted).encode()).decode()
     return f"{msg_part}:{new_b64}"
