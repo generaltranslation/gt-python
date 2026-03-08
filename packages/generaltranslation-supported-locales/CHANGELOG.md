@@ -1,5 +1,11 @@
 # generaltranslation-supported-locales
 
+## 0.0.4 — 2026-03-08
+
+### Patch changes
+
+- Updated dependencies: generaltranslation@0.0.4
+
 ## 0.0.3 — 2026-03-07
 
 ### Patch changes
