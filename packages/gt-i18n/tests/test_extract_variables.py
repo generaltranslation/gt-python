@@ -22,3 +22,9 @@ def test_empty_dict() -> None:
 def test_all_underscore_keys() -> None:
     opts = {"_context": "x", "_id": "y", "_max_chars": 10}
     assert extract_variables(opts) == {}
+
+
+def test_user_underscore_prefixed_keys_preserved() -> None:
+    opts: dict[str, object] = {"_name": "Alice", "_context": "greeting"}
+    result = extract_variables(opts)
+    assert result == {"_name": "Alice"}
