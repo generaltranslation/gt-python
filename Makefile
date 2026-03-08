@@ -10,6 +10,7 @@ lint-fix:
 	uv run ruff check --fix .
 
 format:
+	uv run ruff check --fix .
 	uv run ruff format .
 
 format-check:

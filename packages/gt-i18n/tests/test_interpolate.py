@@ -30,7 +30,7 @@ def test_no_variables() -> None:
 def test_max_chars_cutoff() -> None:
     result = interpolate_message(
         "This is a very long message that should be cut off",
-        {"$max_chars": 10},
+        {"_max_chars": 10},
     )
     assert len(result) <= 10
 
@@ -83,7 +83,7 @@ def test_translated_with_declare_var() -> None:
     """
     source = f"Welcome back, {declare_var('Alice', name='user_name')}!"
     translated = "Bienvenido de nuevo, {_gt_1}!"
-    result = interpolate_message(translated, {"$_fallback": source})
+    result = interpolate_message(translated, {"__fallback": source})
     assert result == "Bienvenido de nuevo, Alice!"
 
 
@@ -95,7 +95,7 @@ def test_translated_multiple_declare_vars() -> None:
         f"{declare_var('oranges', name='item')}"
     )
     translated = "{_gt_1} compró {_gt_2} de {_gt_3}"
-    result = interpolate_message(translated, {"$_fallback": source})
+    result = interpolate_message(translated, {"__fallback": source})
     assert result == "Bob compró 5 de oranges"
 
 
@@ -104,7 +104,7 @@ def test_translated_reordered_vars() -> None:
     source = f"{declare_var('Alice', name='user')} bought {declare_var('apples', name='item')}"
     # Translation reorders: item before user
     translated = "{_gt_2} fueron comprados por {_gt_1}"
-    result = interpolate_message(translated, {"$_fallback": source})
+    result = interpolate_message(translated, {"__fallback": source})
     assert result == "apples fueron comprados por Alice"
 
 
@@ -120,7 +120,7 @@ def test_fallback_retry_on_format_error() -> None:
     """
     bad_translation = "{broken, plural, }"
     source = "Hello, world!"
-    result = interpolate_message(bad_translation, {"$_fallback": source})
+    result = interpolate_message(bad_translation, {"__fallback": source})
     # Should successfully format the source, not return it raw
     assert result == "Hello, world!"
 
@@ -133,7 +133,7 @@ def test_fallback_retry_preserves_user_vars() -> None:
     """
     bad_translation = "{broken, plural, }"
     source = "Hello, {name}!"
-    result = interpolate_message(bad_translation, {"$_fallback": source, "name": "Alice"})
+    result = interpolate_message(bad_translation, {"__fallback": source, "name": "Alice"})
     assert result == "Hello, Alice!"
 
 
@@ -141,7 +141,7 @@ def test_fallback_retry_preserves_declare_vars() -> None:
     """Fallback retry should also handle declare_var in the source."""
     bad_translation = "{broken, plural, }"
     source = f"Hello, {declare_var('Alice', name='user')}!"
-    result = interpolate_message(bad_translation, {"$_fallback": source})
+    result = interpolate_message(bad_translation, {"__fallback": source})
     assert result == "Hello, Alice!"
 
 
@@ -151,7 +151,7 @@ def test_no_fallback_returns_raw_with_cutoff() -> None:
     JS behavior: final catch returns formatCutoff(encodedMsg, {maxChars}).
     """
     bad_msg = "{broken, plural, }"
-    result = interpolate_message(bad_msg, {"$max_chars": 5})
+    result = interpolate_message(bad_msg, {"_max_chars": 5})
     assert len(result) <= 5
 
 
@@ -167,7 +167,7 @@ def test_no_fallback_returns_raw_message() -> None:
 
 def test_cutoff_applied_after_interpolation() -> None:
     """$max_chars truncates after interpolation."""
-    result = interpolate_message("Hello, {name}!", {"name": "Alice", "$max_chars": 8})
+    result = interpolate_message("Hello, {name}!", {"name": "Alice", "_max_chars": 8})
     assert len(result) <= 8
 
 
@@ -175,5 +175,5 @@ def test_cutoff_on_fallback_retry() -> None:
     """$max_chars should still apply when falling back to source."""
     bad_translation = "{broken, plural, }"
     source = "This is a long fallback message"
-    result = interpolate_message(bad_translation, {"$_fallback": source, "$max_chars": 10})
+    result = interpolate_message(bad_translation, {"__fallback": source, "_max_chars": 10})
     assert len(result) <= 10

@@ -25,15 +25,15 @@ def interpolate_message(
 
     Mirrors JS ``interpolateMessage()`` behavior:
 
-    1. Extract user variables (filter out ``$``-prefixed keys).
+    1. Extract user variables (filter out GT-reserved keys).
     2. Extract ``_gt_`` declared variables from the source/fallback.
     3. Condense ``_gt_`` selects to simple refs (only if declared vars exist).
     4. Format with ICU MessageFormat.
-    5. Apply ``$max_chars`` cutoff if specified.
+    5. Apply ``_max_chars`` cutoff if specified.
 
     On error:
-    - If ``$_fallback`` (source) is available, recursively retry with
-      the source message (clearing ``$_fallback`` to prevent infinite loop).
+    - If ``__fallback`` (source) is available, recursively retry with
+      the source message (clearing ``__fallback`` to prevent infinite loop).
     - Otherwise, return the raw message with cutoff applied.
 
     Args:
@@ -44,8 +44,8 @@ def interpolate_message(
     Returns:
         The interpolated string.
     """
-    source = options.get("$_fallback")
-    max_chars = options.get("$max_chars")
+    source = options.get("__fallback")
+    max_chars = options.get("_max_chars")
 
     # Remove GT-related options, keep user variables
     variables = extract_variables(options)
@@ -83,7 +83,7 @@ def interpolate_message(
         if source is not None and isinstance(source, str):
             return interpolate_message(
                 source,
-                {**options, "$_fallback": None},
+                {**options, "__fallback": None},
                 locale,
             )
 

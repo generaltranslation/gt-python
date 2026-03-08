@@ -4,5 +4,5 @@ from __future__ import annotations
 
 
 def is_encoded_translation_options(decoded_options: dict[str, object]) -> bool:
-    """Return True if the dict contains both ``$_hash`` and ``$_source``."""
-    return bool(decoded_options.get("$_hash") and decoded_options.get("$_source"))
+    """Return True if the dict contains both ``__hash`` and ``__source``."""
+    return bool(decoded_options.get("__hash") and decoded_options.get("__source"))

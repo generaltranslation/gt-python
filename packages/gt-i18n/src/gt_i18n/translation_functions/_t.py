@@ -17,7 +17,7 @@ def t(message: str, **kwargs: object) -> str:
     Args:
         message: The ICU MessageFormat source string.
         **kwargs: Interpolation variables and GT options
-            (``$context``, ``$id``, ``$max_chars``).
+            (``_context``, ``_id``, ``_max_chars``).
 
     Returns:
         The translated and interpolated string.
@@ -31,13 +31,13 @@ def t(message: str, **kwargs: object) -> str:
     translations = manager.get_translations_sync(locale)
     h = hash_message(
         message,
-        context=kwargs.get("$context"),  # type: ignore[arg-type]
-        id=kwargs.get("$id"),  # type: ignore[arg-type]
-        max_chars=kwargs.get("$max_chars"),  # type: ignore[arg-type]
+        context=kwargs.get("_context"),  # type: ignore[arg-type]
+        id=kwargs.get("_id"),  # type: ignore[arg-type]
+        max_chars=kwargs.get("_max_chars"),  # type: ignore[arg-type]
     )
     translated = translations.get(h)
     if translated:
-        return interpolate_message(translated, {**kwargs, "$_fallback": message}, locale)
+        return interpolate_message(translated, {**kwargs, "__fallback": message}, locale)
 
     # No translation found — use source
     return interpolate_message(message, kwargs, locale)
