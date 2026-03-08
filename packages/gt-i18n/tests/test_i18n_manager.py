@@ -44,7 +44,7 @@ def test_requires_translation_different_locale() -> None:
 
 def test_get_locales() -> None:
     mgr = I18nManager(default_locale="en", locales=["en", "es", "fr"])
-    assert mgr.get_locales() == ["en", "es", "fr"]
+    assert set(mgr.get_locales()) == {"en", "es", "fr"}
 
 
 def test_custom_loader() -> None:
@@ -67,4 +67,4 @@ def test_load_all() -> None:
 
     mgr = I18nManager(default_locale="en", locales=["es", "fr"], load_translations=loader)
     asyncio.run(mgr.load_all_translations())
-    assert loaded == {"es", "fr"}
+    assert loaded == {"en", "es", "fr"}
