@@ -276,7 +276,7 @@ requires-dist = [{ name = "generaltranslation", editable = "packages/generaltran
 
 [[package]]
 name = "gt-fastapi"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "packages/gt-fastapi" }
 dependencies = [
     { name = "fastapi" },

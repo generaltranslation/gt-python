@@ -1,5 +1,11 @@
 # gt-fastapi
 
+## 0.1.1 — 2026-03-08
+
+### Patch changes
+
+- [03765a5](https://github.com/generaltranslation/gt-python/commit/03765a5685b3f07d5a61c632f3bfce5fd67619a6) fix: loading behavior — Thanks @ErnestM1234!
+
 ## 0.1.0 — 2026-03-08
 
 ### Minor changes
