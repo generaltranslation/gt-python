@@ -71,7 +71,7 @@ def initialize_gt(
 
     @asynccontextmanager
     async def _gt_lifespan(a: Any) -> AsyncGenerator[Any, None]:
-        if eager_loading and locales:
+        if eager_loading and resolved_locales:
             await manager.load_all_translations()
         async with existing_lifespan(a) as state:
             yield state
