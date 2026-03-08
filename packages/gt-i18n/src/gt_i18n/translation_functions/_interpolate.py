@@ -25,7 +25,7 @@ def interpolate_message(
 
     Mirrors JS ``interpolateMessage()`` behavior:
 
-    1. Extract user variables (filter out ``_``-prefixed keys).
+    1. Extract user variables (filter out GT-reserved keys).
     2. Extract ``_gt_`` declared variables from the source/fallback.
     3. Condense ``_gt_`` selects to simple refs (only if declared vars exist).
     4. Format with ICU MessageFormat.
