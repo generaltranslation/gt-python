@@ -1,5 +1,16 @@
 # gt-i18n
 
+## 0.1.0 — 2026-03-08
+
+### Minor changes
+
+- [cc8caa1](https://github.com/generaltranslation/gt-python/commit/cc8caa160144f53b4838b4a184221036952c1a6e) feat: add expected functionalities — Thanks @ErnestM1234!
+
+### Patch changes
+
+- [7a7ce0d](https://github.com/generaltranslation/gt-python/commit/7a7ce0daee8320a8a193656a8cae68fa57302aa6) refactor: string registration interface — Thanks @ErnestM1234!
+- Updated dependencies: generaltranslation@0.0.4, generaltranslation-supported-locales@0.0.4
+
 ## 0.0.3 — 2026-03-07
 
 ### Patch changes

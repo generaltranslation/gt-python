@@ -1,5 +1,12 @@
 # generaltranslation
 
+## 0.0.4 — 2026-03-08
+
+### Patch changes
+
+- [3db6998](https://github.com/generaltranslation/gt-python/commit/3db6998a596745e441faa733cf6fd7a1ef9ffcbe) Centralize hardcoded `"en"` locale defaults into a `LIBRARY_DEFAULT_LOCALE` constant. No behavioral change. — Thanks @moss-bryophyta!
+- Updated dependencies: generaltranslation-intl-messageformat@0.0.4
+
 ## 0.0.3 — 2026-03-07
 
 ### Patch changes
