@@ -1,6 +1,6 @@
 [project]
 name = "gt-i18n"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python i18n library for General Translation"
 readme = "README.md"
 authors = [
