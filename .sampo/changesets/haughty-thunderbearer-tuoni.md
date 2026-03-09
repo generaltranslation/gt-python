@@ -1,0 +1,10 @@
+---
+pypi/generaltranslation: patch
+pypi/generaltranslation-intl-messageformat: patch
+pypi/generaltranslation-supported-locales: patch
+pypi/gt-fastapi: patch
+pypi/gt-flask: patch
+pypi/gt-i18n: patch
+---
+
+fix: ci tagging behavior
