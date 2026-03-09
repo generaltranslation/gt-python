@@ -1,7 +1,7 @@
 """Flask example with lazy translation loading.
 
 Translations are stored in _gt/<locale>.json and loaded on first request per locale.
-Configuration is read from gt.config.json.
+Configuration is read automatically from gt.config.json in the CWD.
 Run: uv run python app.py  (serves on port 5051)
 """
 
@@ -14,11 +14,7 @@ from gt_flask import initialize_gt, t
 
 app = Flask(__name__)
 
-BASE_DIR = Path(__file__).parent
-GT_DIR = BASE_DIR / "_gt"
-
-with open(BASE_DIR / "gt.config.json") as f:
-    config = json.load(f)
+GT_DIR = Path(__file__).parent / "_gt"
 
 
 def load_translations(locale: str) -> dict[str, str]:
@@ -32,8 +28,6 @@ def load_translations(locale: str) -> dict[str, str]:
 
 manager = initialize_gt(
     app,
-    default_locale=config.get("defaultLocale", "en"),
-    locales=config.get("locales"),
     load_translations=load_translations,
     eager_loading=False,
 )

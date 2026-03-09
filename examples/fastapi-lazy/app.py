@@ -1,7 +1,7 @@
 """FastAPI example with lazy translation loading.
 
 Translations are stored in _gt/<locale>.json and loaded on first request per locale.
-Configuration is read from gt.config.json.
+Configuration is read automatically from gt.config.json in the CWD.
 Run: uv run uvicorn app:app --port 8001
 """
 
@@ -13,11 +13,7 @@ from gt_fastapi import initialize_gt, t
 
 app = FastAPI(title="FastAPI Lazy Example")
 
-BASE_DIR = Path(__file__).parent
-GT_DIR = BASE_DIR / "_gt"
-
-with open(BASE_DIR / "gt.config.json") as f:
-    config = json.load(f)
+GT_DIR = Path(__file__).parent / "_gt"
 
 
 async def load_translations(locale: str) -> dict[str, str]:
@@ -31,8 +27,6 @@ async def load_translations(locale: str) -> dict[str, str]:
 
 manager = initialize_gt(
     app,
-    default_locale=config.get("defaultLocale", "en"),
-    locales=config.get("locales"),
     load_translations=load_translations,
     eager_loading=False,
 )
