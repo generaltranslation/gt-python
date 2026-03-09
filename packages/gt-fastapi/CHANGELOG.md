@@ -1,5 +1,12 @@
 # gt-fastapi
 
+## 0.1.2 — 2026-03-09
+
+### Patch changes
+
+- [900d906](https://github.com/generaltranslation/gt-python/commit/900d90638ed8550e8109b8d08026e494aa82b416) fix: ci tagging behavior — Thanks @ErnestM1234!
+- Updated dependencies: generaltranslation@0.0.5, gt-i18n@0.1.1
+
 ## 0.1.1 — 2026-03-08
 
 ### Patch changes

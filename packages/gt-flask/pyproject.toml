@@ -1,6 +1,6 @@
 [project]
 name = "gt-flask"
-version = "0.1.0"
+version = "0.1.1"
 description = "Flask integration for General Translation"
 readme = "README.md"
 authors = [

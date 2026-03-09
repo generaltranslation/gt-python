@@ -1,5 +1,11 @@
 # generaltranslation-intl-messageformat
 
+## 0.0.5 — 2026-03-09
+
+### Patch changes
+
+- [900d906](https://github.com/generaltranslation/gt-python/commit/900d90638ed8550e8109b8d08026e494aa82b416) fix: ci tagging behavior — Thanks @ErnestM1234!
+
 ## 0.0.4 — 2026-03-08
 
 ### Patch changes
