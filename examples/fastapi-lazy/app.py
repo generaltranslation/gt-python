@@ -1,36 +1,38 @@
 """FastAPI example with lazy translation loading.
 
-Translations are loaded on first request per locale, not at startup.
+Translations are stored in _gt/<locale>.json and loaded on first request per locale.
+Configuration is read from gt.config.json.
 Run: uv run uvicorn app:app --port 8001
 """
+
+import json
+from pathlib import Path
 
 from fastapi import Depends, FastAPI, Request
 from gt_fastapi import initialize_gt, t
 
 app = FastAPI(title="FastAPI Lazy Example")
 
-TRANSLATIONS: dict[str, dict[str, str]] = {
-    "es": {
-        "8042e0a3d395c1fb": "Hola, mundo!",
-        "9b323e35e1a80c51": "Hola, {name}!",
-    },
-    "fr": {
-        "8042e0a3d395c1fb": "Bonjour, le monde!",
-        "9b323e35e1a80c51": "Bonjour, {name}!",
-    },
-}
+BASE_DIR = Path(__file__).parent
+GT_DIR = BASE_DIR / "_gt"
+
+with open(BASE_DIR / "gt.config.json") as f:
+    config = json.load(f)
 
 
 async def load_translations(locale: str) -> dict[str, str]:
-    """Simulate loading translations from a remote source."""
-    print(f"[lazy] Loading translations for '{locale}'")
-    return TRANSLATIONS.get(locale, {})
+    """Load translations from _gt/<locale>.json."""
+    path = GT_DIR / f"{locale}.json"
+    if path.exists():
+        with open(path) as f:
+            return json.load(f)
+    return {}
 
 
 manager = initialize_gt(
     app,
-    default_locale="en",
-    locales=["en", "es", "fr"],
+    default_locale=config.get("defaultLocale", "en"),
+    locales=config.get("locales"),
     load_translations=load_translations,
     eager_loading=False,
 )
