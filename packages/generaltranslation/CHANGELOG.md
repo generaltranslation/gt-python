@@ -1,5 +1,11 @@
 # generaltranslation
 
+## 0.1.0 — 2026-03-18
+
+### Minor changes
+
+- [2986231](https://github.com/generaltranslation/gt-python/commit/29862313ec390591809667bbba9d7fd474c0e61c) refactor: rename `declare_static()` to `derive()` and deprecate `declare_static()` — Thanks @moss-bryophyta!
+
 ## 0.0.5 — 2026-03-09
 
 ### Patch changes
