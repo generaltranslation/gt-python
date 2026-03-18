@@ -1,6 +1,6 @@
 """Python i18n library for General Translation."""
 
-from generaltranslation.static import declare_static, declare_var, decode_vars
+from generaltranslation.static import declare_static, declare_var, decode_vars, derive
 
 from gt_i18n.helpers._locales import (
     get_default_locale,
@@ -49,8 +49,9 @@ __all__ = [
     "get_locale",
     "get_locales",
     "get_default_locale",
-    # Static variable helpers
+    # Derive / variable helpers
     "declare_var",
+    "derive",
     "declare_static",
     "decode_vars",
 ]

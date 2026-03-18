@@ -52,6 +52,7 @@ from generaltranslation.static import (
     declare_static,
     declare_var,
     decode_vars,
+    derive,
     extract_vars,
     index_vars,
     sanitize_var,
@@ -106,11 +107,12 @@ __all__ = [
     "is_superset_locale",
     "requires_translation",
     "get_plural_form",
-    # Static
+    # Derive / variable helpers
     "VAR_IDENTIFIER",
     "VAR_NAME_IDENTIFIER",
     "sanitize_var",
     "declare_var",
+    "derive",
     "declare_static",
     "decode_vars",
     "extract_vars",
