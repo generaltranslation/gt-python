@@ -1,8 +1,8 @@
 from generaltranslation.static._condense_vars import condense_vars
 from generaltranslation.static._constants import VAR_IDENTIFIER, VAR_NAME_IDENTIFIER
-from generaltranslation.static._derive import declare_static, derive
 from generaltranslation.static._declare_var import declare_var
 from generaltranslation.static._decode_vars import decode_vars
+from generaltranslation.static._derive import declare_static, derive
 from generaltranslation.static._extract_vars import extract_vars
 from generaltranslation.static._index_vars import index_vars
 from generaltranslation.static._sanitize_var import sanitize_var
