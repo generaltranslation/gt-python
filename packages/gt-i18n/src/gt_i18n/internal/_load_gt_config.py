@@ -16,7 +16,7 @@ _KEY_MAP: dict[str, str] = {
     "cacheUrl": "cache_url",
     "runtimeUrl": "runtime_url",
     "customMapping": "custom_mapping",
-    "_versionId": "version_id",
+    "_versionId": "version_id",  # leading underscore intentional — matches gt.config.json convention for internal fields
 }
 
 
