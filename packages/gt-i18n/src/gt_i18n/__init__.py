@@ -7,6 +7,7 @@ from gt_i18n.helpers._locales import (
     get_locale,
     get_locales,
 )
+from gt_i18n.helpers._version_id import get_version_id
 from gt_i18n.i18n_manager import (
     ContextVarStorageAdapter,
     I18nManager,
@@ -49,6 +50,8 @@ __all__ = [
     "get_locale",
     "get_locales",
     "get_default_locale",
+    # Version
+    "get_version_id",
     # Derive / variable helpers
     "declare_var",
     "derive",

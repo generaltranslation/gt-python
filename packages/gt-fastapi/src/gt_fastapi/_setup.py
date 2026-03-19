@@ -20,6 +20,7 @@ def initialize_gt(
     custom_mapping: CustomMapping | None = None,
     project_id: str | None = None,
     cache_url: str | None = None,
+    version_id: str | None = None,
     get_locale: Callable[..., str] | None = None,
     load_translations: Callable[[str], dict[str, str]] | None = None,
     eager_loading: bool = True,
@@ -34,6 +35,7 @@ def initialize_gt(
         locales: Target locales.
         project_id: GT project ID for CDN loading.
         cache_url: CDN base URL override.
+        version_id: Version ID for pinning translations.
         get_locale: Custom locale detection callback ``(request) -> str``.
         load_translations: Custom translation loader ``(locale) -> dict``.
         eager_loading: Load all translations at startup (default True).
@@ -56,6 +58,8 @@ def initialize_gt(
     resolved_cache_url = cache_url or file_config.get("cache_url")
     resolved_custom_mapping = custom_mapping or file_config.get("custom_mapping")
 
+    resolved_version_id = version_id or file_config.get("version_id")
+
     manager = I18nManager(
         default_locale=resolved_default_locale,
         locales=resolved_locales,
@@ -63,6 +67,7 @@ def initialize_gt(
         project_id=resolved_project_id,
         cache_url=resolved_cache_url,
         load_translations=load_translations,
+        version_id=resolved_version_id,
     )
     set_i18n_manager(manager)
 

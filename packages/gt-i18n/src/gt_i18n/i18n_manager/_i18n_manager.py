@@ -43,7 +43,9 @@ class I18nManager:
         store_adapter: StorageAdapter | None = None,
         load_translations: TranslationsLoader | None = None,
         cache_expiry_time: int = 60_000,
+        version_id: str | None = None,
     ) -> None:
+        self._version_id = version_id
         self._default_locale = default_locale
         locales_set: set[str] = {default_locale, *(locales or [])}
         self._locales = list(locales_set)
@@ -81,6 +83,10 @@ class I18nManager:
             locales=self._locales,
             custom_mapping=self._custom_mapping,
         )
+
+    def get_version_id(self) -> str | None:
+        """Get the version ID for the current source, if set."""
+        return self._version_id
 
     def get_locales(self) -> list[str]:
         return list(self._locales)
