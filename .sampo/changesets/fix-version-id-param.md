@@ -1,7 +1,7 @@
 ---
-pypi/gt-i18n: patch
-pypi/gt-fastapi: patch
-pypi/gt-flask: patch
+pypi/gt-i18n: minor
+pypi/gt-fastapi: minor
+pypi/gt-flask: minor
 ---
 
-fix: allow `version_id` to be passed as a direct parameter to `initialize_gt()`
+feat: add `version_id` support across gt-i18n, gt-fastapi, and gt-flask
