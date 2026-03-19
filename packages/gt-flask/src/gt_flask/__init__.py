@@ -1,6 +1,16 @@
 """Flask integration for General Translation."""
 
-from gt_i18n import declare_static, declare_var, decode_vars, derive, get_default_locale, get_locale, get_locales, get_version_id, t
+from gt_i18n import (
+    declare_static,
+    declare_var,
+    decode_vars,
+    derive,
+    get_default_locale,
+    get_locale,
+    get_locales,
+    get_version_id,
+    t,
+)
 
 from gt_flask._setup import initialize_gt
 
