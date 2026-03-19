@@ -276,7 +276,7 @@ requires-dist = [{ name = "generaltranslation", editable = "packages/generaltran
 
 [[package]]
 name = "gt-fastapi"
-version = "0.2.0"
+version = "0.3.0"
 source = { editable = "packages/gt-fastapi" }
 dependencies = [
     { name = "fastapi" },
@@ -293,7 +293,7 @@ requires-dist = [
 
 [[package]]
 name = "gt-flask"
-version = "0.2.0"
+version = "0.3.0"
 source = { editable = "packages/gt-flask" }
 dependencies = [
     { name = "flask" },
@@ -310,7 +310,7 @@ requires-dist = [
 
 [[package]]
 name = "gt-i18n"
-version = "0.2.0"
+version = "0.3.0"
 source = { editable = "packages/gt-i18n" }
 dependencies = [
     { name = "generaltranslation" },

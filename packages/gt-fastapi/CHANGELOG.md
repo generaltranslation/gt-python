@@ -1,5 +1,15 @@
 # gt-fastapi
 
+## 0.3.0 — 2026-03-19
+
+### Minor changes
+
+- [9ec9e3f](https://github.com/generaltranslation/gt-python/commit/9ec9e3f9b7302b9ac1db64e0bbc90aa57fb87b7b) feat: add `version_id` support across gt-i18n, gt-fastapi, and gt-flask — Thanks @moss-bryophyta!
+
+### Patch changes
+
+- Updated dependencies: gt-i18n@0.3.0
+
 ## 0.2.0 — 2026-03-18
 
 ### Minor changes
