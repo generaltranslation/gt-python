@@ -56,6 +56,8 @@ def initialize_gt(
     resolved_cache_url = cache_url or file_config.get("cache_url")
     resolved_custom_mapping = custom_mapping or file_config.get("custom_mapping")
 
+    resolved_version_id = file_config.get("version_id")
+
     manager = I18nManager(
         default_locale=resolved_default_locale,
         locales=resolved_locales,
@@ -63,6 +65,7 @@ def initialize_gt(
         project_id=resolved_project_id,
         cache_url=resolved_cache_url,
         load_translations=load_translations,
+        version_id=resolved_version_id,
     )
     set_i18n_manager(manager)
 
