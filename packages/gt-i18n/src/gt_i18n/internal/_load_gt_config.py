@@ -16,6 +16,7 @@ _KEY_MAP: dict[str, str] = {
     "cacheUrl": "cache_url",
     "runtimeUrl": "runtime_url",
     "customMapping": "custom_mapping",
+    "_versionId": "version_id",
 }
 
 
@@ -26,6 +27,7 @@ class GTConfig(TypedDict, total=False):
     cache_url: str
     runtime_url: str
     custom_mapping: CustomMapping
+    version_id: str
 
 
 def load_gt_config(config_path: str | None = None) -> GTConfig:
