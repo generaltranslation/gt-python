@@ -1,51 +1,36 @@
 """Flask example with lazy translation loading.
 
-Translations are loaded on first request per locale, not at startup.
+Translations are loaded from _gt/<locale>.json on first request per locale.
+Configuration is read from gt.config.json.
 Run: uv run python app.py  (serves on port 5051)
 """
 
 import asyncio
+import json
+from pathlib import Path
 
-from flask import Flask
+from flask import Flask, request
 from gt_flask import initialize_gt, t
 
 app = Flask(__name__)
 
-TRANSLATIONS: dict[str, dict[str, str]] = {
-    "es": {
-        "8042e0a3d395c1fb": "Hola, mundo!",
-        "9b323e35e1a80c51": "Hola, {name}!",
-    },
-    "fr": {
-        "8042e0a3d395c1fb": "Bonjour, le monde!",
-        "9b323e35e1a80c51": "Bonjour, {name}!",
-    },
-}
+GT_DIR = Path(__file__).parent / "_gt"
 
 
 def load_translations(locale: str) -> dict[str, str]:
-    """Simulate loading translations from a remote source."""
-    print(f"[lazy] Loading translations for '{locale}'")
-    return TRANSLATIONS.get(locale, {})
+    path = GT_DIR / f"{locale}.json"
+    if path.exists():
+        with open(path) as f:
+            return json.load(f)
+    return {}
 
 
-manager = initialize_gt(
-    app,
-    default_locale="en",
-    locales=["en", "es", "fr"],
-    load_translations=load_translations,
-    eager_loading=False,
-)
+manager = initialize_gt(app, load_translations=load_translations, eager_loading=False)
 
 
 @app.before_request
-def _ensure_translations() -> None:
-    """Load translations for the current locale if not already cached.
-
-    Registered after initialize_gt(), so this runs after the locale is set.
-    t() only reads from cache (get_translations_sync), so we must
-    explicitly trigger a load for the current locale before t() runs.
-    """
+def ensure_translations() -> None:
+    """Load translations for the request locale before t() runs."""
     locale = manager.get_locale()
     if manager.requires_translation(locale):
         asyncio.run(manager.get_translations(locale))
@@ -58,8 +43,6 @@ def index() -> dict[str, str]:
 
 @app.get("/greet")
 def greet() -> dict[str, str]:
-    from flask import request
-
     name = request.args.get("name", "World")
     return {"message": t("Hello, {name}!", name=name)}
 

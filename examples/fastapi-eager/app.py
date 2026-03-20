@@ -1,42 +1,30 @@
 """FastAPI example with eager translation loading.
 
-Translations are loaded at startup for all configured locales.
+Translations are loaded from _gt/<locale>.json at startup.
+Configuration is read from gt.config.json.
 Run: uv run uvicorn app:app --port 8000
 """
+
+import json
+from pathlib import Path
 
 from fastapi import FastAPI
 from gt_fastapi import initialize_gt, t
 
 app = FastAPI(title="FastAPI Eager Example")
 
-# Pre-built translation dictionaries keyed by hash.
-# hash_message("Hello, world!") -> "8042e0a3d395c1fb"
-# hash_message("Hello, {name}!") -> "9b323e35e1a80c51"
-TRANSLATIONS: dict[str, dict[str, str]] = {
-    "es": {
-        "8042e0a3d395c1fb": "Hola, mundo!",
-        "9b323e35e1a80c51": "Hola, {name}!",
-    },
-    "fr": {
-        "8042e0a3d395c1fb": "Bonjour, le monde!",
-        "9b323e35e1a80c51": "Bonjour, {name}!",
-    },
-}
+GT_DIR = Path(__file__).parent / "_gt"
 
 
 def load_translations(locale: str) -> dict[str, str]:
-    """Return translations for a locale from the in-memory dictionary."""
-    print(f"[eager] Loading translations for '{locale}'")
-    return TRANSLATIONS.get(locale, {})
+    path = GT_DIR / f"{locale}.json"
+    if path.exists():
+        with open(path) as f:
+            return json.load(f)
+    return {}
 
 
-initialize_gt(
-    app,
-    default_locale="en",
-    locales=["en", "es", "fr"],
-    load_translations=load_translations,
-    eager_loading=True,
-)
+initialize_gt(app, load_translations=load_translations)
 
 
 @app.get("/")
