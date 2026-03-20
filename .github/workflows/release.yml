@@ -69,11 +69,11 @@ jobs:
             tag="${name}@${version}"
             if ! git tag -l "$tag" | grep -q .; then
               git tag "$tag"
+              git push origin "$tag"
               echo "Tagged $tag"
               NEW_PACKAGES="$NEW_PACKAGES $name"
             fi
           done
-          git push origin --tags
 
           # Create GitHub releases for each new tag
           for pkg in packages/*/; do
