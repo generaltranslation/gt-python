@@ -71,7 +71,7 @@ def initialize_gt(
     )
     set_i18n_manager(manager)
 
-    if eager_loading and locales:
+    if eager_loading and resolved_locales:
         asyncio.run(manager.load_all_translations())
 
     @app.before_request

@@ -1,7 +1,7 @@
 """FastAPI example with eager translation loading.
 
-Translations are stored in _gt/<locale>.json and loaded at startup.
-Configuration is read automatically from gt.config.json in the CWD.
+Translations are loaded from _gt/<locale>.json at startup.
+Configuration is read from gt.config.json.
 Run: uv run uvicorn app:app --port 8000
 """
 
@@ -17,7 +17,6 @@ GT_DIR = Path(__file__).parent / "_gt"
 
 
 def load_translations(locale: str) -> dict[str, str]:
-    """Load translations from _gt/<locale>.json."""
     path = GT_DIR / f"{locale}.json"
     if path.exists():
         with open(path) as f:
@@ -25,11 +24,7 @@ def load_translations(locale: str) -> dict[str, str]:
     return {}
 
 
-initialize_gt(
-    app,
-    load_translations=load_translations,
-    eager_loading=True,
-)
+initialize_gt(app, load_translations=load_translations)
 
 
 @app.get("/")
