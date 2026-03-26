@@ -5,7 +5,7 @@ Ports ``_formatRelativeTime`` from the JS core library.
 
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 
 from babel.dates import format_timedelta
 
@@ -92,6 +92,70 @@ def format_relative_time(
         format=babel_format,  # type: ignore[arg-type]
         locale=locale,
     )
+
+
+def select_relative_time_unit(date: "datetime") -> tuple[int, str]:
+    """Select the best unit and compute the value for relative time formatting.
+
+    Mirrors ``_selectRelativeTimeUnit`` from the JS core library.
+
+    Args:
+        date: A :class:`~datetime.datetime` (timezone-aware or naive).
+
+    Returns:
+        A ``(value, unit)`` tuple where *value* is signed (negative = past)
+        and *unit* is one of ``"second"``, ``"minute"``, ``"hour"``,
+        ``"day"``, ``"week"``, ``"month"``, ``"year"``.
+    """
+    now = datetime.now(timezone.utc)
+    if date.tzinfo is None:
+        date = date.replace(tzinfo=timezone.utc)
+    diff_ms = (date - now).total_seconds() * 1000
+    abs_diff_ms = abs(diff_ms)
+    sign = -1 if diff_ms < 0 else 1
+
+    seconds = int(abs_diff_ms // 1000)
+    minutes = int(abs_diff_ms // (1000 * 60))
+    hours = int(abs_diff_ms // (1000 * 60 * 60))
+    days = int(abs_diff_ms // (1000 * 60 * 60 * 24))
+    weeks = int(abs_diff_ms // (1000 * 60 * 60 * 24 * 7))
+    months = int(abs_diff_ms // (1000 * 60 * 60 * 24 * 30))
+    years = int(abs_diff_ms // (1000 * 60 * 60 * 24 * 365))
+
+    if seconds < 60:
+        return (sign * seconds, "second")
+    if minutes < 60:
+        return (sign * minutes, "minute")
+    if hours < 24:
+        return (sign * hours, "hour")
+    if days < 7:
+        return (sign * days, "day")
+    if days < 28:
+        return (sign * weeks, "week")
+    if months < 12:
+        return (sign * months, "month")
+    return (sign * years, "year")
+
+
+def format_relative_time_from_date(
+    date: "datetime",
+    locales: str | list[str] | None = None,
+    options: dict | None = None,
+) -> str:
+    """Format a relative time string from a datetime, auto-selecting the best unit.
+
+    Mirrors ``_formatRelativeTimeFromDate`` from the JS core library.
+
+    Args:
+        date: A :class:`~datetime.datetime` (timezone-aware or naive).
+        locales: BCP 47 locale tag(s). Defaults to ``"en"``.
+        options: Formatting options passed to :func:`format_relative_time`.
+
+    Returns:
+        The formatted relative time string (e.g. ``"3 days ago"``).
+    """
+    value, unit = select_relative_time_unit(date)
+    return format_relative_time(value, unit, locales=locales, options=options)
 
 
 def _singular_unit(unit: str) -> str:

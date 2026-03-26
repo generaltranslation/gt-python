@@ -6,7 +6,11 @@ from generaltranslation.formatting._format_date_time import format_date_time
 from generaltranslation.formatting._format_list import format_list, format_list_to_parts
 from generaltranslation.formatting._format_message import format_message
 from generaltranslation.formatting._format_num import format_num
-from generaltranslation.formatting._format_relative_time import format_relative_time
+from generaltranslation.formatting._format_relative_time import (
+    format_relative_time,
+    format_relative_time_from_date,
+    select_relative_time_unit,
+)
 
 __all__ = [
     "format_num",
@@ -15,6 +19,8 @@ __all__ = [
     "format_list",
     "format_list_to_parts",
     "format_relative_time",
+    "format_relative_time_from_date",
+    "select_relative_time_unit",
     "format_message",
     "format_cutoff",
     "CutoffFormat",
