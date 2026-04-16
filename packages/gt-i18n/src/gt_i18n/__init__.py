@@ -26,6 +26,7 @@ from gt_i18n.translation_functions import (
     msg,
     t,
     t_fallback,
+    tx,
 )
 
 __all__ = [
@@ -46,6 +47,7 @@ __all__ = [
     "msg",
     "t",
     "t_fallback",
+    "tx",
     # Locale helpers
     "get_locale",
     "get_locales",

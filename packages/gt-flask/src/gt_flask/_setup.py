@@ -9,6 +9,7 @@ from typing import Any
 from generaltranslation import CustomMapping
 from generaltranslation._settings import LIBRARY_DEFAULT_LOCALE
 from gt_i18n import I18nManager, set_i18n_manager
+from gt_i18n.i18n_manager._lifecycle import LifecycleCallbacks
 from gt_i18n.internal import GTConfig, _detect_from_accept_language, load_gt_config
 
 
@@ -26,6 +27,11 @@ def initialize_gt(
     eager_loading: bool = True,
     config_path: str | None = None,
     load_config: Callable[[str | None], GTConfig] | None = None,
+    lifecycle: LifecycleCallbacks | None = None,
+    batch_size: int = 25,
+    batch_interval_ms: int = 50,
+    max_concurrent_requests: int = 100,
+    translation_timeout_ms: int = 12_000,
 ) -> I18nManager:
     """Initialize General Translation for a Flask app.
 
@@ -68,6 +74,11 @@ def initialize_gt(
         cache_url=resolved_cache_url,
         load_translations=load_translations,
         version_id=resolved_version_id,
+        lifecycle=lifecycle,
+        batch_size=batch_size,
+        batch_interval_ms=batch_interval_ms,
+        max_concurrent_requests=max_concurrent_requests,
+        translation_timeout_ms=translation_timeout_ms,
     )
     set_i18n_manager(manager)
 

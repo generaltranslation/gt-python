@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from gt_i18n.i18n_manager._singleton import get_i18n_manager
-from gt_i18n.translation_functions._hash_message import hash_message
 from gt_i18n.translation_functions._interpolate import interpolate_message
 
 
@@ -11,8 +10,8 @@ def t(message: str, **kwargs: object) -> str:
     """Translate and interpolate a message.
 
     Looks up the current locale from the I18nManager, finds a cached
-    translation by hash, and interpolates variables. Falls back to the
-    source message if no translation is available.
+    translation via ``lookup_translation``, and interpolates variables.
+    Falls back to the source message if no translation is available.
 
     Args:
         message: The ICU MessageFormat source string.
@@ -28,14 +27,13 @@ def t(message: str, **kwargs: object) -> str:
     if not manager.requires_translation(locale):
         return interpolate_message(message, kwargs, locale)
 
-    translations = manager.get_translations_sync(locale)
-    h = hash_message(
+    translated = manager.lookup_translation(
         message,
-        context=kwargs.get("_context"),  # type: ignore[arg-type]
-        id=kwargs.get("_id"),  # type: ignore[arg-type]
-        max_chars=kwargs.get("_max_chars"),  # type: ignore[arg-type]
+        _context=kwargs.get("_context"),
+        _id=kwargs.get("_id"),
+        _max_chars=kwargs.get("_max_chars"),
+        _format="ICU",
     )
-    translated = translations.get(h)
     if translated:
         return interpolate_message(translated, {**kwargs, "__fallback": message}, locale)
 

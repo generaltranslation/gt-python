@@ -7,6 +7,7 @@ from gt_i18n.translation_functions._hash_message import hash_message
 from gt_i18n.translation_functions._interpolate import interpolate_message
 from gt_i18n.translation_functions._msg import msg
 from gt_i18n.translation_functions._t import t
+from gt_i18n.translation_functions._tx import tx
 
 __all__ = [
     "decode_msg",
@@ -18,4 +19,5 @@ __all__ = [
     "msg",
     "t",
     "t_fallback",
+    "tx",
 ]
