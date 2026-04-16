@@ -33,7 +33,9 @@ def hash_source(
     if max_chars is not None:
         sanitized_data["maxChars"] = abs(max_chars)
 
-    stringified = json.dumps(sanitized_data, sort_keys=True, separators=(",", ":"))
+    # ensure_ascii=False matches JS JSON.stringify, which preserves raw UTF-8.
+    # Without this, Python escapes non-ASCII to \uXXXX and diverges from JS hashes.
+    stringified = json.dumps(sanitized_data, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
     return hash_function(stringified)
 
 
@@ -44,5 +46,5 @@ def hash_template(
     """Hash a template dict."""
     if hash_function is None:
         hash_function = hash_string
-    stringified = json.dumps(template, sort_keys=True, separators=(",", ":"))
+    stringified = json.dumps(template, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
     return hash_function(stringified)
