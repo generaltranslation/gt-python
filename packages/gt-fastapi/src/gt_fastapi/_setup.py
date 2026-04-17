@@ -32,6 +32,7 @@ def initialize_gt(
     batch_interval_ms: int = 50,
     max_concurrent_requests: int = 100,
     translation_timeout_ms: int = 12_000,
+    cache_expiry_time: int = 60_000,
 ) -> I18nManager:
     """Initialize General Translation for a FastAPI app.
 
@@ -79,6 +80,7 @@ def initialize_gt(
         batch_interval_ms=batch_interval_ms,
         max_concurrent_requests=max_concurrent_requests,
         translation_timeout_ms=translation_timeout_ms,
+        cache_expiry_time=cache_expiry_time,
     )
     set_i18n_manager(manager)
 

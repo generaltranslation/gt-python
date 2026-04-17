@@ -10,6 +10,7 @@ from gt_i18n import (
     get_locales,
     get_version_id,
     t,
+    tx,
 )
 
 from gt_fastapi._setup import initialize_gt
@@ -17,6 +18,7 @@ from gt_fastapi._setup import initialize_gt
 __all__ = [
     "initialize_gt",
     "t",
+    "tx",
     "declare_var",
     "derive",
     "declare_static",
