@@ -10,8 +10,8 @@ requires-python = ">=3.10"
 license = "FSL-1.1-ALv2"
 license-files = ["LICENSE.md"]
 dependencies = [
-    "generaltranslation",
-    "generaltranslation-supported-locales",
+    "generaltranslation>=0.1.0",
+    "generaltranslation-supported-locales>=0.0.6",
     "httpx>=0.25.0",
 ]
 

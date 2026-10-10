@@ -24,12 +24,15 @@ class I18nManager:
         default_locale: The source/default locale.
         locales: List of target locales the application supports.
         project_id: GT project ID (used for CDN loader).
-        cache_url: CDN base URL override.
+        cache_url: CDN base URL override. ``None`` uses the General
+            Translation CDN; an empty string turns CDN loading off.
         store_adapter: Custom storage adapter. Defaults to
             :class:`ContextVarStorageAdapter`.
         load_translations: Custom translation loader. Overrides the
             remote CDN loader when provided.
         cache_expiry_time: Cache expiry in milliseconds.
+        version_id: Pinned translation version for CDN loading.
+        branch_id: General Translation branch of the pinned version.
     """
 
     def __init__(
@@ -44,6 +47,7 @@ class I18nManager:
         load_translations: TranslationsLoader | None = None,
         cache_expiry_time: int = 60_000,
         version_id: str | None = None,
+        branch_id: str | None = None,
     ) -> None:
         self._version_id = version_id
         self._default_locale = default_locale
@@ -59,12 +63,12 @@ class I18nManager:
         # Translation loading
         if load_translations is not None:
             loader = load_translations
-        elif project_id:
+        elif project_id and cache_url != "":
             from gt_i18n.i18n_manager._remote_loader import (
                 create_remote_translation_loader,
             )
 
-            loader = create_remote_translation_loader(project_id, cache_url or "")
+            loader = create_remote_translation_loader(project_id, cache_url, version_id=version_id, branch_id=branch_id)
         else:
             loader = lambda locale: {}  # noqa: E731
 
@@ -114,8 +118,13 @@ class I18nManager:
         target = locale or self.get_locale()
         return await self._translations.get_translations(target)
 
+    def get_translations_blocking(self, locale: str | None = None) -> dict[str, str]:
+        """Get translations for a locale (sync; blocks on the first load, reloads expired ones in the background)."""
+        target = locale or self.get_locale()
+        return self._translations.get_translations_blocking(target)
+
     def get_translations_sync(self, locale: str | None = None) -> dict[str, str]:
-        """Get cached translations (sync, returns empty if not loaded)."""
+        """Get the last loaded translations (sync, never loads; empty if never loaded)."""
         target = locale or self.get_locale()
         return self._translations.get_translations_sync(target)
 
@@ -123,3 +132,8 @@ class I18nManager:
         """Eagerly load translations for all configured locales."""
         if self._locales:
             await self._translations.load_all(self._locales)
+
+    def load_all_translations_blocking(self) -> None:
+        """Eagerly load translations for all configured locales from synchronous code."""
+        if self._locales:
+            self._translations.load_all_blocking(self._locales)
