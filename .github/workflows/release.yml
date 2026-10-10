@@ -3,6 +3,8 @@ name: Release
 on:
   push:
     branches: [main]
+  # Run by hand to publish every package version that is not on PyPI yet.
+  workflow_dispatch:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -13,6 +15,7 @@ permissions:
 jobs:
   release:
     name: Release
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
       name: release
@@ -40,13 +43,14 @@ jobs:
 
   publish:
     name: Publish to PyPI
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: release
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
           fetch-tags: true
       - uses: astral-sh/setup-uv@v6
 
@@ -89,16 +93,44 @@ jobs:
 
           echo "new_packages=$NEW_PACKAGES" >> "$GITHUB_OUTPUT"
 
-      - name: Build changed packages
-        if: steps.check.outputs.changed != '0'
+      # A release run (a version bump on main) or a manual run builds every package
+      # version that PyPI does not have, not only the newly tagged ones, and does so
+      # even when tagging or release notes failed. A current version that missed PyPI
+      # is published by the next such run. Older versions are not rebuilt. A package
+      # whose code changed since its version's tag stops the whole run, so nothing is
+      # published until that package's version is bumped.
+      - name: Build package versions missing from PyPI
+        id: build
+        if: ${{ !cancelled() && (steps.check.outputs.changed != '0' || github.event_name == 'workflow_dispatch') }}
         run: |
-          for pkg_name in ${{ steps.tag.outputs.new_packages }}; do
-            echo "Building $pkg_name..."
-            uv build --package "$pkg_name" --out-dir dist/
+          for pkg in packages/*/; do
+            grep -q '\[build-system\]' "$pkg/pyproject.toml" 2>/dev/null || continue
+            name=$(grep '^name = ' "$pkg/pyproject.toml" | head -1 | sed 's/.*"\(.*\)".*/\1/')
+            version=$(grep '^version = ' "$pkg/pyproject.toml" | head -1 | sed 's/.*"\(.*\)".*/\1/')
+            status=$(curl -sS -o /dev/null -w '%{http_code}' --retry 3 --retry-all-errors "https://pypi.org/pypi/$name/$version/json" || true)
+            case "$status" in
+              200) echo "$name $version is already on PyPI"; continue ;;
+              404) ;;
+              *) echo "::error::PyPI returned $status for $name $version"; exit 1 ;;
+            esac
+            # A version must be published from the code it was tagged with.
+            tag="${name}@${version}"
+            if git rev-parse -q --verify "refs/tags/$tag" >/dev/null &&
+               ! git diff --quiet "$tag" HEAD -- "$pkg" ":(exclude)${pkg}README.md" ":(exclude)${pkg}CHANGELOG.md"; then
+              echo "::error::$name changed since $tag; bump its version before publishing"
+              exit 1
+            fi
+            echo "Building $name $version"
+            uv build --package "$name" --out-dir dist/
           done
 
       - name: Publish to PyPI
-        if: steps.check.outputs.changed != '0'
-        run: uv publish dist/*
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: |
+          if ls dist/* >/dev/null 2>&1; then
+            uv publish dist/*
+          else
+            echo "Every package version is already on PyPI"
+          fi
         env:
           UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
