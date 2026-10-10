@@ -1,10 +1,11 @@
 """FastAPI example with lazy translation loading.
 
-Translations are loaded on first request per locale, not at startup.
+Translations are loaded on the first request for each locale, not at startup;
+gt-fastapi loads them itself before the route runs.
 Run: uv run uvicorn app:app --port 8001
 """
 
-from fastapi import Depends, FastAPI, Request
+from fastapi import FastAPI
 from gt_fastapi import initialize_gt, t
 
 app = FastAPI(title="FastAPI Lazy Example")
@@ -34,21 +35,6 @@ manager = initialize_gt(
     load_translations=load_translations,
     eager_loading=False,
 )
-
-
-async def _ensure_translations(request: Request) -> None:
-    """Load translations for the current locale if not already cached.
-
-    t() only reads from cache (get_translations_sync), so we must
-    explicitly trigger a load for the current locale before t() runs.
-    """
-    locale = manager.get_locale()
-    if manager.requires_translation(locale):
-        await manager.get_translations(locale)
-
-
-# Add dependency to all routes — runs inside route context after middleware
-app.router.dependencies = [Depends(_ensure_translations)]
 
 
 @app.get("/")

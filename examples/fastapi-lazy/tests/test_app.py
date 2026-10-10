@@ -4,7 +4,7 @@ Verifies that translations are NOT loaded at startup, are loaded on
 first request per locale, and are cached for subsequent requests.
 """
 
-from fastapi import Depends, FastAPI, Request
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from gt_fastapi import initialize_gt, t
 
@@ -28,20 +28,13 @@ def _create_app():
         return TRANSLATIONS.get(locale, {})
 
     app = FastAPI()
-    manager = initialize_gt(
+    initialize_gt(
         app,
         default_locale="en",
         locales=["en", "es", "fr"],
         load_translations=load_translations,
         eager_loading=False,
     )
-
-    async def _ensure_translations(request: Request):
-        locale = manager.get_locale()
-        if manager.requires_translation(locale):
-            await manager.get_translations(locale)
-
-    app.router.dependencies = [Depends(_ensure_translations)]
 
     @app.get("/")
     def index():

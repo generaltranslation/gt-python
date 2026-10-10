@@ -10,8 +10,8 @@ requires-python = ">=3.10"
 license = "FSL-1.1-ALv2"
 license-files = ["LICENSE.md"]
 dependencies = [
-    "generaltranslation",
-    "gt-i18n",
+    "generaltranslation>=0.1.0",
+    "gt-i18n>=0.3.1",
     "flask>=3.0.0",
 ]
 
