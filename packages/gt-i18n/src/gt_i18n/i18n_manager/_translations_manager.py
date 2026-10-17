@@ -36,6 +36,11 @@ def _run_blocking(awaitable: Awaitable[Any]) -> Any:
         return pool.submit(asyncio.run, _await(awaitable)).result()
 
 
+def _is_async(loader: TranslationsLoader) -> bool:
+    """Whether *loader* is an ``async def`` function or an object whose ``__call__`` is one."""
+    return inspect.iscoroutinefunction(loader) or inspect.iscoroutinefunction(getattr(loader, "__call__", None))
+
+
 class TranslationsManager:
     """Caches ``dict[str, str]`` (hash -> translated string) per locale.
 
@@ -44,6 +49,13 @@ class TranslationsManager:
     that fails keeps the previous translations, so a slow or failing loader
     never drops a loaded locale back to the source text. Only a locale's first
     load makes its callers wait.
+
+    From async code, an async loader runs on the caller's event loop, so a
+    loader that holds a client bound to that loop keeps working, and its loads
+    of a locale on that loop share one task. If the loop closes before a load
+    finishes, as a one-off ``asyncio.run()`` does, the load finishes on a
+    thread. Every other load runs on a thread and holds the locale's lock. In
+    both cases, a reload and ``load_all`` for the same locale share one load.
     """
 
     def __init__(
@@ -52,6 +64,7 @@ class TranslationsManager:
         cache_expiry_time: int = 60_000,
     ) -> None:
         self._loader = loader
+        self._loader_is_async = _is_async(loader)
         self._cache_expiry_ms = cache_expiry_time
         self._cache: dict[str, _CacheEntry] = {}
         self._loading: dict[str, asyncio.Task[None]] = {}
@@ -80,16 +93,17 @@ class TranslationsManager:
 
     async def _load_async(self, locale: str) -> dict[str, str] | None:
         try:
-            if inspect.iscoroutinefunction(self._loader):
-                return await self._loader(locale)
-            # A synchronous loader runs on a worker thread, off the event loop.
-            result = await asyncio.to_thread(self._loader, locale)
+            result = self._loader(locale)
             return await result if inspect.isawaitable(result) else result
         except Exception:
             return None
 
     async def _load_and_store(self, locale: str) -> None:
-        self._store(locale, await self._load_async(locale))
+        if self._loader_is_async:
+            self._store(locale, await self._load_async(locale))
+        else:
+            # A synchronous loader runs on a worker thread, off the event loop.
+            await asyncio.to_thread(self._load_locked, locale)
 
     def _start_load(self, locale: str) -> asyncio.Task[None]:
         """Start a load for *locale* on the running loop, or join the one already running there."""
@@ -98,12 +112,15 @@ class TranslationsManager:
         if task is None or task.done() or task.get_loop() is not loop:
             task = loop.create_task(self._load_and_store(locale))
             self._loading[locale] = task
-            task.add_done_callback(lambda done: self._forget_load(locale, done))
+            task.add_done_callback(lambda done: self._load_finished(locale, done))
         return task
 
-    def _forget_load(self, locale: str, task: asyncio.Task[None]) -> None:
+    def _load_finished(self, locale: str, task: asyncio.Task[None]) -> None:
         if self._loading.get(locale) is task:
             del self._loading[locale]
+        if task.cancelled():
+            # The loop closed before the load finished, so it finishes on a thread.
+            self._refresh_in_background(locale)
 
     async def get_translations(self, locale: str) -> dict[str, str]:
         """Return translations for *locale*, loading them if missing and reloading in the background if expired."""
@@ -112,8 +129,12 @@ class TranslationsManager:
             return fresh
         entry = self._cache.get(locale)
         if entry is not None:
-            # The reload runs on a thread, so it outlives this call's event loop.
-            self._refresh_in_background(locale)
+            if not self._loader_is_async:
+                # The reload runs on a thread, so it outlives this call's event loop.
+                self._refresh_in_background(locale)
+            elif not self._lock_for(locale).locked():  # unless a thread is reloading it already
+                # An async loader reloads on this loop, which it may hold a client for.
+                self._start_load(locale)
             return entry.translations
         # Shielded, so a cancelled caller does not cancel the load for the others.
         await asyncio.shield(self._start_load(locale))
@@ -138,6 +159,12 @@ class TranslationsManager:
         except Exception:
             return None
 
+    def _load_locked(self, locale: str) -> None:
+        """Load *locale* on this thread unless it is fresh, after any load of it already running on a thread."""
+        with self._lock_for(locale):
+            if self._fresh(locale) is None:
+                self._store(locale, self._load_blocking(locale))
+
     def _reload_in_background(self, locale: str, lock: threading.Lock) -> None:
         try:
             self._store(locale, self._load_blocking(locale))
@@ -145,7 +172,7 @@ class TranslationsManager:
             lock.release()
 
     def _refresh_in_background(self, locale: str) -> None:
-        """Reload an expired *locale* on a daemon thread, unless a reload is already running."""
+        """Load *locale* on a daemon thread, unless a thread is loading it already."""
         lock = self._lock_for(locale)
         if not lock.acquire(blocking=False):
             return
@@ -178,8 +205,11 @@ class TranslationsManager:
             return self._store(locale, self._load_blocking(locale))
 
     def load_all_blocking(self, locales: list[str]) -> None:
-        """Eagerly fetch translations for all *locales* from synchronous code."""
-        _run_blocking(self.load_all(locales))
+        """Eagerly fetch translations for all *locales* from synchronous code, waiting for every load."""
+        stale = [loc for loc in locales if self._fresh(loc) is None]
+        if stale:
+            with ThreadPoolExecutor() as pool:
+                list(pool.map(self._load_locked, stale))
 
     def get_translations_sync(self, locale: str) -> dict[str, str]:
         """Return the last loaded translations, even if expired, or an empty dict (never blocks)."""
