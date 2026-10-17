@@ -96,9 +96,11 @@ jobs:
       # A release run (a version bump on main) or a manual run builds every package
       # version that PyPI does not have, not only the newly tagged ones, and does so
       # even when tagging or release notes failed. A current version that missed PyPI
-      # is published by the next such run. Older versions are not rebuilt. A package
-      # whose code changed since its version's tag stops the whole run, so nothing is
-      # published until that package's version is bumped.
+      # is published by the next such run. Older versions are not rebuilt. A version
+      # that has only its sdist or only its wheel on PyPI, because an upload stopped
+      # partway, gets the missing file. A package whose code changed since its
+      # version's tag stops the whole run, so nothing is published until that
+      # package's version is bumped.
       - name: Build package versions missing from PyPI
         id: build
         if: ${{ !cancelled() && (steps.check.outputs.changed != '0' || github.event_name == 'workflow_dispatch') }}
@@ -107,11 +109,17 @@ jobs:
             grep -q '\[build-system\]' "$pkg/pyproject.toml" 2>/dev/null || continue
             name=$(grep '^name = ' "$pkg/pyproject.toml" | head -1 | sed 's/.*"\(.*\)".*/\1/')
             version=$(grep '^version = ' "$pkg/pyproject.toml" | head -1 | sed 's/.*"\(.*\)".*/\1/')
-            status=$(curl -sS -o /dev/null -w '%{http_code}' --retry 3 --retry-all-errors "https://pypi.org/pypi/$name/$version/json" || true)
+            status=$(curl -sS -o "$RUNNER_TEMP/pypi.json" -w '%{http_code}' --retry 3 --retry-all-errors "https://pypi.org/pypi/$name/$version/json" || true)
             case "$status" in
-              200) echo "$name $version is already on PyPI"; continue ;;
-              404) ;;
+              200) on_pypi=$(jq -r '[.urls[].packagetype] | unique | join(" ")' "$RUNNER_TEMP/pypi.json") ;;
+              404) on_pypi="" ;;
               *) echo "::error::PyPI returned $status for $name $version"; exit 1 ;;
+            esac
+            case "$on_pypi" in
+              "bdist_wheel sdist") echo "$name $version is already on PyPI"; continue ;;
+              bdist_wheel) only="--sdist"; echo "$name $version is on PyPI without its sdist" ;;
+              sdist) only="--wheel"; echo "$name $version is on PyPI without its wheel" ;;
+              *) only="" ;;
             esac
             # A version must be published from the code it was tagged with.
             tag="${name}@${version}"
@@ -121,7 +129,7 @@ jobs:
               exit 1
             fi
             echo "Building $name $version"
-            uv build --package "$name" --out-dir dist/
+            uv build --package "$name" --out-dir dist/ ${only:+"$only"}
           done
 
       - name: Publish to PyPI
