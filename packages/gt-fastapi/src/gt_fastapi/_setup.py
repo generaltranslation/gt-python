@@ -55,7 +55,13 @@ def initialize_gt(
     resolved_default_locale = default_locale or file_config.get("default_locale") or LIBRARY_DEFAULT_LOCALE
     resolved_locales = locales if locales is not None else file_config.get("locales")
     resolved_project_id = project_id or file_config.get("project_id")
-    resolved_cache_url = cache_url or file_config.get("cache_url")
+    if cache_url is not None:
+        resolved_cache_url: str | None = cache_url
+    elif "cache_url" in file_config:
+        # "cacheUrl": null (or "") in gt.config.json turns CDN loading off.
+        resolved_cache_url = file_config.get("cache_url") or ""
+    else:
+        resolved_cache_url = None
     resolved_custom_mapping = custom_mapping or file_config.get("custom_mapping")
 
     resolved_version_id = version_id or file_config.get("version_id")
@@ -68,6 +74,8 @@ def initialize_gt(
         cache_url=resolved_cache_url,
         load_translations=load_translations,
         version_id=resolved_version_id,
+        # The file's branch belongs to the file's version, not to an explicit version_id.
+        branch_id=file_config.get("branch_id") if version_id is None else None,
     )
     set_i18n_manager(manager)
 
@@ -90,6 +98,9 @@ def initialize_gt(
         else:
             locale = _detect_from_accept_language(request, manager)
         manager.set_locale(locale)
+        # Load a configured locale on first use; once loaded, it reloads in the background after expiry.
+        if manager.requires_translation(locale) and locale in manager.get_locales():
+            await manager.get_translations(locale)
         return await call_next(request)
 
     return manager

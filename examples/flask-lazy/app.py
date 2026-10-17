@@ -1,10 +1,9 @@
 """Flask example with lazy translation loading.
 
-Translations are loaded on first request per locale, not at startup.
+Translations are loaded on the first request for each locale, not at startup;
+gt-flask loads them itself before the route runs.
 Run: uv run python app.py  (serves on port 5051)
 """
-
-import asyncio
 
 from flask import Flask
 from gt_flask import initialize_gt, t
@@ -36,19 +35,6 @@ manager = initialize_gt(
     load_translations=load_translations,
     eager_loading=False,
 )
-
-
-@app.before_request
-def _ensure_translations() -> None:
-    """Load translations for the current locale if not already cached.
-
-    Registered after initialize_gt(), so this runs after the locale is set.
-    t() only reads from cache (get_translations_sync), so we must
-    explicitly trigger a load for the current locale before t() runs.
-    """
-    locale = manager.get_locale()
-    if manager.requires_translation(locale):
-        asyncio.run(manager.get_translations(locale))
 
 
 @app.get("/")

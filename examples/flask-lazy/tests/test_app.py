@@ -4,8 +4,6 @@ Verifies that translations are NOT loaded at startup, are loaded on
 first request per locale via before_request hook, and are cached.
 """
 
-import asyncio
-
 from flask import Flask
 from gt_flask import initialize_gt, t
 
@@ -29,19 +27,13 @@ def _create_app():
         return TRANSLATIONS.get(locale, {})
 
     app = Flask(__name__)
-    manager = initialize_gt(
+    initialize_gt(
         app,
         default_locale="en",
         locales=["en", "es", "fr"],
         load_translations=load_translations,
         eager_loading=False,
     )
-
-    @app.before_request
-    def _ensure_translations():
-        locale = manager.get_locale()
-        if manager.requires_translation(locale):
-            asyncio.run(manager.get_translations(locale))
 
     @app.get("/")
     def index():
