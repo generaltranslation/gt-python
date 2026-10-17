@@ -6,7 +6,7 @@ from collections.abc import Callable
 from types import SimpleNamespace
 
 import pytest
-from gt_i18n.i18n_manager._translations_manager import TranslationsManager
+from gt_i18n.i18n_manager._translations_manager import TranslationsLoader, TranslationsManager
 
 
 @pytest.fixture
@@ -148,6 +148,105 @@ def test_one_off_event_loops_still_refresh_after_expiry(clock: _Clock) -> None:
     _settle(mgr, "es")
     assert mgr.get_translations_sync("es") == {"h": "v2"}
     assert calls[0] == 2
+
+
+def test_async_loader_reloads_on_the_callers_event_loop(clock: _Clock) -> None:
+    loops: list[asyncio.AbstractEventLoop] = []
+
+    async def loader(locale: str) -> dict[str, str]:
+        loops.append(asyncio.get_running_loop())  # a client bound to the app's loop works only there
+        return {"h": f"v{len(loops)}"}
+
+    mgr = TranslationsManager(loader, cache_expiry_time=60_000)
+
+    async def scenario() -> asyncio.AbstractEventLoop:
+        await mgr.get_translations("es")
+        clock.now += 61
+        assert await mgr.get_translations("es") == {"h": "v1"}  # served at once while it reloads
+        await mgr.load_all(["es"])  # waits for that reload instead of starting another
+        return asyncio.get_running_loop()
+
+    app_loop = asyncio.run(scenario())
+    assert loops == [app_loop, app_loop]
+    assert mgr.get_translations_sync("es") == {"h": "v2"}
+
+
+def test_async_reload_finishes_after_a_one_off_event_loop_closes(clock: _Clock) -> None:
+    finished = [0]
+
+    async def loader(locale: str) -> dict[str, str]:
+        await asyncio.sleep(0.01)  # still running when the caller's loop closes
+        finished[0] += 1
+        return {"h": f"v{finished[0]}"}
+
+    mgr = TranslationsManager(loader, cache_expiry_time=60_000)
+    assert asyncio.run(mgr.get_translations("es")) == {"h": "v1"}
+    clock.now += 61
+    assert asyncio.run(mgr.get_translations("es")) == {"h": "v1"}
+    _settle(mgr, "es")  # the reload moved to a thread when that loop closed
+    assert mgr.get_translations_sync("es") == {"h": "v2"}
+
+
+def _gated(*, is_async: bool) -> tuple[TranslationsLoader, threading.Event, list[int]]:
+    """A loader whose second call, the first reload, waits for the returned gate; it counts its calls."""
+    gate = threading.Event()
+    calls = [0]
+
+    def load(locale: str) -> dict[str, str]:
+        calls[0] += 1
+        n = calls[0]
+        if n == 2:
+            gate.wait(5)
+        return {"h": f"v{n}"}
+
+    async def load_async(locale: str) -> dict[str, str]:
+        return load(locale)
+
+    return (load_async if is_async else load), gate, calls
+
+
+def test_load_all_shares_the_running_reload(clock: _Clock) -> None:
+    loader, gate, calls = _gated(is_async=False)
+    mgr = TranslationsManager(loader, cache_expiry_time=60_000)
+
+    async def scenario() -> None:
+        await mgr.get_translations("es")
+        clock.now += 61
+        await mgr.get_translations("es")  # starts the reload
+        load_all = asyncio.ensure_future(mgr.load_all(["es"]))
+        await asyncio.sleep(0.05)
+        gate.set()
+        await load_all
+
+    asyncio.run(scenario())
+    assert calls[0] == 2  # one reload, which load_all waited for
+    assert mgr.get_translations_sync("es") == {"h": "v2"}
+
+
+@pytest.mark.parametrize("is_async", [False, True], ids=["sync loader", "async loader"])
+def test_load_all_blocking_shares_the_running_reload(clock: _Clock, is_async: bool) -> None:
+    loader, gate, calls = _gated(is_async=is_async)
+    mgr = TranslationsManager(loader, cache_expiry_time=60_000)
+    mgr.get_translations_blocking("es")
+    clock.now += 61
+    mgr.get_translations_blocking("es")  # starts the reload
+    threading.Timer(0.05, gate.set).start()
+    mgr.load_all_blocking(["es"])
+    assert calls[0] == 2  # one reload, which load_all_blocking waited for
+    assert mgr.get_translations_sync("es") == {"h": "v2"}
+
+
+def test_async_read_starts_no_reload_while_a_thread_reloads(clock: _Clock) -> None:
+    loader, gate, calls = _gated(is_async=True)
+    mgr = TranslationsManager(loader, cache_expiry_time=60_000)
+    mgr.get_translations_blocking("es")
+    clock.now += 61
+    mgr.get_translations_blocking("es")  # reloads on a thread
+    assert asyncio.run(mgr.get_translations("es")) == {"h": "v1"}
+    gate.set()
+    _settle(mgr, "es")
+    assert calls[0] == 2
+    assert mgr.get_translations_sync("es") == {"h": "v2"}
 
 
 def test_failed_reload_keeps_previous_translations(clock: _Clock, sample_translations: dict[str, str]) -> None:
