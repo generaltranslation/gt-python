@@ -176,31 +176,9 @@ def test_flask_translations_survive_cache_expiry(monkeypatch: pytest.MonkeyPatch
     assert _wait_for(lambda: es_loads[0] == 2)  # es reloaded once, in the background
 
 
-def test_flask_null_cache_url_turns_cdn_loading_off(monkeypatch: pytest.MonkeyPatch) -> None:
-    import gt_i18n.i18n_manager._remote_loader as remote
-
-    calls: list[str] = []
-
-    class NoClient:
-        def __init__(self, **kwargs: Any) -> None:
-            calls.append("client")
-
-    monkeypatch.setattr(remote.httpx, "AsyncClient", NoClient)
-    config = {"default_locale": "en", "locales": ["en", "es"], "project_id": "proj", "cache_url": None}
-    app = Flask(__name__)
-    initialize_gt(app, load_config=lambda path: config)  # type: ignore[arg-type,return-value]
-
-    @app.route("/hello")
-    def hello() -> dict[str, Any]:
-        return {"message": t("Hello, world!")}
-
-    with app.test_client() as client:
-        resp = client.get("/hello", headers={"Accept-Language": "es"})
-    assert resp.json is not None and resp.json["message"] == "Hello, world!"
-    assert calls == []
-
-
-def test_flask_sends_the_config_version_and_branch_to_the_cdn(monkeypatch: pytest.MonkeyPatch) -> None:
+@pytest.fixture
+def cdn_urls(monkeypatch: pytest.MonkeyPatch) -> list[str]:
+    """Answer the CDN loader with a Spanish greeting and record the URL of each request."""
     import gt_i18n.i18n_manager._remote_loader as remote
     import httpx
 
@@ -215,24 +193,47 @@ def test_flask_sends_the_config_version_and_branch_to_the_cdn(monkeypatch: pytes
     monkeypatch.setattr(
         remote.httpx, "AsyncClient", lambda **kw: real_client(transport=httpx.MockTransport(handler), **kw)
     )
-    config = {
-        "default_locale": "en",
-        "locales": ["en", "es"],
-        "project_id": "proj",
-        "version_id": "v9",
-        "branch_id": "br_2",
-    }
-    app = Flask(__name__)
-    initialize_gt(app, load_config=lambda path: config)  # type: ignore[arg-type,return-value]
+    return urls
 
-    @app.route("/hello")
-    def hello() -> dict[str, Any]:
-        return {"message": t("Hello, world!")}
+
+# gt.config.json settings, initialize_gt() arguments, and the CDN requests for es that follow.
+# test_fastapi_integration.py runs the same cases.
+_CDN_CASES = [
+    pytest.param(
+        {"version_id": "v9", "branch_id": "br_2"},
+        {},
+        ["https://cdn.gtx.dev/proj/es/v9?branchId=br_2"],
+        id="file version and branch",
+    ),
+    pytest.param(
+        {"version_id": "v9", "branch_id": "br_2"},
+        {"version_id": "v10"},
+        ["https://cdn.gtx.dev/proj/es/v10"],
+        id="explicit version drops the file branch",
+    ),
+    pytest.param({"cache_url": None}, {}, [], id="null cacheUrl turns the CDN off"),
+    pytest.param({"cache_url": ""}, {}, [], id="empty cacheUrl turns the CDN off"),
+    pytest.param(
+        {"cache_url": None},
+        {"cache_url": "https://cdn.example.com"},
+        ["https://cdn.example.com/proj/es"],
+        id="explicit cache_url replaces the file one",
+    ),
+]
+
+
+@pytest.mark.parametrize(("file_config", "kwargs", "es_urls"), _CDN_CASES)
+def test_flask_cdn_settings(
+    cdn_urls: list[str], file_config: dict[str, Any], kwargs: dict[str, Any], es_urls: list[str]
+) -> None:
+    config = {"default_locale": "en", "locales": ["en", "es"], "project_id": "proj", **file_config}
+    app = _hello_app(None, load_config=lambda path: config, **kwargs)
 
     with app.test_client() as client:
         resp = client.get("/hello", headers={"Accept-Language": "es"})
-    assert resp.json is not None and resp.json["message"] == "Hola, mundo!"
-    assert "https://cdn.gtx.dev/proj/es/v9?branchId=br_2" in urls
+    assert [url for url in cdn_urls if "/proj/es" in url] == es_urls
+    assert resp.json is not None
+    assert resp.json["message"] == ("Hola, mundo!" if es_urls else "Hello, world!")
 
 
 def test_flask_does_not_load_unconfigured_locales() -> None:

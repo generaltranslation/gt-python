@@ -134,7 +134,7 @@ def test_fastapi_translations_survive_cache_expiry(monkeypatch: pytest.MonkeyPat
         now[0] += 120  # two minutes later, past the 60 s cache expiry
         later = client.get("/hello", headers={"Accept-Language": "es"})
 
-        # The reload runs in the background on the app's event loop.
+        # The reload runs on a background thread.
         deadline = time.monotonic() + 5
         while es_loads[0] < 2 and time.monotonic() < deadline:
             time.sleep(0.01)
@@ -142,6 +142,70 @@ def test_fastapi_translations_survive_cache_expiry(monkeypatch: pytest.MonkeyPat
     assert first.json()["message"] == "Hola, mundo!"
     assert later.json()["message"] == "Hola, mundo!"  # served from the cache while it reloads
     assert es_loads[0] == 2  # es reloaded once, in the background
+
+
+@pytest.fixture
+def cdn_urls(monkeypatch: pytest.MonkeyPatch) -> list[str]:
+    """Answer the CDN loader with a Spanish greeting and record the URL of each request."""
+    import gt_i18n.i18n_manager._remote_loader as remote
+    import httpx
+
+    h = hash_message("Hello, world!")
+    urls: list[str] = []
+    real_client = httpx.AsyncClient
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        urls.append(str(request.url))
+        return httpx.Response(200, json={h: "Hola, mundo!"})
+
+    monkeypatch.setattr(
+        remote.httpx, "AsyncClient", lambda **kw: real_client(transport=httpx.MockTransport(handler), **kw)
+    )
+    return urls
+
+
+# gt.config.json settings, initialize_gt() arguments, and the CDN requests for es that follow.
+# test_flask_integration.py runs the same cases.
+_CDN_CASES = [
+    pytest.param(
+        {"version_id": "v9", "branch_id": "br_2"},
+        {},
+        ["https://cdn.gtx.dev/proj/es/v9?branchId=br_2"],
+        id="file version and branch",
+    ),
+    pytest.param(
+        {"version_id": "v9", "branch_id": "br_2"},
+        {"version_id": "v10"},
+        ["https://cdn.gtx.dev/proj/es/v10"],
+        id="explicit version drops the file branch",
+    ),
+    pytest.param({"cache_url": None}, {}, [], id="null cacheUrl turns the CDN off"),
+    pytest.param({"cache_url": ""}, {}, [], id="empty cacheUrl turns the CDN off"),
+    pytest.param(
+        {"cache_url": None},
+        {"cache_url": "https://cdn.example.com"},
+        ["https://cdn.example.com/proj/es"],
+        id="explicit cache_url replaces the file one",
+    ),
+]
+
+
+@pytest.mark.parametrize(("file_config", "kwargs", "es_urls"), _CDN_CASES)
+def test_fastapi_cdn_settings(
+    cdn_urls: list[str], file_config: dict[str, Any], kwargs: dict[str, Any], es_urls: list[str]
+) -> None:
+    config: Any = {"default_locale": "en", "locales": ["en", "es"], "project_id": "proj", **file_config}
+    app = FastAPI()
+    initialize_gt(app, load_config=lambda path: config, **kwargs)
+
+    @app.get("/hello")
+    def hello() -> dict[str, Any]:
+        return {"message": t("Hello, world!")}
+
+    with TestClient(app) as client:
+        message = client.get("/hello", headers={"Accept-Language": "es"}).json()["message"]
+    assert [url for url in cdn_urls if "/proj/es" in url] == es_urls
+    assert message == ("Hola, mundo!" if es_urls else "Hello, world!")
 
 
 def test_fastapi_does_not_load_unconfigured_locales() -> None:
